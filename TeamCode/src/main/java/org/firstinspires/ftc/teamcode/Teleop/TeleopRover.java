@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.hardware.CRServo;
 
 /**
  * Team 12961 Checkmate Robotics: Teleop Opmode
- * In Use: Y
+ * In Use: N
  */
 
 @TeleOp(name="The Bestest Program", group="Rover")

@@ -32,6 +32,7 @@ package org.firstinspires.ftc.teamcode.Teleop;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
@@ -54,8 +55,8 @@ public class TestbotOpmode2 extends LinearOpMode {
 
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
-    private DcMotor leftFront, leftBack, rightFront, rightBack = null;
-
+    private DcMotor leftFront, leftBack, rightFront, rightBack, winchTop, winchBottom, intakeLeft, intakeRight = null;
+    private Servo leftHook, rightHook, grab, turn;
     public double rX, rY, lX, lY, throttle, robotSpeed, theta, directionSpeed, forwardSpeed;
     public double lB, lF, rB, rF;
 
@@ -68,14 +69,15 @@ public class TestbotOpmode2 extends LinearOpMode {
         // RUN CALCULATIONS :
         robotSpeed = Math.sqrt(Math.pow(lX, 2) + Math.pow(lX, 2));
         theta = Math.atan2(-lX, lY);
-        directionSpeed = rX;
+        directionSpeed = rX*.5;
         forwardSpeed = -(rY + lY)/2;
 
-        lF = robotSpeed * Math.sin(-theta + (Math.PI/4)) - directionSpeed + forwardSpeed;
-        lB = robotSpeed * Math.cos(-theta + (Math.PI/4)) - directionSpeed + forwardSpeed;
-        rF = robotSpeed * Math.cos(-theta + (Math.PI/4)) + directionSpeed + forwardSpeed;
-        rB = robotSpeed * Math.sin(-theta + (Math.PI/4)) + directionSpeed + forwardSpeed;
+        lF = .5 * robotSpeed * Math.sin(-theta + (Math.PI/4)) - directionSpeed + forwardSpeed;
+        lB = .5 * robotSpeed * Math.cos(-theta + (Math.PI/4)) - directionSpeed + forwardSpeed;
+        rF = .5 * robotSpeed * Math.cos(-theta + (Math.PI/4)) + directionSpeed + forwardSpeed;
+        rB = .5 * robotSpeed * Math.sin(-theta + (Math.PI/4)) + directionSpeed + forwardSpeed;
     }
+
 
     @Override
     public void runOpMode() {
@@ -86,11 +88,27 @@ public class TestbotOpmode2 extends LinearOpMode {
         leftBack = hardwareMap.get(DcMotor.class, "LB");
         rightFront  = hardwareMap.get(DcMotor.class, "RF");
         rightBack = hardwareMap.get(DcMotor.class, "RB");
+        intakeLeft = hardwareMap.get(DcMotor.class, "intakeLeft");
+        intakeRight = hardwareMap.get(DcMotor.class, "intakeRight");
+        winchBottom = hardwareMap.get(DcMotor.class, "winchBottom");
+        winchTop = hardwareMap.get(DcMotor.class, "winchTop");
+        leftHook = hardwareMap.get(Servo.class, "leftHook");
+        rightHook = hardwareMap.get(Servo.class, "rightHook");
+        grab = hardwareMap.get(Servo.class, "grab");
+        turn = hardwareMap.get(Servo.class, "turn");
+
 
         leftFront.setDirection(DcMotor.Direction.FORWARD);
         leftBack.setDirection(DcMotor.Direction.FORWARD);
         rightFront.setDirection(DcMotor.Direction.REVERSE);
         rightBack.setDirection(DcMotor.Direction.REVERSE);
+
+        winchBottom.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        winchTop.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        leftFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        leftBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
@@ -100,6 +118,49 @@ public class TestbotOpmode2 extends LinearOpMode {
         while (opModeIsActive()) {
             processUpdate();
             // Send calculated power to wheels
+
+            intakeLeft.setPower(gamepad1.left_trigger);
+            intakeRight.setPower(-gamepad1.left_trigger);
+
+            intakeLeft.setPower(-gamepad1.right_trigger);
+            intakeRight.setPower(gamepad1.right_trigger);
+
+            if(gamepad1.x){
+                winchBottom.setPower(.7);
+                winchTop.setPower(.7);
+            } else if(gamepad1.a){
+                winchBottom.setPower(-.4);
+                winchTop.setPower(-.4);
+            } else {
+                winchBottom.setPower(0);
+                winchTop.setPower(0);
+            }
+
+            if(gamepad1.dpad_down){
+                turn.setPosition(0);
+            } else if (gamepad1.dpad_up){
+                turn.setPosition(.8);
+            } else if (gamepad1.dpad_left){
+                turn.setPosition(.3);
+            }
+
+            if(gamepad1.y){
+                grab.setPosition(0);
+            } else if (gamepad1.b){
+                grab.setPosition(1);
+            }
+
+
+
+            if(gamepad1.left_bumper){
+                leftHook.setPosition(.1);//retracted
+                rightHook.setPosition(.9);
+            } else {
+                leftHook.setPosition(.7); //down
+                rightHook.setPosition(.5);
+            }
+
+
 
             leftFront.setPower(Range.clip(lF, -1, 1));
             leftBack.setPower(Range.clip(lB, -1, 1));

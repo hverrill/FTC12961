@@ -2,7 +2,11 @@ package org.firstinspires.ftc.teamcode.FPS;
 
 public class Accelerometer {
     public double getDeltaX(){
-
-        return 0.000;
+        //FILL
+        return 0;
+    }
+    public double getDeltaY(){
+        //FILL
+        return 0;
     }
 }

@@ -27,6 +27,7 @@ public class TestbotOpmode extends LinearOpMode {
         lY = gamepad1.left_stick_y;
         rX = gamepad1.right_stick_x;
 
+
         // RUN CALCULATIONS :
         robotSpeed = Math.sqrt(Math.pow(lX, 2) + Math.pow(lX, 2));
         theta = Math.atan2(-lX, lY);
@@ -101,10 +102,10 @@ public class TestbotOpmode extends LinearOpMode {
             processUpdate();
             // Send calculated power to wheels
 
-            leftFront.setPower(Range.clip(lF*.5, -1, 1));
-            leftBack.setPower(Range.clip(lB*.5, -1, 1));
-            rightFront.setPower(Range.clip(rF*.5, -1, 1));
-            rightBack.setPower(Range.clip(rB*.5, -1, 1));
+            leftFront.setPower(Range.clip(lF*1, -1, 1));
+            leftBack.setPower(Range.clip(lB*1, -1, 1));
+            rightFront.setPower(Range.clip(rF*1, -1, 1));
+            rightBack.setPower(Range.clip(rB*1, -1, 1));
             liftSyst.setPower(liftSystPower);
             sans.setPower(sansPower);
             hook.setPosition(hookPos);
