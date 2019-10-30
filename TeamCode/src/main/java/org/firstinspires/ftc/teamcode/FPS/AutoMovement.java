@@ -51,24 +51,36 @@ public class AutoMovement {
             double percent2 = (double)(lFrontMotor.getCurrentPosition()+1)/(lFrontMotor.getTargetPosition()+1);
             double percent3 = (double)(rBackMotor.getCurrentPosition()+1)/(rBackMotor.getTargetPosition()+1);
             double percent4 = (double)(rFrontMotor.getCurrentPosition()+1)/(rFrontMotor.getTargetPosition()+1);
-            if(percent1 >= .9 && percent1 <= 1.15){
+            if(percent1 >= .9){
                 sum++;
             }
-            if(percent2 >= .9 && percent2 <= 1.15){
+            if(percent2 >= .9){
                 sum++;
             }
-            if(percent3 >= .9 && percent3 <= 1.15){
+            if(percent3 >= .9){
                 sum++;
             }
-            if(percent4 >= .9 && percent4 <= 1.15){
+            if(percent4 >= .9){
                 sum++;
             }
         }
+        // STOP MOTOR MOVEMENT :
+        lBackMotor.setPower(0);
+        lFrontMotor.setPower(0);
+        rBackMotor.setPower(0);
+        rFrontMotor.setPower(0);
+
+        // SWITCH BACK TO RUN_USING_ENCODERS : TURNS OFF BUSY
+        lFrontMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        lBackMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rFrontMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rBackMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
     }
     public void move(double distance, double angle, double power){
         tempPower = power;
         degreesTheta = angle;
-        thetaFinal = -Math.toRadians(degreesTheta) + (Math.PI/4); // finalTheta var to reduce function calls, (degreesTheta/360)*PI -
+        thetaFinal = (degreesTheta*(Math.PI/180)) + (Math.PI/2); // finalTheta var to reduce function calls, (degreesTheta/360)*PI -
         sine = Math.sin(thetaFinal); // sine var to reduce function calls -
         cosine = Math.cos(thetaFinal); // cosine var to reduce function calls -
         ratio = 383.6/(Math.cos(thetaFinal)*10*Math.PI);

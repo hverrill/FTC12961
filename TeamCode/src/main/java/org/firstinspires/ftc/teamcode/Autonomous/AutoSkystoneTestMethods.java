@@ -59,10 +59,17 @@ public class AutoSkystoneTestMethods extends LinearOpMode {
          */ waitForStart();
 
 
-        robot.move(100, 45, .5);
-        robot.move(-100, 45, .5);
-        robot.move(50, 0, .5);
-        robot.move(-50, 0, .5);
+        //robot.move(50, 45, .5);
+        //robot.move(50, 225, .5);
+        robot.move(20, 30, .6);
+        robot.move(20, 60, .6);
+        robot.move(20, 90, .6);
+        robot.move(20, 120, .6);
+        robot.move(20, 150, .6);
+        robot.move(20, 180, .6);
+
+
+        //robot.move(50, 180, .5);
         telemetry.addData("ipower", robot.leftBackPower);
         telemetry.addData("ipower", robot.leftFrontPower);
         telemetry.addData("ipower", robot.rightBackPower);

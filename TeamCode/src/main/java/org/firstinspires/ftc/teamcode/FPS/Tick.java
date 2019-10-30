@@ -12,6 +12,7 @@ public class Tick {
     public void updateStart(){
         startTime = SystemClock.elapsedRealtimeNanos();
         timelog.add(startTime);
+
     }
     public void updateEnd(){
         endTime = SystemClock.elapsedRealtimeNanos();
