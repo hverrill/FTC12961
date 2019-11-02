@@ -14,7 +14,7 @@ import org.firstinspires.ftc.teamcode.FPS.AutoMovement;
  * This program is Checkmate Robotics' Beta Blue Side Autonomous for the 2019-2020 game Skystone.
  */
 
-@Autonomous(name="Auto 2019/10/29", group="Sky")
+@Autonomous(name="Auto 2019/11/2 - Skystone Blue", group="Sky")
 //@Disabled
 public class AutoThird extends LinearOpMode {
 
@@ -30,9 +30,8 @@ public class AutoThird extends LinearOpMode {
 
     @Override
     public void runOpMode() {
-
-        /**
-         * Hardware Variables: */
+/**
+ * Hardware Variables: */
         //Ex: exampleMotor  = hardwareMap.get(DcMotor.class, "motor");
         leftFront  = hardwareMap.get(DcMotor.class, "LF");
         leftBack = hardwareMap.get(DcMotor.class, "LB");
@@ -57,7 +56,10 @@ public class AutoThird extends LinearOpMode {
         leftFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
+        leftBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        leftFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         /**
          * Telemetry */
@@ -67,21 +69,23 @@ public class AutoThird extends LinearOpMode {
         Wait for driver to hit the start button on the controller:
          */
         waitForStart();
-        leftFront.setPower(0.5);
-        leftBack.setPower(-0.5);
-        rightFront.setPower(-0.5);
-        rightBack.setPower(0.5);
-        sleep(850);
+        //strafe right
+        leftFront.setPower(0.25);
+        leftBack.setPower(-0.25);
+        rightFront.setPower(-0.25);
+        rightBack.setPower(0.25);
+        sleep(1690);
         leftFront.setPower(0);
         leftBack.setPower(0);
         rightFront.setPower(0);
         rightBack.setPower(0);
         sleep(300);
+        // go forward
         leftFront.setPower(0.20);
         leftBack.setPower(0.20);
-        rightFront.setPower(0.20); 
+        rightFront.setPower(0.20);
         rightBack.setPower(0.20);
-        sleep(1300);
+        sleep(1500);
         //Grab the foundation
         leftHook.setPosition(.1);
         rightHook.setPosition(.9);
@@ -95,18 +99,52 @@ public class AutoThird extends LinearOpMode {
         rightFront.setPower(0);
         rightBack.setPower(0);
         sleep(100);
+        //back up
         leftFront.setPower(-0.25);
         leftBack.setPower(-0.25);
         rightFront.setPower(-0.25);
         rightBack.setPower(-0.25);
-        sleep(2300);
+        sleep(2500);
         leftFront.setPower(0);
         leftBack.setPower(0);
         rightFront.setPower(0);
         rightBack.setPower(0);
         sleep(100);
+        // let go
         leftHook.setPosition(.7);
         rightHook.setPosition(.5);
+        leftFront.setPower(0);
+        leftBack.setPower(0);
+        rightFront.setPower(0);
+        rightBack.setPower(0);
+        sleep(100);
+        //strafe left
+        leftFront.setPower(-0.5);
+        leftBack.setPower(0.5);
+        rightFront.setPower(0.5);
+        rightBack.setPower(-0.5);
+        sleep(750);
+        leftFront.setPower(0);
+        leftBack.setPower(0);
+        rightFront.setPower(0);
+        rightBack.setPower(0);
+        sleep(100);
+        //go forward
+        leftFront.setPower(0.20);
+        leftBack.setPower(0.20);
+        rightFront.setPower(0.20);
+        rightBack.setPower(0.20);
+        sleep(700);
+        leftFront.setPower(0);
+        leftBack.setPower(0);
+        rightFront.setPower(0);
+        rightBack.setPower(0);
+        sleep(100);
+        leftFront.setPower(0.35);
+        leftBack.setPower(-0.35);
+        rightFront.setPower(-0.35);
+        rightBack.setPower(0.35);
+        sleep(800);
         leftFront.setPower(0);
         leftBack.setPower(0);
         rightFront.setPower(0);
@@ -116,7 +154,7 @@ public class AutoThird extends LinearOpMode {
         leftBack.setPower(0.5);
         rightFront.setPower(0.5);
         rightBack.setPower(-0.5);
-        sleep(600);
+        sleep(700);
         leftFront.setPower(0);
         leftBack.setPower(0);
         rightFront.setPower(0);
@@ -127,8 +165,8 @@ public class AutoThird extends LinearOpMode {
 
 
 
-         sleep(9999999);
-         //robot.turn(90, .5);
+        sleep(9999999);
+        //robot.turn(90, .5);
 //         telemetry.addData("2", "2");
 //         sleep(30000);
         /**
