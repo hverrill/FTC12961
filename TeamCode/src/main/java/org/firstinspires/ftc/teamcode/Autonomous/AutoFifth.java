@@ -70,18 +70,18 @@ public class AutoFifth extends LinearOpMode {
         Wait for driver to hit the start button on the controller:
          */
         waitForStart();
-        // go forward
-        leftFront.setPower(-0.20);
-        leftBack.setPower(-0.20);
-        rightFront.setPower(-0.20);
-        rightBack.setPower(-0.20);
-        sleep(1100);
-        leftFront.setPower(0);
-        leftBack.setPower(0);
-        rightFront.setPower(0);
-        rightBack.setPower(0);
-        sleep(100);
-        //strafe left
+//        // go forward
+//        leftFront.setPower(-0.20);
+//        leftBack.setPower(-0.20);
+//        rightFront.setPower(-0.20);
+//        rightBack.setPower(-0.20);
+//        sleep(1100);
+//        leftFront.setPower(0);
+//        leftBack.setPower(0);
+//        rightFront.setPower(0);
+//        rightBack.setPower(0);
+//        sleep(100);
+        //strafe right
         leftFront.setPower(0.5);
         leftBack.setPower(-0.5);
         rightFront.setPower(-0.5);

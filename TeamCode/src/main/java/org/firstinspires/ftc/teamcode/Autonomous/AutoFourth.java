@@ -14,9 +14,9 @@ import org.firstinspires.ftc.teamcode.FPS.AutoMovement;
  * This program is Checkmate Robotics' Autonomous Program Template.
  */
 
-@Autonomous(name="Auto 2019/10/26 - Skystone Red", group="Sky")
+@Autonomous(name="Auto 2019/10/26 - Skystone Red 2: Electric Boogaloo", group="Sky")
 //@Disabled
-public class AutoSecond extends LinearOpMode {
+public class AutoFourth extends LinearOpMode {
 
     /*
      *  Declare OpMode Members: */
@@ -70,94 +70,23 @@ public class AutoSecond extends LinearOpMode {
         Wait for driver to hit the start button on the controller:
          */
         waitForStart();
-        //strafe right
-        leftFront.setPower(-0.25);
-        leftBack.setPower(0.25);
-        rightFront.setPower(0.25);
-        rightBack.setPower(-0.25);
-        sleep(1690);
-        leftFront.setPower(0);
-        leftBack.setPower(0);
-        rightFront.setPower(0);
-        rightBack.setPower(0);
-        sleep(300);
-        // go forward
-        leftFront.setPower(-0.20);
-        leftBack.setPower(-0.20);
-        rightFront.setPower(-0.20);
-        rightBack.setPower(-0.20);
-        sleep(1500);
-        //Grab the foundation
-        leftHook.setPosition(.1);
-        rightHook.setPosition(.9);
-        leftFront.setPower(0);
-        leftBack.setPower(0);
-        rightFront.setPower(0);
-        rightBack.setPower(0);
-        sleep(500);
-        leftFront.setPower(0);
-        leftBack.setPower(0);
-        rightFront.setPower(0);
-        rightBack.setPower(0);
-        sleep(100);
-        //back up to wall
-        leftFront.setPower(0.25);
-        leftBack.setPower(0.25);
-        rightFront.setPower(0.25);
-        rightBack.setPower(0.25);
-        sleep(2500);
-        leftFront.setPower(0);
-        leftBack.setPower(0);
-        rightFront.setPower(0);
-        rightBack.setPower(0);
-        sleep(100);
-        // let go of foundation
-        leftHook.setPosition(.7);
-        rightHook.setPosition(.5);
-        leftFront.setPower(0);
-        leftBack.setPower(0);
-        rightFront.setPower(0);
-        rightBack.setPower(0);
-        sleep(100);
+//        // go forward
+//        leftFront.setPower(-0.20);
+//        leftBack.setPower(-0.20);
+//        rightFront.setPower(-0.20);
+//        rightBack.setPower(-0.20);
+//        sleep(1100);
+//        leftFront.setPower(0);
+//        leftBack.setPower(0);
+//        rightFront.setPower(0);
+//        rightBack.setPower(0);
+//        sleep(100);
         //strafe left
-        leftFront.setPower(0.7);
-        leftBack.setPower(-0.7);
-        rightFront.setPower(-0.7);
-        rightBack.setPower(0.7);
-        sleep(850);
-        leftFront.setPower(0);
-        leftBack.setPower(0);
-        rightFront.setPower(0);
-        rightBack.setPower(0);
-        sleep(100);
-        //go forward
-        leftFront.setPower(-0.20);
-        leftBack.setPower(-0.20);
-        rightFront.setPower(-0.20);
-        rightBack.setPower(-0.20);
-        sleep(700);
-        leftFront.setPower(0);
-        leftBack.setPower(0);
-        rightFront.setPower(0);
-        rightBack.setPower(0);
-        sleep(100);
-        //strafe right (push foundation into depot)
-        leftFront.setPower(-0.35);
-        leftBack.setPower(0.35);
-        rightFront.setPower(0.35);
-        rightBack.setPower(-0.35);
-        sleep(1000);
-        leftFront.setPower(0);
-        leftBack.setPower(0);
-        rightFront.setPower(0);
-        rightBack.setPower(0);
-        sleep(100);
-        //strafe left under bridge
-        leftFront.setPower(0.5);
-        leftBack.setPower(-0.5);
-        rightFront.setPower(-0.5);
-        rightBack.setPower(0.5);
-        sleep(750);
+        leftFront.setPower(-0.5);
+        leftBack.setPower(0.5);
+        rightFront.setPower(0.5);
+        rightBack.setPower(-0.5);
+        sleep(300);
         leftFront.setPower(0);
         leftBack.setPower(0);
         rightFront.setPower(0);
@@ -168,8 +97,9 @@ public class AutoSecond extends LinearOpMode {
 
 
 
-         sleep(9999999);
-         //robot.turn(90, .5);
+
+        sleep(9999999);
+        //robot.turn(90, .5);
 //         telemetry.addData("2", "2");
 //         sleep(30000);
         /**

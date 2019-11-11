@@ -50,15 +50,16 @@ import com.qualcomm.robotcore.util.Range;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@TeleOp(name="CURRENT_SINGLECONTROLLER", group="MAIN")
-public class TestbotOpmode2 extends LinearOpMode {
+@TeleOp(name="CURRENT_DUALCONTROLLER", group="MAIN")
+public class SkystoneMAIN extends LinearOpMode {
 
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
     private DcMotor leftFront, leftBack, rightFront, rightBack, winchTop, winchBottom, intakeLeft, intakeRight = null;
     private Servo leftHook, rightHook, grab, turn;
-    public double rX, rY, lX, lY, throttle, robotSpeed, theta, directionSpeed, forwardSpeed;
+    public double rX, rY, lX, lY, throttle, robotSpeed, theta, finaltheta, directionSpeed, forwardSpeed, gearSpeed = .7;
     public double lB, lF, rB, rF;
+    boolean toggle = false;
 
     public void processUpdate(){
         rY = gamepad1.right_stick_y;
@@ -71,11 +72,25 @@ public class TestbotOpmode2 extends LinearOpMode {
         theta = Math.atan2(-lX, lY);
         directionSpeed = rX*.5;
         forwardSpeed = -(rY + lY)/2;
+        finaltheta = -theta + (Math.PI/4);
 
-        lF = .5 * robotSpeed * Math.sin(-theta + (Math.PI/4)) - directionSpeed + forwardSpeed;
-        lB = .5 * robotSpeed * Math.cos(-theta + (Math.PI/4)) - directionSpeed + forwardSpeed;
-        rF = .5 * robotSpeed * Math.cos(-theta + (Math.PI/4)) + directionSpeed + forwardSpeed;
-        rB = .5 * robotSpeed * Math.sin(-theta + (Math.PI/4)) + directionSpeed + forwardSpeed;
+        // GEAR SPEED CALCULATIONS :
+        if(gamepad1.dpad_up && toggle){
+            gearSpeed += .05;
+            toggle = false;
+        } else if (gamepad1.dpad_down && toggle){
+            gearSpeed -= .05;
+            toggle = false;
+
+        } else if (!(gamepad1.dpad_down || gamepad1.dpad_up) && !toggle) {
+            toggle = true;
+        }
+        Range.clip(gearSpeed, .2, .9);
+
+        lF = gearSpeed * robotSpeed * Math.sin(finaltheta) - directionSpeed + forwardSpeed;
+        lB = gearSpeed * robotSpeed * Math.cos(finaltheta) - directionSpeed + forwardSpeed;
+        rF = gearSpeed * robotSpeed * Math.cos(finaltheta) + directionSpeed + forwardSpeed;
+        rB = gearSpeed * robotSpeed * Math.sin(finaltheta) + directionSpeed + forwardSpeed;
     }
 
 
@@ -119,32 +134,32 @@ public class TestbotOpmode2 extends LinearOpMode {
             processUpdate();
             // Send calculated power to wheels
 
-            intakeLeft.setPower(gamepad1.left_trigger);
-            intakeRight.setPower(-gamepad1.left_trigger);
+            intakeLeft.setPower(gamepad2.left_trigger);
+            intakeRight.setPower(-gamepad2.left_trigger);
 
-            intakeLeft.setPower(-gamepad1.right_trigger);
-            intakeRight.setPower(gamepad1.right_trigger);
+            intakeLeft.setPower(-gamepad2.right_trigger*.3);
+            intakeRight.setPower(gamepad2.right_trigger*.3);
 
-            if(gamepad1.a){
+            if(gamepad2.y){
                 grab.setPosition(0);
-            } else if (gamepad1.y){
+            } else if (gamepad2.b){
                 grab.setPosition(1);
             }
 
-            if(gamepad1.x){
-                winchBottom.setPower(.7);
-                winchTop.setPower(.7);
-            } else if(gamepad1.a){
-                winchBottom.setPower(-.4);
-                winchTop.setPower(-.4);
+            if(gamepad2.x){
+                winchBottom.setPower(.5);
+                winchTop.setPower(.5);
+            } else if(gamepad2.a){
+                winchBottom.setPower(-.3);
+                winchTop.setPower(-.3);
             } else {
                 winchBottom.setPower(0);
                 winchTop.setPower(0);
             }
 
-            if(gamepad1.dpad_down){
+            if(gamepad2.dpad_down){
                 turn.setPosition(0);
-            } else if (gamepad1.dpad_up){
+            } else if (gamepad2.dpad_up){
                 turn.setPosition(.8);
             }
 
