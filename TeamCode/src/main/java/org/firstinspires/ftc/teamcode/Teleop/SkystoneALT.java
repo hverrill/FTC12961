@@ -51,7 +51,7 @@ import com.qualcomm.robotcore.util.Range;
  */
 
 @TeleOp(name="CURRENT_SINGLECONTROLLER", group="MAIN")
-public class TestbotOpmode2 extends LinearOpMode {
+public class SkystoneALT extends LinearOpMode {
 
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
