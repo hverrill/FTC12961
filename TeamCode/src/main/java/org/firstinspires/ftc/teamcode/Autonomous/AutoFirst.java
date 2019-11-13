@@ -73,7 +73,7 @@ public class AutoFirst extends LinearOpMode {
         rightFront.setPower(0);
         rightBack.setPower(0);
         sleep(100);
-        //intake system succ up block
+        //intake system succ up block no
 
         leftFront.setPower(-0.25);
         leftBack.setPower(-0.25);
