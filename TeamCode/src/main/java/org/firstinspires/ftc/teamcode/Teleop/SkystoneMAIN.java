@@ -171,8 +171,8 @@ public class SkystoneMAIN extends LinearOpMode {
                 leftHook.setPosition(.1);//retracted
                 rightHook.setPosition(.9);
             } else {
-                leftHook.setPosition(.7); //down
-                rightHook.setPosition(.5);
+                leftHook.setPosition(.9); //down
+                rightHook.setPosition(.1);
             }
 
 

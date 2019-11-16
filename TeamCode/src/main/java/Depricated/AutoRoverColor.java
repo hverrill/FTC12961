@@ -97,6 +97,9 @@ public class AutoRoverColor extends LinearOpMode {
         if (((sensorColor1.red() + sensorColor1.green())/2.3) > sensorColor1.blue()){
             position = 1;
         }
+        if (((sensorColor2.red() + sensorColor2.green())/2.3) > sensorColor2.blue()){
+            position = 2;
+        }
         sleep(500);
         runtime.reset();
 //        while (opModeIsActive() && (runtime.seconds() < 5)) {
@@ -115,9 +118,7 @@ public class AutoRoverColor extends LinearOpMode {
 //        sleep(1500);
         x.setPosition(.93);
         sleep(400);
-        if (((sensorColor2.red() + sensorColor2.green())/2.3) > sensorColor2.blue()){
-            position = 2;
-        }
+
 
         if (position == 0){
             x.setPosition(0.76);
