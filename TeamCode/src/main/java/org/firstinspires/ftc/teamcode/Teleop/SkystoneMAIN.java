@@ -168,10 +168,10 @@ public class SkystoneMAIN extends LinearOpMode {
 
 
             if(gamepad1.left_bumper){
-                leftHook.setPosition(.1);//retracted
-                rightHook.setPosition(.9);
+                leftHook.setPosition(.3);//deployed
+                rightHook.setPosition(.7);
             } else {
-                leftHook.setPosition(.9); //down
+                leftHook.setPosition(.9); //retracted
                 rightHook.setPosition(.1);
             }
 
