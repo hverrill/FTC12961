@@ -87,8 +87,8 @@ public class AutoThird extends LinearOpMode {
         rightBack.setPower(-0.20);
         sleep(1500);
         //Grab the foundation
-        leftHook.setPosition(.1);
-        rightHook.setPosition(.9);
+        leftHook.setPosition(.3);
+        rightHook.setPosition(.7);
         leftFront.setPower(0);
         leftBack.setPower(0);
         rightFront.setPower(0);
@@ -111,8 +111,8 @@ public class AutoThird extends LinearOpMode {
         rightBack.setPower(0);
         sleep(100);
         // let go of foundation
-        leftHook.setPosition(.7);
-        rightHook.setPosition(.5);
+        leftHook.setPosition(.9);
+        rightHook.setPosition(.1);
         leftFront.setPower(0);
         leftBack.setPower(0);
         rightFront.setPower(0);

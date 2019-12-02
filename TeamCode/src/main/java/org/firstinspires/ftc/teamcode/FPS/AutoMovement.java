@@ -32,6 +32,7 @@ public class AutoMovement {
         lBackMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rFrontMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rBackMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
         lFrontMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         lBackMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rFrontMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -80,10 +81,10 @@ public class AutoMovement {
     public void move(double distance, double angle, double power){
         tempPower = power;
         degreesTheta = angle;
-        thetaFinal = (degreesTheta*(Math.PI/180)) + (Math.PI/2); // finalTheta var to reduce function calls, (degreesTheta/360)*PI -
+        thetaFinal = Math.toRadians(degreesTheta) + (Math.PI/2); // !!! finalTheta var to reduce function calls, (degreesTheta/360)*PI -
         sine = Math.sin(thetaFinal); // sine var to reduce function calls -
         cosine = Math.cos(thetaFinal); // cosine var to reduce function calls -
-        ratio = 383.6/(Math.cos(thetaFinal)*10*Math.PI);
+        ratio = 383.6/(Math.cos(thetaFinal)*10*Math.PI); // !!!
         dist = distance*ratio;
         lF = Math.round(sine * dist);
         lB = Math.round(cosine * dist);
@@ -96,6 +97,7 @@ public class AutoMovement {
         leftFrontTarget = lF.intValue() + lFrontMotor.getCurrentPosition();
         rightBackTarget = rB.intValue() + rBackMotor.getCurrentPosition();
         rightFrontTarget = rF.intValue() + rFrontMotor.getCurrentPosition();
+
         lBackMotor.setTargetPosition(leftBackTarget);
         lFrontMotor.setTargetPosition(leftFrontTarget);
         rBackMotor.setTargetPosition(rightBackTarget);

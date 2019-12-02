@@ -4,19 +4,39 @@ package org.firstinspires.ftc.teamcode.FPS;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 public class Odometry {
-    DcMotor vertical_left, vertical_right, horizontal_init;
-    public void initialize(DcMotor verticalL, DcMotor verticalR, DcMotor horizontal){
-        vertical_left = verticalL;
-        vertical_right = verticalR;
-        horizontal_init = horizontal;
+    DcMotor xRight, xLeft, y;
+    double ratio;
+    public long xRightRaw, xLeftRaw, yRaw;
+    public double xDistance, yDistance;
+    /**
+     * GRAB ALL MOTORS AND SET MODES : */
+    public void initialize(DcMotor xrInput, DcMotor xlInput, DcMotor yInput){
+        y = yInput;
+        xRight = xrInput;
+        xLeft = xlInput;
+        y.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        xLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        xRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        y.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        xLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        xRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+
     }
-    public int getX(){
-        int x1 = 0;
-        int x2 = 0;
-        return (x1+x2)/2;
+    /**
+     * UPDATE INTERNAL VALUES : */
+    public void update(double theta){
+        /**
+         * GET RAW VALUES : */
+        xLeftRaw = xLeft.getCurrentPosition();
+        xRightRaw = xRight.getCurrentPosition();
+        yRaw = y.getCurrentPosition();
+
+        /**
+         * GET DISTANCE VALUES : */
+        ratio = 383.6/(Math.cos(theta)*10*Math.PI); // Calculate ticks per cm
+        xDistance = ((xRightRaw+xLeftRaw)/2)*ratio;
+        yDistance = yRaw*ratio;
     }
-    public int getY(){
-        long y = 9;
-        return 3;
-    }
+
 }

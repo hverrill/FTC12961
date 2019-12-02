@@ -29,7 +29,7 @@
 
 //package org.firstinspires.ftc.robotcontroller.external.samples;
 package org.firstinspires.ftc.teamcode.Autonomous;
-
+import org.firstinspires.ftc.teamcode.FPS.*;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;

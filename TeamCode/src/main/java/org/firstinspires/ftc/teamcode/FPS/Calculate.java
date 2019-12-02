@@ -9,8 +9,8 @@ public class Calculate {
     public double accXInput, accYInput, odoXinput, odoYInput, theta, finalX, finalY, rawX, rawY;
 
     public void sort(){
-        odoXinput = odo.getX()*.5;
-        odoYInput = odo.getY()*.5;
+        //odoXinput = odo.getX()*.5;
+        //odoYInput = odo.getY()*.5;
         accXInput = acc.getDeltaX()*5;
         accYInput = acc.getDeltaY()*.5;
         finalX = odoXinput + accXInput;
