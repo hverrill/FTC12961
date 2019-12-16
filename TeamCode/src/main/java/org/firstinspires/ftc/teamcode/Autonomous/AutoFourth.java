@@ -14,7 +14,7 @@ import org.firstinspires.ftc.teamcode.FPS.AutoMovement;
  * This program is Checkmate Robotics' Autonomous Program Template.
  */
 
-@Autonomous(name="Auto 2019/10/26 - Skystone Red 2: Electric Boogaloo", group="Sky")
+@Autonomous(name="BRIDGE_RED", group="Sky")
 //@Disabled
 public class AutoFourth extends LinearOpMode {
 
@@ -40,8 +40,6 @@ public class AutoFourth extends LinearOpMode {
         rightBack = hardwareMap.get(DcMotor.class, "RB");
         intakeLeft = hardwareMap.get(DcMotor.class, "intakeLeft");
         intakeRight = hardwareMap.get(DcMotor.class, "intakeRight");
-        winchBottom = hardwareMap.get(DcMotor.class, "winchBottom");
-        winchTop = hardwareMap.get(DcMotor.class, "winchTop");
         leftHook = hardwareMap.get(Servo.class, "leftHook");
         rightHook = hardwareMap.get(Servo.class, "rightHook");
         grab = hardwareMap.get(Servo.class, "grab");

@@ -1,6 +1,5 @@
 //Imports:
 package org.firstinspires.ftc.teamcode.Autonomous;
-import org.firstinspires.ftc.teamcode.FPS.*;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
@@ -8,16 +7,14 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.FPS.AutoMovement;
-
 
 /**
  * This program is Checkmate Robotics' Autonomous Program Template.
  */
 
-@Autonomous(name="Auto 2019/10/19", group="Sky")
+@Autonomous(name="SKYSTONE_BLUE", group="Sky")
 //@Disabled
-public class AutoFirst extends LinearOpMode {
+public class AutoColorBlue extends LinearOpMode {
 
     /*
      *  Declare OpMode Members: */
@@ -85,10 +82,10 @@ public class AutoFirst extends LinearOpMode {
         waitForStart();
         //START
 
-        leftFront.setPower(0.3);
-        leftBack.setPower(-0.3);
-        rightFront.setPower(-0.3);
-        rightBack.setPower(0.3);
+        leftFront.setPower(-0.3);
+        leftBack.setPower(0.3);
+        rightFront.setPower(0.3);
+        rightBack.setPower(-0.3);
         sleep(1550);
         leftFront.setPower(0);
         leftBack.setPower(0);
@@ -162,20 +159,20 @@ public class AutoFirst extends LinearOpMode {
         rightFront.setPower(-.1);
         rightBack.setPower(-.1);
         sleep(20);
-        leftFront.setPower(.3);
-        leftBack.setPower(-.3);
-        rightFront.setPower(-.3);
-        rightBack.setPower(.3);
+        leftFront.setPower(-.3);
+        leftBack.setPower(.3);
+        rightFront.setPower(.3);
+        rightBack.setPower(-.3);
         sleep(100);
         leftFront.setPower(0);
         leftBack.setPower(0);
         rightFront.setPower(0);
         rightBack.setPower(0);
         while (runtime.seconds()<30){
-            leftFront.setPower(-.15);
-            leftBack.setPower(.15);
-            rightFront.setPower(.15);
-            rightBack.setPower(-.15);
+            leftFront.setPower(.15);
+            leftBack.setPower(-.15);
+            rightFront.setPower(-.15);
+            rightBack.setPower(.15);
 
             if (!((colorLeft.red() + colorLeft.green())/2 > colorLeft.blue() + 7)){
                 side = "right";
@@ -207,10 +204,10 @@ public class AutoFirst extends LinearOpMode {
         } else {
             rightGrab.setPosition(.25);
         }
-        leftFront.setPower(-0.1);
-        leftBack.setPower(0.1);
-        rightFront.setPower(0.1);
-        rightBack.setPower(-0.1);
+        leftFront.setPower(0.1);
+        leftBack.setPower(-0.1);
+        rightFront.setPower(-0.1);
+        rightBack.setPower(0.1);
         sleep(1500);
         leftFront.setPower(-0.5);
         leftBack.setPower(-0.5);
@@ -222,10 +219,10 @@ public class AutoFirst extends LinearOpMode {
         rightFront.setPower(0);
         rightBack.setPower(0);
         sleep(500);
-        leftFront.setPower(-0.5);
-        leftBack.setPower(0.5);
-        rightFront.setPower(0.5);
-        rightBack.setPower(-0.5);
+        leftFront.setPower(0.5);
+        leftBack.setPower(-0.5);
+        rightFront.setPower(-0.5);
+        rightBack.setPower(0.5);
         sleep(1500);
         leftFront.setPower(0);
         leftBack.setPower(0);

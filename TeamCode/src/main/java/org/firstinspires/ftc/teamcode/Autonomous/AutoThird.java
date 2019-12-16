@@ -14,14 +14,14 @@ import org.firstinspires.ftc.teamcode.FPS.AutoMovement;
  * This program is Checkmate Robotics' Beta Blue Side Autonomous for the 2019-2020 game Skystone.
  */
 
-@Autonomous(name="Auto 2019/11/2 - Skystone Blu", group="Sky")
+@Autonomous(name="FOUNDATION_BLUE", group="Sky")
 //@Disabled
 public class AutoThird extends LinearOpMode {
 
     /*
      *  Declare OpMode Members: */
     //Ex: private DcMotor exampleMotor = null;
-    private DcMotor leftFront, leftBack, rightFront, rightBack, winchTop, winchBottom, intakeLeft, intakeRight = null;
+    private DcMotor leftFront, leftBack, rightFront, rightBack, intakeLeft, intakeRight = null;
     private Servo leftHook, rightHook, grab, turn;
 
     private ElapsedTime runtime = new ElapsedTime();
@@ -39,8 +39,6 @@ public class AutoThird extends LinearOpMode {
         rightBack = hardwareMap.get(DcMotor.class, "RB");
         intakeLeft = hardwareMap.get(DcMotor.class, "intakeLeft");
         intakeRight = hardwareMap.get(DcMotor.class, "intakeRight");
-        winchBottom = hardwareMap.get(DcMotor.class, "winchBottom");
-        winchTop = hardwareMap.get(DcMotor.class, "winchTop");
         leftHook = hardwareMap.get(Servo.class, "leftHook");
         rightHook = hardwareMap.get(Servo.class, "rightHook");
         grab = hardwareMap.get(Servo.class, "grab");

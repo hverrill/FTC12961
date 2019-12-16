@@ -1,6 +1,5 @@
 //Imports:
 package org.firstinspires.ftc.teamcode.Autonomous;
-import org.firstinspires.ftc.teamcode.FPS.*;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
@@ -8,16 +7,14 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.FPS.AutoMovement;
-
 
 /**
  * This program is Checkmate Robotics' Autonomous Program Template.
  */
 
-@Autonomous(name="Auto 2019/10/19", group="Sky")
+@Autonomous(name="SKYSTONE_RED", group="Sky")
 //@Disabled
-public class AutoFirst extends LinearOpMode {
+public class AutoColorRed extends LinearOpMode {
 
     /*
      *  Declare OpMode Members: */
