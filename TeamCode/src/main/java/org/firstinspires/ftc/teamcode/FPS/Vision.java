@@ -33,17 +33,18 @@ public class Vision {
     private boolean targetVisible = false;
     private OpenGLMatrix lastLocation = null;
     private VuforiaLocalizer vuforia = null;
-    VuforiaLocalizer.Parameters parameters = null;
+    public VuforiaLocalizer.Parameters parameters = null;
     VuforiaTrackables targetsSkyStone = this.vuforia.loadTrackablesFromAsset("Skystone");
     private float stoneZ = 2.00f * 6;
     private float portalXrotate = 0f;
     private float portalYrotate = 0f;
     private float portalZrotate = 0f;
     VuforiaTrackable stone = targetsSkyStone.get(0);
+    public String vuforiaKey;
 
     public VuforiaLocalizer createVuforia(VuforiaLocalizer.CameraDirection cameraDirection, HardwareMap hardwareMap) {
         parameters = new VuforiaLocalizer.Parameters();
-        parameters.vuforiaLicenseKey = "";
+        parameters.vuforiaLicenseKey = vuforiaKey;
         parameters.cameraDirection = VuforiaLocalizer.CameraDirection.BACK;
         vuforia = ClassFactory.getInstance().createVuforia(parameters);
         stone.setLocation(OpenGLMatrix

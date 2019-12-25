@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.vision
+package Depricated.vision
 
 import com.qualcomm.robotcore.hardware.HardwareMap
 import com.vuforia.CameraDevice

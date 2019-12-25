@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.vision
+package Depricated.vision
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory
 import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector
