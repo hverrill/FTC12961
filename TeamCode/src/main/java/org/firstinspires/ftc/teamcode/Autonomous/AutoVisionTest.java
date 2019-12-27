@@ -6,6 +6,10 @@ import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import com.vuforia.Vuforia;
+
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 import org.firstinspires.ftc.teamcode.FPS.*;
 
 import org.firstinspires.ftc.teamcode.FPS.Vision;
@@ -15,7 +19,7 @@ import org.firstinspires.ftc.teamcode.FPS.Vision;
  * This program is Checkmate Robotics' Autonomous Program Template.
  */
 
-@Autonomous(name="Vision", group="Sky")
+@Autonomous(name="Vision test", group="Sky")
 //@Disabled
 public class AutoVisionTest extends LinearOpMode {
 
@@ -29,9 +33,11 @@ public class AutoVisionTest extends LinearOpMode {
     boolean leftSeesYellow = false;
     boolean rightSeesYellow = false;
     boolean nextToWall = false;
+    private VuforiaLocalizer vuforia = null;
     String side = "";
     private ElapsedTime runtime = new ElapsedTime();
-    Vision portal = new Vision();
+    public Vision portal = new Vision();
+
 
 
 
@@ -75,6 +81,10 @@ public class AutoVisionTest extends LinearOpMode {
         leftBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        portal.parameters.vuforiaLicenseKey = "AX6ynMb/////AAABmcK8xLR/cEMTk3Qy46GU0Po3YfoGNrpPXjGYiHOdnYKR8Lq1ccLyKdxvLsJC0AeowUIB8E8l6Gi7a2jq348Toy/p2FjR9CZ5N7J0LZaL3omzgZ3fur1L371la0RrSQeYGr7tHzkM1SelARBr4P2sl0cjZomOnRhwNvjyEzwf1RVBPnbmdjbXm7m0eRCpkYLgE2DqMYgdEJY1fTQ+W5KgVOKtpe88fWx1u764G/yCfJktjI4zUkrwmRUDtO26FUHnr0Rb2lX8O+V619d0WdHMXPbILAXOFMxVEgn+mK6ASc+/L2Qxkb9C/R+3s4ckC5pDity18Qv+Z0l9kQWeWLHbXJPYVXM863wURNZWTWn1JMRA";
+        vuforia = portal.createVuforia(VuforiaLocalizer.CameraDirection.BACK);
+
+
 
 
         /**
@@ -86,169 +96,11 @@ public class AutoVisionTest extends LinearOpMode {
          */
         waitForStart();
         //START
-
-        leftFront.setPower(0.3);
-        leftBack.setPower(-0.3);
-        rightFront.setPower(-0.3);
-        rightBack.setPower(0.3);
-        sleep(1550);
-        leftFront.setPower(0);
-        leftBack.setPower(0);
-        rightFront.setPower(0);
-        rightBack.setPower(0);
-        sleep(600);
-        leftFront.setPower(-0.15);
-        leftBack.setPower(-0.15);
-        rightFront.setPower(-0.15);
-        rightBack.setPower(-0.15);
-        sleep(100);
-        leftFront.setPower(0);
-        leftBack.setPower(0);
-        rightFront.setPower(0);
-        rightBack.setPower(0);
-        sleep(600);
-        leftFront.setPower(0.3);
-        leftBack.setPower(0.3);
-        rightFront.setPower(0.3);
-        rightBack.setPower(0.3);
-        sleep(320);
-
-
-        //START COLOR SENSOR CODE
-        while(runtime.seconds()<30){
-            telemetry.addData("Red Left: ", colorLeft.red());
-            telemetry.addData("Green Left: ", colorLeft.green());
-            telemetry.addData("Blue Left: ", colorLeft.blue());
-            telemetry.addData("Red Right: ", colorRight.red());
-            telemetry.addData("Green Right: ", colorRight.green());
-            telemetry.addData("Blue Right: ", colorRight.blue());
-            if (((colorLeft.red() + colorLeft.green())/2) > colorLeft.blue() + 10){
-                leftSeesYellow = true;
-            } else {
-                leftSeesYellow = false;
-            }
-
-
-            if ((colorRight.red() + colorRight.green())/2 > colorRight.blue() + 10){
-                rightSeesYellow = true;
-            } else {
-                rightSeesYellow = false;
-            }
-
-            nextToWall = (leftSeesYellow | rightSeesYellow);
-            if (nextToWall) {
-                leftFront.setPower(0);
-                leftBack.setPower(0);
-                rightFront.setPower(0);
-                rightBack.setPower(0);
-                break;
-            } else {
-//                leftFront.setPower(-.3);
-//                leftBack.setPower(.3);
-//                rightFront.setPower(.3);
-//                rightBack.setPower(-.3);
-                leftFront.setPower(.15);
-                leftBack.setPower(.15);
-                rightFront.setPower(.15);
-                rightBack.setPower(.15);
-            }
-
-            telemetry.addData("Left sees yellow:", leftSeesYellow);
-            telemetry.addData("Right sees yellow:", rightSeesYellow);
-            telemetry.addData("Close to wall:", nextToWall);
-
-            telemetry.update();
+        while(runtime.seconds() < 30) {
+            telemetry.addData("Sees Skystone:", portal.isTargetVisible(portal.stone));
         }
-        leftFront.setPower(-.1);
-        leftBack.setPower(-.1);
-        rightFront.setPower(-.1);
-        rightBack.setPower(-.1);
-        sleep(20);
-        leftFront.setPower(.3);
-        leftBack.setPower(-.3);
-        rightFront.setPower(-.3);
-        rightBack.setPower(.3);
-        sleep(100);
-        leftFront.setPower(0);
-        leftBack.setPower(0);
-        rightFront.setPower(0);
-        rightBack.setPower(0);
-        while (runtime.seconds()<30){
-            leftFront.setPower(-.15);
-            leftBack.setPower(.15);
-            rightFront.setPower(.15);
-            rightBack.setPower(-.15);
 
-            if (!((colorLeft.red() + colorLeft.green())/2 > colorLeft.blue() + 7)){
-                side = "right";
-                // SERVO CODE TO GRAB BLOCK
-                break;
-            }
-            if (!((colorRight.red() + colorRight.green())/2 > colorRight.blue() + 7)) {
-                side = "left";
-                // SERVO CODE TO GRAB BLOCK
-                break;
-            }
-        }
-        leftFront.setPower(0);
-        leftBack.setPower(0);
-        rightFront.setPower(0);
-        rightBack.setPower(0);
-        telemetry.addData("Skystone is on the ", side, " of the robot.");
-        telemetry.update();
-        //END COLOR SENSOR CODE
-        //AFTER COLOR SENSOR CODE
-        sleep(4000);
-        if (side == "left"){
-            leftGrab.setPosition(1);
-        } else {
-            leftGrab.setPosition(.6);
-        }
-        if (side == "right"){
-            rightGrab.setPosition(0);
-        } else {
-            rightGrab.setPosition(.25);
-        }
-        leftFront.setPower(-0.1);
-        leftBack.setPower(0.1);
-        rightFront.setPower(0.1);
-        rightBack.setPower(-0.1);
-        sleep(1500);
-        leftFront.setPower(-0.5);
-        leftBack.setPower(-0.5);
-        rightFront.setPower(-0.5);
-        rightBack.setPower(-0.5);
-        sleep(600);
-        leftFront.setPower(0);
-        leftBack.setPower(0);
-        rightFront.setPower(0);
-        rightBack.setPower(0);
-        sleep(500);
-        leftFront.setPower(-0.5);
-        leftBack.setPower(0.5);
-        rightFront.setPower(0.5);
-        rightBack.setPower(-0.5);
-        sleep(1500);
-        leftFront.setPower(0);
-        leftBack.setPower(0);
-        rightFront.setPower(0);
-        rightBack.setPower(0);
-        sleep(500);
-
-
-
-
-        //END
-
-
-
-        /**
-         * : */
-
-
-        /**
-         * Stop OpMode */
-
+        sleep(900000);
         telemetry.addData("Path", "Complete");
         telemetry.update();
     }
