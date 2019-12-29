@@ -2,6 +2,7 @@
 package org.firstinspires.ftc.teamcode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -26,10 +27,10 @@ public class AutoVisionTest extends LinearOpMode {
     /*
      *  Declare OpMode Members: */
     //Ex: private DcMotor exampleMotor = null;
-    private DcMotor leftFront, leftBack, rightFront, rightBack, winch, intakeLeft, intakeRight = null;
-    private Servo leftHook, rightHook, grab, turn, leftGrab, rightGrab;
+//    private DcMotor leftFront, leftBack, rightFront, rightBack, winch, intakeLeft, intakeRight = null;
+//    private Servo leftHook, rightHook, grab, turn, leftGrab, rightGrab;
     float hsvValues[] = {0F, 0F, 0F};
-    private ColorSensor colorLeft, colorRight;
+//    private ColorSensor colorLeft, colorRight;
     boolean leftSeesYellow = false;
     boolean rightSeesYellow = false;
     boolean nextToWall = false;
@@ -41,49 +42,48 @@ public class AutoVisionTest extends LinearOpMode {
 
 
 
+
     @Override
     public void runOpMode() {
 
         /**
          * Hardware Variables: */
         //Ex: exampleMotor  = hardwareMap.get(DcMotor.class, "motor");
-        leftFront  = hardwareMap.get(DcMotor.class, "LF");
-        leftBack = hardwareMap.get(DcMotor.class, "LB");
-        rightFront  = hardwareMap.get(DcMotor.class, "RF");
-        rightBack = hardwareMap.get(DcMotor.class, "RB");
-        intakeLeft = hardwareMap.get(DcMotor.class, "intakeLeft");
-        intakeRight = hardwareMap.get(DcMotor.class, "intakeRight");
-        winch = hardwareMap.get(DcMotor.class, "winch");
-        leftHook = hardwareMap.get(Servo.class, "leftHook");
-        rightHook = hardwareMap.get(Servo.class, "rightHook");
-        grab = hardwareMap.get(Servo.class, "grab");
-        turn = hardwareMap.get(Servo.class, "turn");
-        leftGrab = hardwareMap.get(Servo.class, "leftGrab");
-        rightGrab = hardwareMap.get(Servo.class, "rightGrab");
-        colorLeft = hardwareMap.get(ColorSensor.class, "colorLeft");
-        colorRight = hardwareMap.get(ColorSensor.class, "colorRight");
-
-
-
-        leftFront.setDirection(DcMotor.Direction.FORWARD);
-        leftBack.setDirection(DcMotor.Direction.FORWARD);
-        rightFront.setDirection(DcMotor.Direction.REVERSE); // Change to forward after unswitching polarity
-        rightBack.setDirection(DcMotor.Direction.REVERSE); // Change to forward after unswitching polarity
-        leftFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        leftBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        rightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        rightBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        leftFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        leftBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-        leftBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        rightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        rightBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        portal.parameters.vuforiaLicenseKey = "AX6ynMb/////AAABmcK8xLR/cEMTk3Qy46GU0Po3YfoGNrpPXjGYiHOdnYKR8Lq1ccLyKdxvLsJC0AeowUIB8E8l6Gi7a2jq348Toy/p2FjR9CZ5N7J0LZaL3omzgZ3fur1L371la0RrSQeYGr7tHzkM1SelARBr4P2sl0cjZomOnRhwNvjyEzwf1RVBPnbmdjbXm7m0eRCpkYLgE2DqMYgdEJY1fTQ+W5KgVOKtpe88fWx1u764G/yCfJktjI4zUkrwmRUDtO26FUHnr0Rb2lX8O+V619d0WdHMXPbILAXOFMxVEgn+mK6ASc+/L2Qxkb9C/R+3s4ckC5pDity18Qv+Z0l9kQWeWLHbXJPYVXM863wURNZWTWn1JMRA";
-        vuforia = portal.createVuforia(VuforiaLocalizer.CameraDirection.BACK);
-
+//        leftFront  = hardwareMap.get(DcMotor.class, "LF");
+//        leftBack = hardwareMap.get(DcMotor.class, "LB");
+//        rightFront  = hardwareMap.get(DcMotor.class, "RF");
+//        rightBack = hardwareMap.get(DcMotor.class, "RB");
+//        intakeLeft = hardwareMap.get(DcMotor.class, "intakeLeft");
+//        intakeRight = hardwareMap.get(DcMotor.class, "intakeRight");
+//        winch = hardwareMap.get(DcMotor.class, "winch");
+//        leftHook = hardwareMap.get(Servo.class, "leftHook");
+//        rightHook = hardwareMap.get(Servo.class, "rightHook");
+//        grab = hardwareMap.get(Servo.class, "grab");
+//        turn = hardwareMap.get(Servo.class, "turn");
+//        leftGrab = hardwareMap.get(Servo.class, "leftGrab");
+//        rightGrab = hardwareMap.get(Servo.class, "rightGrab");
+//        colorLeft = hardwareMap.get(ColorSensor.class, "colorLeft");
+//        colorRight = hardwareMap.get(ColorSensor.class, "colorRight");
+//
+//
+//
+//        leftFront.setDirection(DcMotor.Direction.FORWARD);
+//        leftBack.setDirection(DcMotor.Direction.FORWARD);
+//        rightFront.setDirection(DcMotor.Direction.REVERSE); // Change to forward after unswitching polarity
+//        rightBack.setDirection(DcMotor.Direction.REVERSE); // Change to forward after unswitching polarity
+//        leftFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+//        leftBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+//        rightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+//        rightBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+//        leftFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//        leftBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//        rightFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//        rightBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//
+//        leftBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+//        rightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+//        rightBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        portal.createVuforia(VuforiaLocalizer.CameraDirection.BACK, hardwareMap, telemetry);
 
 
 
@@ -96,8 +96,8 @@ public class AutoVisionTest extends LinearOpMode {
          */
         waitForStart();
         //START
-        while(runtime.seconds() < 30) {
-            telemetry.addData("Sees Skystone:", portal.isTargetVisible(portal.stone));
+        while(runtime.seconds() < 120 && !isStopRequested()) {
+            portal.update(portal.stone);
         }
 
         sleep(900000);
