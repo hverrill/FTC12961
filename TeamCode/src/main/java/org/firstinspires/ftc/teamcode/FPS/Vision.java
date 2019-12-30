@@ -54,13 +54,14 @@ public class Vision {
 
 
     public VuforiaLocalizer createVuforia(VuforiaLocalizer.CameraDirection cameraDirection, HardwareMap map, Telemetry telemetry) {
-        hardwareMap = map;
-        stoneTelemetry = telemetry;
-        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-        parameters = new VuforiaLocalizer.Parameters(cameraMonitorViewId);
+        hardwareMap = map; // Parse HardwareMap instance from opmode to internal public variable
+        stoneTelemetry = telemetry; // Parse Telemetry instance from opmode to internal public variable
+
+        int cameraMonitorViewId = /** What the heck does this line do */ hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+        parameters = new VuforiaLocalizer.Parameters(cameraMonitorViewId); // Parse data to internal public instance of VuforiaLocalizer.Parameters
         parameters.vuforiaLicenseKey = "AZIn0o3/////AAABmfxYL6aC+UR0kbocCpW0hFEZ3iRVuKE172GjTlK08gQs52Z0HqTYqgUdJgqKjbpP2QCDbqa8DH5FimG7ZyvJk6g4yt0Rlg8EhwZwipv7qJA3e/QvyGFB/C3sDNeFV4WMZksf3cwTsxTVPhw2JUtUGQxrHB/zMgYqJetR9s5xmDN77xAetQY1qvAK5DX6aYr4hKtAaMqQurl28oLjANyZTKRDUQ+vOxCJPrbp+qFEDAiUPdUtS3VJxQxkfIl7rCEpxp/FPgsv+RsZXCgWzJx6oHPL5BN1ZVz5JUa53YgxqKGl0I0bn0Cl8ESenX6qSY5p8d04dc7EwFEJEXGbPngmVfEG8ZqHI0Cg1kkk8LpQ3Pgr";
-        vuforia = ClassFactory.getInstance().createVuforia(parameters);
-        parameters.cameraDirection = cameraDirection;
+        vuforia = ClassFactory.getInstance().createVuforia(parameters); // Parse data to internal public instance of VuforiaLocalizer
+        parameters.cameraDirection = cameraDirection; // Parse given VuforiaLocalizer.CameraDirection variable to parameters object
         lastLocation = OpenGLMatrix
                 .translation(CAMERA_FORWARD_DISPLACEMENT, CAMERA_LEFT_DISPLACEMENT, CAMERA_VERTICAL_DISPLACEMENT)
                 .multiplied(Orientation.getRotationMatrix(EXTRINSIC, XYZ, DEGREES, 90, 0, -90));
@@ -68,37 +69,34 @@ public class Vision {
         targets.activate();
         stone = targets.get(0);
 
-    return vuforia;
+    return vuforia; // Return final version of VuforiaLocalizer for use in opomode
     }
 
     public void update(VuforiaTrackable target){
-//        stone.setLocation(OpenGLMatrix /* UPDATES CAMERA VIEW */
-//                .translation(0, 0, stoneZ)
-//                .multiplied(Orientation.getRotationMatrix(EXTRINSIC, XYZ, DEGREES, 90, 0, -90)));
         if (isTargetVisible(target)) {
-            stoneTelemetry.addData("Visible Target", stone.getName());
-            // getUpdatedRobotLocation() will return null if no new information is available since
-            // the last time that call was made, or if the trackable is not currently visible.
+            stoneTelemetry.addData("Visible Target", stone.getName()); // Reports which navigation target is visible, if any
             OpenGLMatrix robotLocationTransform = ((VuforiaTrackableDefaultListener)stone.getListener()).getUpdatedRobotLocation();
             if (robotLocationTransform != null) {
                 lastLocation = robotLocationTransform;
             }
-        }
-        ((VuforiaTrackableDefaultListener) stone.getListener()).setPhoneInformation(lastLocation, parameters.cameraDirection);
-        if (isTargetVisible(target)) {
-            // express position (translation) of robot in inches.
+
+//            ((VuforiaTrackableDefaultListener) stone.getListener()).setPhoneInformation(lastLocation, parameters.cameraDirection);
+
+            /** Report position of robot (camera) in inches */
             VectorF translation = lastLocation.getTranslation();
             stoneTelemetry.addData("Pos (in)", "{X, Y, Z} = %.1f, %.1f, %.1f",
                     translation.get(0) / mmPerInch, translation.get(1) / mmPerInch, translation.get(2) / mmPerInch);
 
-            // express the rotation of the robot in degrees.
+
+            /** Report position of robot (camera) in degrees */
             Orientation rotation = Orientation.getOrientation(lastLocation, EXTRINSIC, XYZ, DEGREES);
-            stoneTelemetry.addData("Rot (deg)", "{Roll, Pitch, Heading} = %.0f, %.0f, %.0f", rotation.firstAngle, rotation.secondAngle, rotation.thirdAngle);
+            stoneTelemetry.addData("Rot (deg)", "{Roll, Pitch, Heading} = %.0f, %.0f, %.0f",
+                    rotation.firstAngle, rotation.secondAngle, rotation.thirdAngle);
         }
         else {
-            stoneTelemetry.addData("Visible Target", "none");
+            stoneTelemetry.addData("Visible Target", "none"); // Reports that no navigation target is visible
         }
-        stoneTelemetry.update();
+        stoneTelemetry.update(); // Updates telemetry (duh)
     }
 
     

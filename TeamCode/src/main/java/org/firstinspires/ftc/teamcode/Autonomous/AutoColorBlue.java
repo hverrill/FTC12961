@@ -189,7 +189,7 @@ public class AutoColorBlue extends LinearOpMode {
         leftBack.setPower(0);
         rightFront.setPower(0);
         rightBack.setPower(0);
-        telemetry.addData("Skystone is on the ", side, " of the robot.");
+        telemetry.addData("Skystone is on the", side, " of the robot.");
         telemetry.update();
         //END COLOR SENSOR CODE
         //AFTER COLOR SENSOR CODE

@@ -85,22 +85,13 @@ public class AutoVisionTest extends LinearOpMode {
 //        rightBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         portal.createVuforia(VuforiaLocalizer.CameraDirection.BACK, hardwareMap, telemetry);
 
-
-
-        /**
-         * Telemetry */
-        telemetry.addData("Status", "Ready to run");
-        telemetry.update();
-        /*
-        Wait for driver to hit the start button on the controller:
-         */
         waitForStart();
-        //START
-        while(runtime.seconds() < 120 && !isStopRequested()) {
+
+        while(!isStopRequested()) {
             portal.update(portal.stone);
         }
 
-        sleep(900000);
+
         telemetry.addData("Path", "Complete");
         telemetry.update();
     }
