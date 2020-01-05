@@ -142,8 +142,8 @@ public class SkystoneMAIN extends LinearOpMode {
             processUpdate();
             // Send calculated power to wheels
             if  (gamepad2.right_trigger != 0){
-                intakeLeft.setPower(.69);
-                intakeRight.setPower(-.69);
+                intakeLeft.setPower(.59);
+                intakeRight.setPower(-.59);
             } else if (gamepad2.left_trigger != 0){
                 intakeLeft.setPower(-.18);
                 intakeRight.setPower(.18);

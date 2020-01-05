@@ -34,7 +34,7 @@ public class AutoVisionTestOpmode extends LinearOpMode {
     String side = "";
     private ElapsedTime runtime = new ElapsedTime();
     public Vision portal = new Vision();
-
+    double margin = .5;
 
 
 
@@ -58,8 +58,7 @@ public class AutoVisionTestOpmode extends LinearOpMode {
         turn = hardwareMap.get(Servo.class, "turn");
         leftGrab = hardwareMap.get(Servo.class, "leftGrab");
         rightGrab = hardwareMap.get(Servo.class, "rightGrab");
-        colorLeft = hardwareMap.get(ColorSensor.class, "colorLeft");
-        colorRight = hardwareMap.get(ColorSensor.class, "colorRight");
+
 
 
 
@@ -83,49 +82,83 @@ public class AutoVisionTestOpmode extends LinearOpMode {
 
         waitForStart(); /** START THE PROGRAM */
             //START
-
+        leftFront.setPower(0.2);
+        leftBack.setPower(0.2);
+        rightFront.setPower(0.2);
+        rightBack.setPower(0.2);
+        sleep(400);
+        leftFront.setPower(0);
+        leftBack.setPower(0);
+        rightFront.setPower(0);
+        rightBack.setPower(0);
+        sleep(200);
         leftFront.setPower(-0.3);
         leftBack.setPower(0.3);
         rightFront.setPower(0.3);
         rightBack.setPower(-0.3);
-        sleep(700);
+        sleep(850);
         leftFront.setPower(0);
         leftBack.setPower(0);
         rightFront.setPower(0);
         rightBack.setPower(0);
         sleep(600);
 
-                sleep(600);
+
         //make robot turn 90 to allign with block wall
         while(!portal.isTargetVisible(portal.stone) && !isStopRequested()) { // Run the vuforia detection (change if you need to detect later)
-
-            leftFront.setPower(.1);
-            leftBack.setPower(.1);
-            rightFront.setPower(.1);
-            rightBack.setPower(.1);
-
-
+            leftFront.setPower(.02);
+            leftBack.setPower(.02);
+            rightFront.setPower(.02);
+            rightBack.setPower(.02);
             portal.update(portal.stone);
 
         }
-        //reverse to allign, then strafe to side to collect skystone
+        while((Math.abs(portal.xTranslation) > margin) && !isStopRequested()){
+            if(portal.xTranslation < -margin){
+                leftFront.setPower(.02);
+                leftBack.setPower(.02);
+                rightFront.setPower(.02);
+                rightBack.setPower(.02);
+            }
+            if(portal.xTranslation > margin){
+                leftFront.setPower(-.02);
+                leftBack.setPower(-.02);
+                rightFront.setPower(-.02);
+                rightBack.setPower(-.02);
+            }
+        }
 
-
-        leftFront.setPower(0.3);
-        leftBack.setPower(0.3);
-        rightFront.setPower(0.3);
-        rightBack.setPower(0.3);
-        sleep(1200);
         leftFront.setPower(0);
         leftBack.setPower(0);
         rightFront.setPower(0);
         rightBack.setPower(0);
-        sleep(100);
 
+        //reverse to allign, then strafe to side to collect skystone
+        leftFront.setPower(-0.1);
+        leftBack.setPower(-0.1);
+        rightFront.setPower(-0.1);
+        rightBack.setPower(-0.1);
+        sleep(200);
+        leftFront.setPower(0);
+        leftBack.setPower(0);
+        rightFront.setPower(0);
+        rightBack.setPower(0);
+        sleep(200);
+//
+//        leftFront.setPower(0.3);
+//        leftBack.setPower(0.3);
+//        rightFront.setPower(0.3);
+//        rightBack.setPower(0.3);
+//        sleep(1200);
+//        leftFront.setPower(0);
+//        leftBack.setPower(0);
+//        rightFront.setPower(0);
+//        rightBack.setPower(0);
+//        sleep(100);
+//
+//
 
-
-
-
+        sleep(100000);
         telemetry.addData("Path", "Complete");
         telemetry.update();
     }

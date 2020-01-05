@@ -42,7 +42,6 @@ public class AutoVisionTest extends LinearOpMode {
 
 
 
-
     @Override
     public void runOpMode() {
 

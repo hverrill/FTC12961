@@ -41,8 +41,11 @@ public class Vision {
     private VuforiaLocalizer vuforia = null;
     private float stoneZ = 2.00f * 6;
     private float portalXrotate = 0f;
-    private float portalYrotate = 0f;
+    private float portalYrotate = -90;
     private float portalZrotate = 0f;
+    public float xTranslation;
+    public float yTranslation;
+    public float zTranslation;
     private Telemetry stoneTelemetry = null;
     final float CAMERA_FORWARD_DISPLACEMENT  = 4.0f * mmPerInch;   // eg: Camera is 4 Inches in front of robot center
     final float CAMERA_VERTICAL_DISPLACEMENT = 8.0f * mmPerInch;   // eg: Camera is 8 Inches above ground
@@ -61,13 +64,15 @@ public class Vision {
         parameters = new VuforiaLocalizer.Parameters(cameraMonitorViewId); // Parse data to internal public instance of VuforiaLocalizer.Parameters
         parameters.vuforiaLicenseKey = "AZIn0o3/////AAABmfxYL6aC+UR0kbocCpW0hFEZ3iRVuKE172GjTlK08gQs52Z0HqTYqgUdJgqKjbpP2QCDbqa8DH5FimG7ZyvJk6g4yt0Rlg8EhwZwipv7qJA3e/QvyGFB/C3sDNeFV4WMZksf3cwTsxTVPhw2JUtUGQxrHB/zMgYqJetR9s5xmDN77xAetQY1qvAK5DX6aYr4hKtAaMqQurl28oLjANyZTKRDUQ+vOxCJPrbp+qFEDAiUPdUtS3VJxQxkfIl7rCEpxp/FPgsv+RsZXCgWzJx6oHPL5BN1ZVz5JUa53YgxqKGl0I0bn0Cl8ESenX6qSY5p8d04dc7EwFEJEXGbPngmVfEG8ZqHI0Cg1kkk8LpQ3Pgr";
         vuforia = ClassFactory.getInstance().createVuforia(parameters); // Parse data to internal public instance of VuforiaLocalizer
-        parameters.cameraDirection = cameraDirection; // Parse given VuforiaLocalizer.CameraDirection variable to parameters object
+        parameters.cameraDirection = cameraDirection;
+        // Parse given VuforiaLocalizer.CameraDirection variable to parameters object
         lastLocation = OpenGLMatrix
                 .translation(CAMERA_FORWARD_DISPLACEMENT, CAMERA_LEFT_DISPLACEMENT, CAMERA_VERTICAL_DISPLACEMENT)
-                .multiplied(Orientation.getRotationMatrix(EXTRINSIC, XYZ, DEGREES, 90, 0, -90));
+                .multiplied(Orientation.getRotationMatrix(EXTRINSIC, XYZ, DEGREES, portalXrotate, portalYrotate, portalZrotate));
         targets = this.vuforia.loadTrackablesFromAsset("Skystone");
         targets.activate();
         stone = targets.get(0);
+        com.vuforia.CameraDevice.getInstance().setFlashTorchMode(true);
 
     return vuforia; // Return final version of VuforiaLocalizer for use in opomode
     }
@@ -92,11 +97,15 @@ public class Vision {
             Orientation rotation = Orientation.getOrientation(lastLocation, EXTRINSIC, XYZ, DEGREES);
             stoneTelemetry.addData("Rot (deg)", "{Roll, Pitch, Heading} = %.0f, %.0f, %.0f",
                     rotation.firstAngle, rotation.secondAngle, rotation.thirdAngle);
+            xTranslation = translation.get(0);
+            yTranslation = translation.get(1);
+            zTranslation = translation.get(2);
         }
         else {
             stoneTelemetry.addData("Visible Target", "none"); // Reports that no navigation target is visible
         }
         stoneTelemetry.update(); // Updates telemetry (duh)
+
     }
 
     
