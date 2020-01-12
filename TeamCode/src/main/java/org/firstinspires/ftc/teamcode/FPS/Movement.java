@@ -13,6 +13,14 @@ public class Movement {
     public DcMotor intakeRight;
     public Movement(AutoVisionTestOpmode blah){
         sadbutnessesary = blah;
+        leftBack = sadbutnessesary.leftBack;
+        leftFront = sadbutnessesary.leftFront;
+        rightBack = sadbutnessesary.rightBack;
+        rightFront = sadbutnessesary.rightFront;
+        intakeLeft = sadbutnessesary.intakeLeft;
+        intakeRight = sadbutnessesary.intakeRight;
+
+
     }
 
 

@@ -11,6 +11,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 public class Measurement {
     public BNO055IMU revIMU;
+
     public Measurement(BNO055IMU imu, HardwareMap hardwareMap){
         revIMU = imu;
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
@@ -24,8 +25,12 @@ public class Measurement {
         revIMU.initialize(parameters);
         //startaccelrationintegrations???
     }
-    public float getAngle(){
+    public AngleResult getAngle(){
         revIMU.getPosition();
-        return revIMU.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.XYZ, AngleUnit.DEGREES).firstAngle;
+        AngleResult results = new AngleResult();
+        results.angle1 = revIMU.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.XYZ, AngleUnit.DEGREES).firstAngle;
+        results.angle2 = revIMU.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.XYZ, AngleUnit.DEGREES).secondAngle;
+        results.angle3 = revIMU.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.XYZ, AngleUnit.DEGREES).thirdAngle;
+        return results;
     }
 }

@@ -2,12 +2,10 @@
 package org.firstinspires.ftc.teamcode.Autonomous;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
-import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -21,9 +19,9 @@ import org.firstinspires.ftc.teamcode.FPS.Vision;
  * This program is Checkmate Robotics' Autonomous Program Template.
  */
 
-@Autonomous(name="Vision Test Opmode", group="Sky")
+@Autonomous(name="IMU Test Opmode", group="Sky")
 //@Disabled
-public class AutoVisionTestOpmode extends LinearOpMode {
+public class IMUTest extends LinearOpMode {
 
     /*
      *  Declare OpMode Members: */
@@ -40,7 +38,7 @@ public class AutoVisionTestOpmode extends LinearOpMode {
     public BNO055IMU revIMU;
     private ElapsedTime runtime = new ElapsedTime();
     Vision portal = new Vision();
-    Movement robot = null;
+    //Movement robot = null;
     Measurement sensorSuite = null;
 
     double margin = .5;
@@ -71,7 +69,7 @@ public class AutoVisionTestOpmode extends LinearOpMode {
 
 
         motorInit();
-        robot = new Movement(this);
+        //robot = new Movement(this);
         sensorSuite = new Measurement(revIMU, hardwareMap);
         portal.createVuforia(VuforiaLocalizer.CameraDirection.BACK, hardwareMap, telemetry);
 
@@ -79,92 +77,13 @@ public class AutoVisionTestOpmode extends LinearOpMode {
 
 
         waitForStart(); /** START THE PROGRAM */
-            //START
-        robot.forward(.2, 400);
-        leftFront.setPower(0);
-        leftBack.setPower(0);
-        rightFront.setPower(0);
-        rightBack.setPower(0);
-        sleep(200);
-        leftFront.setPower(-0.3);
-        leftBack.setPower(0.3);
-        rightFront.setPower(0.3);
-        rightBack.setPower(-0.3);
-        stopAfter(850);
+        telemetry.addData("Angle 1 =", sensorSuite.getAngle().angle1);
+        telemetry.addData("Angle 2 =", sensorSuite.getAngle().angle2);
+        telemetry.addData("Angle 3 =", sensorSuite.getAngle().angle3);
 
 
-        portal.update(portal.stone);
-//        make robot turn 90 to allign with block wall
-        while(!portal.isTargetVisible(portal.stone) && !isStopRequested()) { // Run the vuforia detection (change if you need to detect later)
-            portal.update(portal.stone);
-            leftFront.setPower(.02);
-            leftBack.setPower(.02);
-            rightFront.setPower(.02);
-            rightBack.setPower(.02);
-        }
-        while((Math.abs(portal.xTranslation) < margin) && !isStopRequested()){
-            portal.update(portal.stone);
-            if(portal.xTranslation < -margin){
-                leftFront.setPower(.02);
-                leftBack.setPower(.02);
-                rightFront.setPower(.02);
-                rightBack.setPower(.02);
-            }
-            if(portal.xTranslation > margin){
-                leftFront.setPower(-.02);
-                leftBack.setPower(-.02);
-                rightFront.setPower(-.02);
-                rightBack.setPower(-.02);
-            }
-            telemetry.addData("Angle =", sensorSuite.getAngle());
-        }
-        stopAfter(0);
-
-//        //reverse to allign, then strafe to side to collect skystone
-        robot.reverse(.2, 350);
-        robot.turnClockwise(.5, 340);
-        intakeLeft.setPower(.6);
-        intakeRight.setPower(.6);
-        robot.forward(.12, 2500);
-
-
-//        sleep(200);
-//        leftFront.setPower(-0.3);
-//        leftBack.setPower(0.3);
-//        rightFront.setPower(0.3);
-//        rightBack.setPower(-0.3);
-//        sleep(500);
-//        leftFront.setPower(0);
-//        leftBack.setPower(0);
-//        rightFront.setPower(0);
-//        rightBack.setPower(0);
-//        sleep(200);
-//        leftFront.setPower(0.3);
-//        leftBack.setPower(0.3);
-//        rightFront.setPower(0.3);
-//        rightBack.setPower(0.3);
-//        sleep(400);
-//        leftFront.setPower(0);
-//        leftBack.setPower(0);
-//        rightFront.setPower(0);
-//        rightBack.setPower(0);
-//        sleep(200);
-        // END
-
-
-        telemetry.addData("Path", "Complete");
-        telemetry.update();
-        sleep(9999999);
     }
-    public void stopAfter(long millis){
-        sleep(millis);
-        leftFront.setPower(0);
-        leftBack.setPower(0);
-        rightFront.setPower(0);
-        rightBack.setPower(0);
-        intakeLeft.setPower(0);
-        intakeRight.setPower(0);
-    }
+
     public void motorInit(){
         leftFront.setDirection(DcMotor.Direction.FORWARD);
         leftBack.setDirection(DcMotor.Direction.FORWARD);
