@@ -15,4 +15,6 @@ public class Drivetrain {
         rightfront = (robotSpeed * Math.cos(finaltheta) + directionSpeed) + forwardSpeed;
         rightback = (robotSpeed * Math.sin(finaltheta)+ directionSpeed) + forwardSpeed;
     }
+
+
 }

@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.FPS;
+package Depricated;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
