@@ -77,10 +77,14 @@ public class IMUTest extends LinearOpMode {
 
 
         waitForStart(); /** START THE PROGRAM */
-        telemetry.addData("Angle 1 =", sensorSuite.getAngle().angle1);
-        telemetry.addData("Angle 2 =", sensorSuite.getAngle().angle2);
-        telemetry.addData("Angle 3 =", sensorSuite.getAngle().angle3);
+        rotate(-90);
 
+        while (!isStopRequested()) {
+            telemetry.addData("Angle 1 =", sensorSuite.getAngle().angle1);
+            telemetry.addData("Angle 2 =", sensorSuite.getAngle().angle2);
+            telemetry.addData("Angle 3 =", sensorSuite.getAngle().angle3);
+            telemetry.update();
+        }
 
     }
 
@@ -97,6 +101,40 @@ public class IMUTest extends LinearOpMode {
         leftBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+    }
+    public void rotate(float degrees){
+
+        boolean turning = true;
+        float targetAngle = sensorSuite.getAngle().angle1 + degrees;
+        double ratio;
+        double powerPolarity = degrees/Math.abs(degrees);
+        double powerMultiplier;
+
+        while(turning){
+
+            ratio = sensorSuite.getAngle().angle1/targetAngle;
+
+            powerMultiplier = 1-ratio;
+
+            if(Math.abs(powerMultiplier) < .15){
+                powerMultiplier = .2;
+            }
+            if(Math.abs(powerMultiplier) > .85){
+                powerMultiplier = .85;
+            }
+
+            leftBack.setPower(-.2 * powerMultiplier * powerPolarity);
+            leftFront.setPower(-.2 * powerMultiplier * powerPolarity);
+            rightBack.setPower(.2 * powerMultiplier * powerPolarity);
+            rightFront.setPower(.2 * powerMultiplier * powerPolarity);
+
+            if(ratio > .95) turning = false;
+
+        }
+        leftBack.setPower(0);
+        leftFront.setPower(0);
+        rightBack.setPower(0);
+        rightFront.setPower(0);
     }
 
 
