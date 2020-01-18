@@ -105,6 +105,7 @@ public class IMUTest extends LinearOpMode {
     public void rotate(float degrees){
 
         boolean turning = true;
+
         float targetAngle = sensorSuite.getAngle().angle1 + degrees;
         double ratio;
         double powerPolarity = degrees/Math.abs(degrees);
