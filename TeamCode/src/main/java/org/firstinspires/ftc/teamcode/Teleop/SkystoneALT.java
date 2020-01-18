@@ -129,6 +129,7 @@ public class SkystoneALT extends LinearOpMode {
 
         //encoders.initialize(intakeRight /* Right X */, intakeLeft /* Left X */, winchBottom /* Y */); //BECAUSE THEY STILL DON'T HAVE ENCODERS AS THEIR OWN SENSORS YET FOR SOME REASON
         // Wait for the game to start (driver presses PLAY)
+
         waitForStart();
         runtime.reset();
 
