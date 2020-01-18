@@ -37,7 +37,6 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.teamcode.FPS.Drivetrain;
-import org.firstinspires.ftc.teamcode.FPS.Odometry;
 
 
 /**
@@ -53,8 +52,8 @@ import org.firstinspires.ftc.teamcode.FPS.Odometry;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@TeleOp(name="DUALCONTROLLER", group="MAIN")
-public class SkystoneMAIN extends LinearOpMode {
+@TeleOp(name="SINGLECONTROLLER", group="MAIN")
+public class SkystoneALT extends LinearOpMode {
 
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
@@ -119,18 +118,14 @@ public class SkystoneMAIN extends LinearOpMode {
         leftBack.setDirection(DcMotor.Direction.FORWARD);
         rightFront.setDirection(DcMotor.Direction.REVERSE);
         rightBack.setDirection(DcMotor.Direction.REVERSE);
-        winch.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
-
         leftFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        winch.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        winch.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        //winchTop.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        intakeLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
+        winch.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        winch.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         //encoders.initialize(intakeRight /* Right X */, intakeLeft /* Left X */, winchBottom /* Y */); //BECAUSE THEY STILL DON'T HAVE ENCODERS AS THEIR OWN SENSORS YET FOR SOME REASON
         // Wait for the game to start (driver presses PLAY)
@@ -141,10 +136,10 @@ public class SkystoneMAIN extends LinearOpMode {
         while (opModeIsActive()) {
             processUpdate();
             // Send calculated power to wheels
-            if  (gamepad2.right_trigger != 0){
+            if  (gamepad1.right_trigger != 0){
                 intakeLeft.setPower(.59);
                 intakeRight.setPower(-.59);
-            } else if (gamepad2.left_trigger != 0){
+            } else if (gamepad1.left_trigger != 0){
                 intakeLeft.setPower(-.18);
                 intakeRight.setPower(.18);
             } else {
@@ -152,19 +147,19 @@ public class SkystoneMAIN extends LinearOpMode {
                 intakeRight.setPower(0);
             }
 
-            if (gamepad2.y) {
+            if (gamepad1.y) {
                 grab.setPosition(.0);
             } else if (gamepad2.b) {
                 grab.setPosition(1);
             }
 
-            if (gamepad2.x) {
+            if (gamepad1.x) {
                 winch.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                 winch.setPower(.1);
                 goal = winch.getCurrentPosition();
                 toggle = true;
 
-            } else if (gamepad2.a) {
+            } else if (gamepad1.a) {
                 winch.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                 winch.setPower(-.1);
                 goal = winch.getCurrentPosition();
@@ -181,37 +176,23 @@ public class SkystoneMAIN extends LinearOpMode {
                 winch.setPower(-.0005);
             }
 
-            if (gamepad2.dpad_down) {
+            if (gamepad1.dpad_down) {
                 turn.setPosition(.13);
-            } else if (gamepad2.dpad_up) {
+            } else if (gamepad1.dpad_up) {
                 turn.setPosition(.79);
             }
 
-            if (gamepad2.left_bumper) {
+            if (gamepad1.left_bumper) {
                 push.setPosition(1);
             } else {
                 push.setPosition(0);
             }
 
-//            if (gamepad1.y){
-//                capToggle = !capToggle;
-//            } else {
-//                if (capToggle){
-//                    capToggle = false;
-//                    capDeployed = !capDeployed;
-//                }
-//            }
-//            if (capDeployed){
-//                capstone.setPosition(1);
-//            } else {
+//            if (gamepad1.a){
+//                capstone.setPosition(.35);       // CHANGE TO VIRTUAL 4 BAR
+//            } else if (gamepad1.y){
 //                capstone.setPosition(0);
 //            }
-            if (gamepad1.a){
-                capstone.setPosition(.35);
-            } else if (gamepad1.y){
-                capstone.setPosition(0);
-            }
-
 
             if (gamepad1.left_bumper) {
                 leftHook.setPosition(.3);//deployed
@@ -227,17 +208,15 @@ public class SkystoneMAIN extends LinearOpMode {
                 leftGrab.setPosition(0.6);
                 rightGrab.setPosition(0.25);  //retracted
             }
-                leftFront.setPower(Range.clip(lF, -1, 1));
-                leftBack.setPower(Range.clip(lB, -1, 1));
-                rightFront.setPower(Range.clip(rF, -1, 1));
-                rightBack.setPower(Range.clip(rB, -1, 1));
 
-                // Show the elapsed game time and wheel power.
-                telemetry.addData("Status", "Run Time: " + runtime.toString());
-                //telemetry.addData("X Pos: ", encoders.xDistance);
-                //telemetry.addData("Y Pos: ", encoders.yDistance);
-//            telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftFront.getPower(), );
-                telemetry.update();
+            leftFront.setPower(Range.clip(lF, -1, 1));
+            leftBack.setPower(Range.clip(lB, -1, 1));
+            rightFront.setPower(Range.clip(rF, -1, 1));
+            rightBack.setPower(Range.clip(rB, -1, 1));
+
+            // Show the elapsed game time and wheel power.
+            telemetry.addData("Status", "Run Time: " + runtime.toString());
+            telemetry.update();
 
         }
     }

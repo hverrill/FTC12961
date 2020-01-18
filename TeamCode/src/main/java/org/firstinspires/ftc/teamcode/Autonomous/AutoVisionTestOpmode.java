@@ -46,8 +46,6 @@ public class AutoVisionTestOpmode extends LinearOpMode {
     double margin = .5;
 
 
-
-
     @Override
     public void runOpMode() {
 
@@ -69,17 +67,14 @@ public class AutoVisionTestOpmode extends LinearOpMode {
         rightGrab = hardwareMap.get(Servo.class, "rightGrab");
         revIMU = hardwareMap.get(BNO055IMU.class, "imu");
 
-
         motorInit();
         robot = new Movement(this);
         sensorSuite = new Measurement(revIMU, hardwareMap);
         portal.createVuforia(VuforiaLocalizer.CameraDirection.BACK, hardwareMap, telemetry);
 
 
-
-
         waitForStart(); /** START THE PROGRAM */
-            //START
+        //START
         robot.forward(.2, 400);
         leftFront.setPower(0);
         leftBack.setPower(0);
@@ -92,9 +87,8 @@ public class AutoVisionTestOpmode extends LinearOpMode {
         rightBack.setPower(-0.3);
         stopAfter(850);
 
-
         portal.update(portal.stone);
-//        make robot turn 90 to allign with block wall
+
         while(!portal.isTargetVisible(portal.stone) && !isStopRequested()) { // Run the vuforia detection (change if you need to detect later)
             portal.update(portal.stone);
             leftFront.setPower(.02);
@@ -119,43 +113,17 @@ public class AutoVisionTestOpmode extends LinearOpMode {
             telemetry.addData("Angle =", sensorSuite.getAngle());
         }
         stopAfter(0);
-
-//        //reverse to allign, then strafe to side to collect skystone
+        //reverse to allign, then strafe to side to collect skystone
         robot.reverse(.2, 350);
         robot.turnClockwise(.5, 340);
         intakeLeft.setPower(.6);
         intakeRight.setPower(.6);
         robot.forward(.12, 2500);
-
-
-//        sleep(200);
-//        leftFront.setPower(-0.3);
-//        leftBack.setPower(0.3);
-//        rightFront.setPower(0.3);
-//        rightBack.setPower(-0.3);
-//        sleep(500);
-//        leftFront.setPower(0);
-//        leftBack.setPower(0);
-//        rightFront.setPower(0);
-//        rightBack.setPower(0);
-//        sleep(200);
-//        leftFront.setPower(0.3);
-//        leftBack.setPower(0.3);
-//        rightFront.setPower(0.3);
-//        rightBack.setPower(0.3);
-//        sleep(400);
-//        leftFront.setPower(0);
-//        leftBack.setPower(0);
-//        rightFront.setPower(0);
-//        rightBack.setPower(0);
-//        sleep(200);
-        // END
-
-
         telemetry.addData("Path", "Complete");
         telemetry.update();
         sleep(9999999);
     }
+
     public void stopAfter(long millis){
         sleep(millis);
         leftFront.setPower(0);
@@ -165,6 +133,7 @@ public class AutoVisionTestOpmode extends LinearOpMode {
         intakeLeft.setPower(0);
         intakeRight.setPower(0);
     }
+
     public void motorInit(){
         leftFront.setDirection(DcMotor.Direction.FORWARD);
         leftBack.setDirection(DcMotor.Direction.FORWARD);
@@ -179,6 +148,5 @@ public class AutoVisionTestOpmode extends LinearOpMode {
         rightFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
-
 
 }

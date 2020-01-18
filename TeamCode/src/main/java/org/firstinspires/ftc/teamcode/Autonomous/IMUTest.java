@@ -43,12 +43,8 @@ public class IMUTest extends LinearOpMode {
 
     double margin = .5;
 
-
-
-
     @Override
     public void runOpMode() {
-
         /**
          * Hardware Variables: */
         //Ex: exampleMotor  = hardwareMap.get(DcMotor.class, "motor");
@@ -72,9 +68,6 @@ public class IMUTest extends LinearOpMode {
         //robot = new Movement(this);
         sensorSuite = new Measurement(revIMU, hardwareMap);
         portal.createVuforia(VuforiaLocalizer.CameraDirection.BACK, hardwareMap, telemetry);
-
-
-
 
         waitForStart(); /** START THE PROGRAM */
         rotate(-90);
@@ -102,6 +95,7 @@ public class IMUTest extends LinearOpMode {
         rightFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
+
     public void rotate(float degrees){
 
         boolean turning = true;
