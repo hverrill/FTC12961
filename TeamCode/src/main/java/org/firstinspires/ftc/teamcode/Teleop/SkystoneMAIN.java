@@ -32,7 +32,9 @@ package org.firstinspires.ftc.teamcode.Teleop;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
@@ -58,8 +60,9 @@ public class SkystoneMAIN extends LinearOpMode {
 
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
-    private DcMotor leftFront, leftBack, rightFront, rightBack, winch, intakeLeft, intakeRight = null;
+    private DcMotor leftFront, leftBack, rightFront, rightBack, winchLeft, winchRight, intakeLeft, intakeRight = null;
     private Servo leftHook, rightHook, grab, turn, push, leftGrab, rightGrab, capstone;
+    private TouchSensor blockToggle;
     double gearSpeed = .7;
     double lB, lF, rB, rF;
     int goal;
@@ -104,7 +107,8 @@ public class SkystoneMAIN extends LinearOpMode {
         rightBack = hardwareMap.get(DcMotor.class, "RB");
         intakeLeft = hardwareMap.get(DcMotor.class, "intakeLeft");
         intakeRight = hardwareMap.get(DcMotor.class, "intakeRight");
-        winch = hardwareMap.get(DcMotor.class, "winch");
+        winchLeft = hardwareMap.get(DcMotor.class, "winchLeft");
+        winchRight = hardwareMap.get(DcMotor.class, "winchRight");
         leftHook = hardwareMap.get(Servo.class, "leftHook");
         rightHook = hardwareMap.get(Servo.class, "rightHook");
         grab = hardwareMap.get(Servo.class, "grab");
@@ -113,22 +117,21 @@ public class SkystoneMAIN extends LinearOpMode {
         leftGrab = hardwareMap.get(Servo.class, "leftGrab");
         rightGrab = hardwareMap.get(Servo.class, "rightGrab");
         capstone = hardwareMap.get(Servo.class, "capstone");
+        blockToggle = hardwareMap.get(TouchSensor.class, "blockToggle");
 
 
         leftFront.setDirection(DcMotor.Direction.FORWARD);
         leftBack.setDirection(DcMotor.Direction.FORWARD);
         rightFront.setDirection(DcMotor.Direction.REVERSE);
         rightBack.setDirection(DcMotor.Direction.REVERSE);
-        winch.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
-
+        winchRight.setDirection(DcMotorSimple.Direction.REVERSE);
+        winchLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        winchRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        winch.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        winch.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        //winchTop.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
         intakeLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
 
@@ -157,28 +160,29 @@ public class SkystoneMAIN extends LinearOpMode {
             } else if (gamepad2.b) {
                 grab.setPosition(1);
             }
+            // Lift Code
+            if (gamepad2.a) {
+                winchRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                winchLeft.setPower(.55);
+                winchRight.setPower(.55);
+                goal = winchRight.getCurrentPosition();
 
-            if (gamepad2.x) {
-                winch.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                winch.setPower(.1);
-                goal = winch.getCurrentPosition();
-                toggle = true;
 
-            } else if (gamepad2.a) {
-                winch.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                winch.setPower(-.1);
-                goal = winch.getCurrentPosition();
-                toggle = true;
+            } else if (gamepad2.x) {
+                winchRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                winchLeft.setPower(-.25);
+                winchRight.setPower(-.25);
+                goal = winchRight.getCurrentPosition();
+
 
             } else {
-                //winch.setPower(-.0005);
-                if (toggle) {
-                    winch.setTargetPosition(goal);
-                    winch.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                    toggle = false;
-                }
 
-                winch.setPower(-.0005);
+                winchRight.setTargetPosition(goal);
+                winchRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                winchLeft.setPower(winchRight.getPower());
+
+                winchLeft.setPower(0);
+                winchRight.setPower(0);
             }
 
             if (gamepad2.dpad_down) {
@@ -234,6 +238,7 @@ public class SkystoneMAIN extends LinearOpMode {
 
                 // Show the elapsed game time and wheel power.
                 telemetry.addData("Status", "Run Time: " + runtime.toString());
+                telemetry.addData("Touch", blockToggle.isPressed());
                 //telemetry.addData("X Pos: ", encoders.xDistance);
                 //telemetry.addData("Y Pos: ", encoders.yDistance);
 //            telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftFront.getPower(), );
