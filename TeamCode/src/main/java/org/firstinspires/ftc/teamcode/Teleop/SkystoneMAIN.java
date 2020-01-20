@@ -57,23 +57,19 @@ import org.firstinspires.ftc.teamcode.FPS.Odometry;
 
 @TeleOp(name="DUALCONTROLLER", group="MAIN")
 public class SkystoneMAIN extends LinearOpMode {
+    private ElapsedTime runtime = new ElapsedTime();
+    private Drivetrain robot = new Drivetrain(hardwareMap);
 
     // Declare OpMode members.
-    private ElapsedTime runtime = new ElapsedTime();
-    private DcMotor leftFront, leftBack, rightFront, rightBack, winchLeft, winchRight, intakeLeft, intakeRight = null;
-    private Servo leftHook, rightHook, grab, turn, push, leftGrab, rightGrab, capstone;
-    private TouchSensor blockToggle;
-    double gearSpeed = .7;
+    double gearSpeed = .7, fourbarPos = .9;
     double lB, lF, rB, rF;
     int goal;
-    boolean winchToggle, capToggle, capDeployed = false;
+    boolean winchToggle, capToggle, capDeployed = false, foundationToggle, toggle = false;
 
-    Drivetrain mecanum = new Drivetrain();
     //Odometry encoders = new Odometry();
-    boolean toggle = false;
 
     public void processUpdate() {
-        mecanum.calculate(gamepad1.left_stick_x, gamepad1.left_stick_y, gamepad1.right_stick_x, gamepad1.right_stick_y);
+        robot.calculate(gamepad1.left_stick_x, gamepad1.left_stick_y, gamepad1.right_stick_x, gamepad1.right_stick_y);
         //encoders.update(mecanum.finaltheta);
         // GEAR SPEED CALCULATIONS :
         if (!(gamepad1.dpad_down | gamepad1.dpad_up) && toggle) {
@@ -89,113 +85,80 @@ public class SkystoneMAIN extends LinearOpMode {
         }
         gearSpeed = Range.clip(gearSpeed, .2, .9);
 
-        lF = gearSpeed * mecanum.leftfront;
-        lB = gearSpeed * mecanum.leftback;
-        rF = gearSpeed * mecanum.rightfront;
-        rB = gearSpeed * mecanum.rightback;
+        lF = gearSpeed * robot.leftfront;
+        lB = gearSpeed * robot.leftback;
+        rF = gearSpeed * robot.rightfront;
+        rB = gearSpeed * robot.rightback;
     }
 
 
     @Override
     public void runOpMode() {
+        robot.map();
         telemetry.addData("Status", "Initialized");
         telemetry.update();
-
-        leftFront = hardwareMap.get(DcMotor.class, "LF");
-        leftBack = hardwareMap.get(DcMotor.class, "LB");
-        rightFront = hardwareMap.get(DcMotor.class, "RF");
-        rightBack = hardwareMap.get(DcMotor.class, "RB");
-        intakeLeft = hardwareMap.get(DcMotor.class, "intakeLeft");
-        intakeRight = hardwareMap.get(DcMotor.class, "intakeRight");
-        winchLeft = hardwareMap.get(DcMotor.class, "winchLeft");
-        winchRight = hardwareMap.get(DcMotor.class, "winchRight");
-        leftHook = hardwareMap.get(Servo.class, "leftHook");
-        rightHook = hardwareMap.get(Servo.class, "rightHook");
-        grab = hardwareMap.get(Servo.class, "grab");
-        turn = hardwareMap.get(Servo.class, "turn");
-        push = hardwareMap.get(Servo.class, "push");
-        leftGrab = hardwareMap.get(Servo.class, "leftGrab");
-        rightGrab = hardwareMap.get(Servo.class, "rightGrab");
-        capstone = hardwareMap.get(Servo.class, "capstone");
-        blockToggle = hardwareMap.get(TouchSensor.class, "blockToggle");
-
-
-        leftFront.setDirection(DcMotor.Direction.FORWARD);
-        leftBack.setDirection(DcMotor.Direction.FORWARD);
-        rightFront.setDirection(DcMotor.Direction.REVERSE);
-        rightBack.setDirection(DcMotor.Direction.REVERSE);
-        winchRight.setDirection(DcMotorSimple.Direction.REVERSE);
-        winchLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        winchRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        leftFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        leftBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        rightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        rightBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
-        intakeLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-
-        //encoders.initialize(intakeRight /* Right X */, intakeLeft /* Left X */, winchBottom /* Y */); //BECAUSE THEY STILL DON'T HAVE ENCODERS AS THEIR OWN SENSORS YET FOR SOME REASON
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
         runtime.reset();
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
-            processUpdate();
+
             // Send calculated power to wheels
             if  (gamepad2.right_trigger != 0){
-                intakeLeft.setPower(.59);
-                intakeRight.setPower(-.59);
+                robot.intakeLeft.setPower(.59);
+                robot.intakeRight.setPower(-.59);
             } else if (gamepad2.left_trigger != 0){
-                intakeLeft.setPower(-.18);
-                intakeRight.setPower(.18);
+                robot.intakeLeft.setPower(-.18);
+                robot.intakeRight.setPower(.18);
             } else {
-                intakeLeft.setPower(0);
-                intakeRight.setPower(0);
+                robot.intakeLeft.setPower(0);
+                robot.intakeRight.setPower(0);
             }
 
-            if (gamepad2.y) {
-                grab.setPosition(.0);
-            } else if (gamepad2.b) {
-                grab.setPosition(1);
-            }
+
             // Lift Code
             if (gamepad2.a) {
-                winchRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                winchLeft.setPower(.55);
-                winchRight.setPower(.55);
-                goal = winchRight.getCurrentPosition();
+                robot.winchRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                robot.winchLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+                robot.winchLeft.setPower(.7);
+                robot.winchRight.setPower(.7);
+                goal = (int)(robot.winchRight.getCurrentPosition()+robot.winchLeft.getCurrentPosition())/2;
 
 
             } else if (gamepad2.x) {
-                winchRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                winchLeft.setPower(-.25);
-                winchRight.setPower(-.25);
-                goal = winchRight.getCurrentPosition();
+                robot.winchRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                robot.winchLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                robot.winchLeft.setPower(-.2);
+                robot.winchRight.setPower(-.2);
+                goal = (int)(robot.winchRight.getCurrentPosition()+robot.winchLeft.getCurrentPosition())/2;
 
 
             } else {
-
-                winchRight.setTargetPosition(goal);
-                winchRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                winchLeft.setPower(winchRight.getPower());
-
-                winchLeft.setPower(0);
-                winchRight.setPower(0);
+                robot.winchRight.setTargetPosition(goal);
+                robot.winchLeft.setTargetPosition(goal);
+                robot.winchRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                robot.winchLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                robot.winchLeft.setPower(0);
+                robot.winchRight.setPower(0);
             }
 
-            if (gamepad2.dpad_down) {
-                turn.setPosition(.13);
-            } else if (gamepad2.dpad_up) {
-                turn.setPosition(.79);
-            }
 
-            if (gamepad2.left_bumper) {
-                push.setPosition(1);
+            //virtual fourbar code
+            if(gamepad2.y){
+                fourbarPos = .9;
+            } else if (gamepad2.b){
+                fourbarPos = .1;
+            }
+            robot.fourbarRight.setPosition(fourbarPos);
+            robot.fourbarLeft.setPosition(1-fourbarPos);
+            if(gamepad2.right_bumper){
+                robot.blockGrab.setPosition(0);
             } else {
-                push.setPosition(0);
+                robot.blockGrab.setPosition(1);
             }
+
 
 //            if (gamepad1.y){
 //                capToggle = !capToggle;
@@ -210,39 +173,34 @@ public class SkystoneMAIN extends LinearOpMode {
 //            } else {
 //                capstone.setPosition(0);
 //            }
-            if (gamepad1.a){
-                capstone.setPosition(.35);
-            } else if (gamepad1.y){
-                capstone.setPosition(0);
+//            if (gamepad1.a){
+//                capstone.setPosition(.35);
+//            } else if (gamepad1.y){
+//                capstone.setPosition(0);
+//            }
+
+            //Foundation Grabbers
+            if (foundationToggle && gamepad1.right_bumper) {
+                robot.leftHook.setPosition(.3);//deployed
+                robot.rightHook.setPosition(.7);
+                foundationToggle = !foundationToggle;
+            } else if (!foundationToggle && gamepad1.right_bumper) {
+                robot.leftHook.setPosition(.9); //retracted
+                robot.rightHook.setPosition(.1);
+                foundationToggle = !foundationToggle;
             }
 
-
-            if (gamepad1.left_bumper) {
-                leftHook.setPosition(.3);//deployed
-                rightHook.setPosition(.7);
-            } else {
-                leftHook.setPosition(.9); //retracted
-                rightHook.setPosition(.1);
-            }
-            if (gamepad1.left_trigger != 0) {
-                leftGrab.setPosition(1); // deployed
-                rightGrab.setPosition(0);
-            } else {
-                leftGrab.setPosition(0.6);
-                rightGrab.setPosition(0.25);  //retracted
-            }
-                leftFront.setPower(Range.clip(lF, -1, 1));
-                leftBack.setPower(Range.clip(lB, -1, 1));
-                rightFront.setPower(Range.clip(rF, -1, 1));
-                rightBack.setPower(Range.clip(rB, -1, 1));
-
-                // Show the elapsed game time and wheel power.
-                telemetry.addData("Status", "Run Time: " + runtime.toString());
-                telemetry.addData("Touch", blockToggle.isPressed());
-                //telemetry.addData("X Pos: ", encoders.xDistance);
-                //telemetry.addData("Y Pos: ", encoders.yDistance);
-//            telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftFront.getPower(), );
-                telemetry.update();
+            robot.leftFront.setPower(Range.clip(lF, -1, 1));
+            robot.leftBack.setPower(Range.clip(lB, -1, 1));
+            robot.rightFront.setPower(Range.clip(rF, -1, 1));
+            robot.rightBack.setPower(Range.clip(rB, -1, 1));
+            // Show the elapsed game time and wheel power.
+            telemetry.addData("Status", "Run Time: " + runtime.toString());
+            telemetry.addData("Touch", robot.blockToggle.isPressed());
+            //telemetry.addData("X Pos: ", encoders.xDistance);
+            //telemetry.addData("Y Pos: ", encoders.yDistance);
+//          telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftFront.getPower(), );
+            telemetry.update();
 
         }
     }

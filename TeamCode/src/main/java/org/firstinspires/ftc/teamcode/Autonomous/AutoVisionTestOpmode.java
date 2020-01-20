@@ -63,10 +63,7 @@ public class AutoVisionTestOpmode extends LinearOpMode {
         //winch = hardwareMap.get(DcMotor.class, "winch");
         leftHook = hardwareMap.get(Servo.class, "leftHook");
         rightHook = hardwareMap.get(Servo.class, "rightHook");
-        grab = hardwareMap.get(Servo.class, "grab");
-        turn = hardwareMap.get(Servo.class, "turn");
-        leftGrab = hardwareMap.get(Servo.class, "leftGrab");
-        rightGrab = hardwareMap.get(Servo.class, "rightGrab");
+
         revIMU = hardwareMap.get(BNO055IMU.class, "imu");
         blockToggle = hardwareMap.get(TouchSensor.class, "blockToggle");
 
@@ -120,7 +117,7 @@ public class AutoVisionTestOpmode extends LinearOpMode {
         //reverse to allign, then strafe to side to collect skystone
         robot.reverse(.2, 350);
         rotate(55);
-        robot.succ();
+        robot.succ(runtime);
         telemetry.addData("Path", "Complete");
         telemetry.update();
         sleep(9999999);
