@@ -48,6 +48,9 @@ public class Drivetrain {
         winchRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         winchLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         winchRight.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        intakeLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        intakeRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
     public void calculate(double xVectorLeft, double yVectorLeft, double xVectorRight, double yVectorRight){
         robotSpeed = Math.sqrt(Math.pow(xVectorLeft, 2) + Math.pow(xVectorLeft, 2));

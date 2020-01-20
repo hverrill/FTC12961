@@ -61,7 +61,7 @@ public class SkystoneMAIN extends LinearOpMode {
     private Drivetrain robot = new Drivetrain();
 
     // Declare OpMode members.
-    double gearSpeed = .7, fourbarPos = .9;
+    double gearSpeed = .7, fourbarPos = .85, grabberPos;
     double lB, lF, rB, rF;
     int goal;
     boolean winchToggle, capToggle, capDeployed = false, foundationToggle, toggle = false, blockGrabToggle = false;
@@ -102,6 +102,7 @@ public class SkystoneMAIN extends LinearOpMode {
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
+            processUpdate();
 
             // Send calculated power to wheels
             if  (gamepad2.right_trigger != 0){
@@ -138,32 +139,34 @@ public class SkystoneMAIN extends LinearOpMode {
                 robot.winchLeft.setTargetPosition(goal);
                 robot.winchRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 robot.winchLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                robot.winchLeft.setPower(0);
-                robot.winchRight.setPower(0);
+                robot.winchLeft.setPower(0.12);
+                robot.winchRight.setPower(0.12);
             }
 
             //virtual fourbar code
             if(gamepad2.y){
-                fourbarPos = .9;
-            } else if (gamepad2.b){
-                fourbarPos = 0;
-            } else if (robot.blockToggle.isPressed() || gamepad2.right_bumper){
+                fourbarPos = .85;
+            } else if(gamepad2.b){
                 fourbarPos = 1;
+            } else if (gamepad2.right_bumper){
+                fourbarPos = .1;
             }
             robot.fourbarRight.setPosition(fourbarPos);
             robot.fourbarLeft.setPosition(1-fourbarPos);
 
-
-            if(gamepad2.right_bumper && blockGrabToggle){
-                blockGrabToggle = false;
-            } else if (gamepad2.right_bumper && !blockGrabToggle){
-                blockGrabToggle = true;
-            }
             if(blockGrabToggle){
-                robot.blockGrab.setPosition(0);
+                if(gamepad2.left_bumper){
+                    blockGrabToggle = false;
+                    robot.blockGrab.setPosition(.5);
+                }
             } else {
-                robot.blockGrab.setPosition(.5);
+                if(gamepad2.left_bumper){
+                    blockGrabToggle = true;
+                    robot.blockGrab.setPosition(1);
+                }
             }
+
+
 
             //Foundation Grabbers
             if (foundationToggle && gamepad1.right_bumper) {
