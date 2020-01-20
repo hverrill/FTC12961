@@ -58,19 +58,18 @@ import org.firstinspires.ftc.teamcode.FPS.Odometry;
 @TeleOp(name="DUALCONTROLLER", group="MAIN")
 public class SkystoneMAIN extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
-    private Drivetrain robot = new Drivetrain(hardwareMap);
+    private Drivetrain robot = new Drivetrain();
 
     // Declare OpMode members.
     double gearSpeed = .7, fourbarPos = .9;
     double lB, lF, rB, rF;
     int goal;
-    boolean winchToggle, capToggle, capDeployed = false, foundationToggle, toggle = false;
+    boolean winchToggle, capToggle, capDeployed = false, foundationToggle, toggle = false, blockGrabToggle = false;
 
     //Odometry encoders = new Odometry();
 
     public void processUpdate() {
         robot.calculate(gamepad1.left_stick_x, gamepad1.left_stick_y, gamepad1.right_stick_x, gamepad1.right_stick_y);
-        //encoders.update(mecanum.finaltheta);
         // GEAR SPEED CALCULATIONS :
         if (!(gamepad1.dpad_down | gamepad1.dpad_up) && toggle) {
             toggle = false;
@@ -94,7 +93,7 @@ public class SkystoneMAIN extends LinearOpMode {
 
     @Override
     public void runOpMode() {
-        robot.map();
+        robot.map(hardwareMap);
         telemetry.addData("Status", "Initialized");
         telemetry.update();
         // Wait for the game to start (driver presses PLAY)
@@ -115,7 +114,6 @@ public class SkystoneMAIN extends LinearOpMode {
                 robot.intakeLeft.setPower(0);
                 robot.intakeRight.setPower(0);
             }
-
 
             // Lift Code
             if (gamepad2.a) {
@@ -144,40 +142,28 @@ public class SkystoneMAIN extends LinearOpMode {
                 robot.winchRight.setPower(0);
             }
 
-
             //virtual fourbar code
             if(gamepad2.y){
                 fourbarPos = .9;
             } else if (gamepad2.b){
-                fourbarPos = .1;
+                fourbarPos = 0;
+            } else if (robot.blockToggle.isPressed() || gamepad2.right_bumper){
+                fourbarPos = 1;
             }
             robot.fourbarRight.setPosition(fourbarPos);
             robot.fourbarLeft.setPosition(1-fourbarPos);
-            if(gamepad2.right_bumper){
+
+
+            if(gamepad2.right_bumper && blockGrabToggle){
+                blockGrabToggle = false;
+            } else if (gamepad2.right_bumper && !blockGrabToggle){
+                blockGrabToggle = true;
+            }
+            if(blockGrabToggle){
                 robot.blockGrab.setPosition(0);
             } else {
-                robot.blockGrab.setPosition(1);
+                robot.blockGrab.setPosition(.5);
             }
-
-
-//            if (gamepad1.y){
-//                capToggle = !capToggle;
-//            } else {
-//                if (capToggle){
-//                    capToggle = false;
-//                    capDeployed = !capDeployed;
-//                }
-//            }
-//            if (capDeployed){
-//                capstone.setPosition(1);
-//            } else {
-//                capstone.setPosition(0);
-//            }
-//            if (gamepad1.a){
-//                capstone.setPosition(.35);
-//            } else if (gamepad1.y){
-//                capstone.setPosition(0);
-//            }
 
             //Foundation Grabbers
             if (foundationToggle && gamepad1.right_bumper) {

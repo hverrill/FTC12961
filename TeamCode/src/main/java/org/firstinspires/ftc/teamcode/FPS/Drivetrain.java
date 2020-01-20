@@ -12,14 +12,12 @@ public class Drivetrain {
     public DcMotor leftFront, leftBack, rightFront, rightBack, winchLeft, winchRight, intakeLeft, intakeRight;
     public Servo leftHook, rightHook, fourbarLeft, fourbarRight, blockGrab;
     public TouchSensor blockToggle;
-    public Drivetrain(HardwareMap map){
-        hardwareMap = map;
-    }
 
     public void declare(){
 
     }
-    public void map(){
+    public void map(HardwareMap map){
+        hardwareMap = map;
         leftFront = hardwareMap.get(DcMotor.class, "LF");
         leftBack = hardwareMap.get(DcMotor.class, "LB");
         rightFront = hardwareMap.get(DcMotor.class, "RF");
