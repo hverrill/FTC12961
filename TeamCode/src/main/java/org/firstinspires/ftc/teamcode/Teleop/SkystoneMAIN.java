@@ -139,8 +139,8 @@ public class SkystoneMAIN extends LinearOpMode {
                 robot.winchLeft.setTargetPosition(goal);
                 robot.winchRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 robot.winchLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                robot.winchLeft.setPower(0.12);
-                robot.winchRight.setPower(0.12);
+                robot.winchLeft.setPower(0);
+                robot.winchRight.setPower(0);
             }
 
             //virtual fourbar code
@@ -148,21 +148,21 @@ public class SkystoneMAIN extends LinearOpMode {
                 fourbarPos = .85;
             } else if(gamepad2.b){
                 fourbarPos = 1;
-            } else if (gamepad2.right_bumper){
+            } else if (gamepad2.left_bumper){
                 fourbarPos = .1;
             }
             robot.fourbarRight.setPosition(fourbarPos);
             robot.fourbarLeft.setPosition(1-fourbarPos);
 
             if(blockGrabToggle){
-                if(gamepad2.left_bumper){
+                if(gamepad2.right_bumper){
                     blockGrabToggle = false;
                     robot.blockGrab.setPosition(.5);
                 }
             } else {
-                if(gamepad2.left_bumper){
+                if(gamepad2.right_bumper){
                     blockGrabToggle = true;
-                    robot.blockGrab.setPosition(1);
+                    robot.blockGrab.setPosition(0);
                 }
             }
 

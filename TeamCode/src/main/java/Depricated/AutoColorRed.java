@@ -1,5 +1,5 @@
 //Imports:
-package org.firstinspires.ftc.teamcode.Autonomous;
+package Depricated;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
@@ -12,9 +12,9 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * This program is Checkmate Robotics' Autonomous Program Template.
  */
 
-@Autonomous(name="SKYSTONE_BLUE", group="Sky")
+@Autonomous(name="SKYSTONE_RED", group="Sky")
 //@Disabled
-public class AutoColorBlue extends LinearOpMode {
+public class AutoColorRed extends LinearOpMode {
 
     /*
      *  Declare OpMode Members: */
@@ -82,10 +82,10 @@ public class AutoColorBlue extends LinearOpMode {
         waitForStart();
         //START
 
-        leftFront.setPower(-0.3);
-        leftBack.setPower(0.3);
-        rightFront.setPower(0.3);
-        rightBack.setPower(-0.3);
+        leftFront.setPower(0.3);
+        leftBack.setPower(-0.3);
+        rightFront.setPower(-0.3);
+        rightBack.setPower(0.3);
         sleep(1550);
         leftFront.setPower(0);
         leftBack.setPower(0);
@@ -159,20 +159,20 @@ public class AutoColorBlue extends LinearOpMode {
         rightFront.setPower(-.1);
         rightBack.setPower(-.1);
         sleep(20);
-        leftFront.setPower(-.3);
-        leftBack.setPower(.3);
-        rightFront.setPower(.3);
-        rightBack.setPower(-.3);
+        leftFront.setPower(.3);
+        leftBack.setPower(-.3);
+        rightFront.setPower(-.3);
+        rightBack.setPower(.3);
         sleep(100);
         leftFront.setPower(0);
         leftBack.setPower(0);
         rightFront.setPower(0);
         rightBack.setPower(0);
         while (runtime.seconds()<30){
-            leftFront.setPower(.15);
-            leftBack.setPower(-.15);
-            rightFront.setPower(-.15);
-            rightBack.setPower(.15);
+            leftFront.setPower(-.15);
+            leftBack.setPower(.15);
+            rightFront.setPower(.15);
+            rightBack.setPower(-.15);
 
             if (!((colorLeft.red() + colorLeft.green())/2 > colorLeft.blue() + 7)){
                 side = "right";
@@ -189,7 +189,7 @@ public class AutoColorBlue extends LinearOpMode {
         leftBack.setPower(0);
         rightFront.setPower(0);
         rightBack.setPower(0);
-        telemetry.addData("Skystone is on the", side, " of the robot.");
+        telemetry.addData("Skystone is on the ", side, " of the robot.");
         telemetry.update();
         //END COLOR SENSOR CODE
         //AFTER COLOR SENSOR CODE
@@ -204,10 +204,10 @@ public class AutoColorBlue extends LinearOpMode {
         } else {
             rightGrab.setPosition(.25);
         }
-        leftFront.setPower(0.1);
-        leftBack.setPower(-0.1);
-        rightFront.setPower(-0.1);
-        rightBack.setPower(0.1);
+        leftFront.setPower(-0.1);
+        leftBack.setPower(0.1);
+        rightFront.setPower(0.1);
+        rightBack.setPower(-0.1);
         sleep(1500);
         leftFront.setPower(-0.5);
         leftBack.setPower(-0.5);
@@ -219,10 +219,10 @@ public class AutoColorBlue extends LinearOpMode {
         rightFront.setPower(0);
         rightBack.setPower(0);
         sleep(500);
-        leftFront.setPower(0.5);
-        leftBack.setPower(-0.5);
-        rightFront.setPower(-0.5);
-        rightBack.setPower(0.5);
+        leftFront.setPower(-0.5);
+        leftBack.setPower(0.5);
+        rightFront.setPower(0.5);
+        rightBack.setPower(-0.5);
         sleep(1500);
         leftFront.setPower(0);
         leftBack.setPower(0);

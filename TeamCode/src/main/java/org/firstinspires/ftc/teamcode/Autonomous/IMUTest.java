@@ -10,6 +10,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
+import org.firstinspires.ftc.teamcode.FPS.Drivetrain;
 import org.firstinspires.ftc.teamcode.FPS.Measurement;
 import org.firstinspires.ftc.teamcode.FPS.Movement;
 import org.firstinspires.ftc.teamcode.FPS.Vision;
@@ -25,52 +26,29 @@ public class IMUTest extends LinearOpMode {
 
     /*
      *  Declare OpMode Members: */
-    //Ex: private DcMotor exampleMotor = null;
-    public DcMotor leftFront, leftBack, rightFront, rightBack, winch, intakeLeft, intakeRight = null;
-    private Servo leftHook, rightHook, grab, turn, leftGrab, rightGrab;
-    float hsvValues[] = {0F, 0F, 0F};
-    private ColorSensor colorLeft, colorRight;
-    boolean leftSeesYellow = false;
-    boolean rightSeesYellow = false;
-    boolean nextToWall = false;
+    Drivetrain robot = new Drivetrain();
     private VuforiaLocalizer vuforia = null;
-    String side = "";
+
     public BNO055IMU revIMU;
     private ElapsedTime runtime = new ElapsedTime();
     Vision portal = new Vision();
-    //Movement robot = null;
     Measurement sensorSuite = null;
 
     double margin = .5;
 
     @Override
     public void runOpMode() {
-        /**
-         * Hardware Variables: */
-        //Ex: exampleMotor  = hardwareMap.get(DcMotor.class, "motor");
-        leftFront  = hardwareMap.get(DcMotor.class, "LF");
-        leftBack = hardwareMap.get(DcMotor.class, "LB");
-        rightFront  = hardwareMap.get(DcMotor.class, "RF");
-        rightBack = hardwareMap.get(DcMotor.class, "RB");
-        intakeLeft = hardwareMap.get(DcMotor.class, "intakeLeft");
-        intakeRight = hardwareMap.get(DcMotor.class, "intakeRight");
-        winch = hardwareMap.get(DcMotor.class, "winch");
-        leftHook = hardwareMap.get(Servo.class, "leftHook");
-        rightHook = hardwareMap.get(Servo.class, "rightHook");
-        grab = hardwareMap.get(Servo.class, "grab");
-        turn = hardwareMap.get(Servo.class, "turn");
-        leftGrab = hardwareMap.get(Servo.class, "leftGrab");
-        rightGrab = hardwareMap.get(Servo.class, "rightGrab");
-        revIMU = hardwareMap.get(BNO055IMU.class, "imu");
-
-
-        motorInit();
+        robot.map(hardwareMap);
         //robot = new Movement(this);
         sensorSuite = new Measurement(revIMU, hardwareMap);
         portal.createVuforia(VuforiaLocalizer.CameraDirection.BACK, hardwareMap, telemetry);
 
         waitForStart(); /** START THE PROGRAM */
-        rotate(-90);
+        robot.leftHook.setPosition(.27);
+        robot.rightHook.setPosition(.73);
+        sleep(200);
+        robot.forward(.5, 300);
+        rotate(90);
 
         while (!isStopRequested()) {
             telemetry.addData("Angle 1 =", sensorSuite.getAngle().angle1);
@@ -81,20 +59,6 @@ public class IMUTest extends LinearOpMode {
 
     }
 
-    public void motorInit(){
-        leftFront.setDirection(DcMotor.Direction.FORWARD);
-        leftBack.setDirection(DcMotor.Direction.FORWARD);
-        rightFront.setDirection(DcMotor.Direction.REVERSE); // Change to forward after unswitching polarity
-        rightBack.setDirection(DcMotor.Direction.REVERSE); // Change to forward after unswitching polarity
-        leftFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        leftBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        rightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        rightBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        leftFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        leftBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-    }
 
     public void rotate(float degrees){
 
@@ -105,7 +69,7 @@ public class IMUTest extends LinearOpMode {
         double powerPolarity = degrees/Math.abs(degrees);
         double powerMultiplier;
 
-        while(turning){
+        while(turning && !isStopRequested()){
 
             ratio = sensorSuite.getAngle().angle1/targetAngle;
 
@@ -118,19 +82,17 @@ public class IMUTest extends LinearOpMode {
                 powerMultiplier = .85;
             }
 
-            leftBack.setPower(-.2 * powerMultiplier * powerPolarity);
-            leftFront.setPower(-.2 * powerMultiplier * powerPolarity);
-            rightBack.setPower(.2 * powerMultiplier * powerPolarity);
-            rightFront.setPower(.2 * powerMultiplier * powerPolarity);
+            robot.leftBack.setPower(-.2 * powerMultiplier * powerPolarity);
+            robot.leftFront.setPower(-.2 * powerMultiplier * powerPolarity);
+            robot.rightBack.setPower(.2 * powerMultiplier * powerPolarity);
+            robot.rightFront.setPower(.2 * powerMultiplier * powerPolarity);
 
             if(ratio > .95) turning = false;
 
         }
-        leftBack.setPower(0);
-        leftFront.setPower(0);
-        rightBack.setPower(0);
-        rightFront.setPower(0);
+        robot.leftBack.setPower(0);
+        robot.leftFront.setPower(0);
+        robot.rightBack.setPower(0);
+        robot.rightFront.setPower(0);
     }
-
-
 }

@@ -1,5 +1,5 @@
 //Imports:
-package org.firstinspires.ftc.teamcode.Autonomous;
+package Depricated;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;

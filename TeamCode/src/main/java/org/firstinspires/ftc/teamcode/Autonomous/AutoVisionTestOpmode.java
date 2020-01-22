@@ -67,7 +67,6 @@ public class AutoVisionTestOpmode extends LinearOpMode {
         revIMU = hardwareMap.get(BNO055IMU.class, "imu");
         blockToggle = hardwareMap.get(TouchSensor.class, "blockToggle");
 
-        motorInit();
         robot = new Movement(this);
         sensorSuite = new Measurement(revIMU, hardwareMap);
         portal.createVuforia(VuforiaLocalizer.CameraDirection.BACK, hardwareMap, telemetry);
@@ -133,20 +132,6 @@ public class AutoVisionTestOpmode extends LinearOpMode {
         intakeRight.setPower(0);
     }
 
-    public void motorInit(){
-        leftFront.setDirection(DcMotor.Direction.FORWARD);
-        leftBack.setDirection(DcMotor.Direction.FORWARD);
-        rightFront.setDirection(DcMotor.Direction.REVERSE); // Change to forward after unswitching polarity
-        rightBack.setDirection(DcMotor.Direction.REVERSE); // Change to forward after unswitching polarity
-        leftFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        leftBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        rightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        rightBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        leftFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        leftBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-    }
     public void rotate(float degrees){
 
         boolean turning = true;
