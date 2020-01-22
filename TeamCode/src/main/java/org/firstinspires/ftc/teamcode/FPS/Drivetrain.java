@@ -120,6 +120,13 @@ public class Drivetrain {
         rightBack.setPower(-power);
         stopAfter(millis);
     }
+    public void strafe(double power, long millis){
+        leftFront.setPower(-power);
+        leftBack.setPower(-power);
+        rightFront.setPower(-power);
+        rightBack.setPower(-power);
+        stopAfter(millis);
+    }
     public void succ(ElapsedTime time){
         double starttime = time.milliseconds();
         intakeRight.setPower(-.6);
