@@ -46,10 +46,12 @@ public class IMUTest extends LinearOpMode {
         waitForStart(); /** START THE PROGRAM */
         robot.leftHook.setPosition(.27);
         robot.rightHook.setPosition(.73);
-        sleep(200);
         robot.forward(.5, 300);
         rotate(90);
-        robot.reverse(.6, 400);
+        robot.reverse(.6, 5);//push foundation into wall
+        robot.leftHook.setPosition(.27);
+        robot.rightHook.setPosition(.73);
+        robot.stopAfter(200);
         robot.strafe(-.5, 200);
 
 

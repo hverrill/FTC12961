@@ -79,8 +79,8 @@ public class Drivetrain {
 
 
     public void stopAfter(long millis){
-        long starttime = SystemClock.currentThreadTimeMillis();
-        while(starttime + millis > SystemClock.currentThreadTimeMillis() && !Thread.currentThread().isInterrupted()){
+        long starttime = SystemClock.elapsedRealtime();
+        while(starttime + millis > SystemClock.elapsedRealtime()){ //This is the code that is not waiting  - Henry
         }
         leftFront.setPower(0);
         leftBack.setPower(0);
@@ -122,8 +122,8 @@ public class Drivetrain {
     }
     public void strafe(double power, long millis){
         leftFront.setPower(-power);
-        leftBack.setPower(-power);
-        rightFront.setPower(-power);
+        leftBack.setPower(power);
+        rightFront.setPower(power);
         rightBack.setPower(-power);
         stopAfter(millis);
     }
