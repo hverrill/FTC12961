@@ -112,4 +112,5 @@ public class Vision {
     public boolean isTargetVisible(VuforiaTrackable target){
         return ((VuforiaTrackableDefaultListener)target.getListener()).isVisible();
     }
+
 }

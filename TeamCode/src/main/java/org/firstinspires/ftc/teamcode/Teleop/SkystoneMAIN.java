@@ -117,16 +117,16 @@ public class SkystoneMAIN extends LinearOpMode {
             }
 
             // Lift Code
-            if (gamepad2.a) {
+            if (gamepad2.dpad_up) {
                 robot.winchRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                 robot.winchLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-                robot.winchLeft.setPower(.7);
-                robot.winchRight.setPower(.7);
+                robot.winchLeft.setPower(.55);
+                robot.winchRight.setPower(.55);
                 goal = (int)(robot.winchRight.getCurrentPosition()+robot.winchLeft.getCurrentPosition())/2;
 
 
-            } else if (gamepad2.x) {
+            } else if (gamepad2.dpad_down) {
                 robot.winchRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                 robot.winchLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                 robot.winchLeft.setPower(-.2);
@@ -139,44 +139,45 @@ public class SkystoneMAIN extends LinearOpMode {
                 robot.winchLeft.setTargetPosition(goal);
                 robot.winchRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 robot.winchLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                robot.winchLeft.setPower(0);
-                robot.winchRight.setPower(0);
+                if(gamepad2.a){
+                    robot.winchLeft.setPower(.05);
+                    robot.winchRight.setPower(.05);
+                } else {
+                    robot.winchLeft.setPower(0);
+                    robot.winchRight.setPower(0);
+                }
             }
 
             //virtual fourbar code
             if(gamepad2.y){
                 fourbarPos = .85;
             } else if(gamepad2.b){
-                fourbarPos = 1;
-            } else if (gamepad2.left_bumper){
+                fourbarPos = .97;
+            } else if (gamepad2.x){
                 fourbarPos = .1;
             }
             robot.fourbarRight.setPosition(fourbarPos);
             robot.fourbarLeft.setPosition(1-fourbarPos);
-
-            if(blockGrabToggle){
-                if(gamepad2.right_bumper){
-                    blockGrabToggle = false;
-                    robot.blockGrab.setPosition(.5);
-                }
+            if(gamepad1.a){
+                robot.capstone.setPosition(1);
             } else {
-                if(gamepad2.right_bumper){
-                    blockGrabToggle = true;
-                    robot.blockGrab.setPosition(0);
-                }
+                robot.capstone.setPosition(0);
             }
 
-
-
+            if(gamepad2.left_bumper){
+                blockGrabToggle = false;
+                robot.blockGrab.setPosition(.25);
+            } else if(gamepad2.right_bumper){
+                blockGrabToggle = true;
+                robot.blockGrab.setPosition(0.05);
+            }
             //Foundation Grabbers
-            if (foundationToggle && gamepad1.right_bumper) {
+            if (gamepad1.right_bumper) {
                 robot.leftHook.setPosition(.3);//deployed
                 robot.rightHook.setPosition(.7);
-                foundationToggle = !foundationToggle;
-            } else if (!foundationToggle && gamepad1.right_bumper) {
+            } else if (gamepad1.left_bumper) {
                 robot.leftHook.setPosition(.9); //retracted
                 robot.rightHook.setPosition(.1);
-                foundationToggle = !foundationToggle;
             }
 
             robot.leftFront.setPower(Range.clip(lF, -1, 1));

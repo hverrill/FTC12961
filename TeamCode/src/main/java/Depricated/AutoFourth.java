@@ -1,7 +1,8 @@
 //Imports:
-package org.firstinspires.ftc.teamcode.Autonomous;
+package Depricated;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -14,14 +15,14 @@ import Depricated.AutoMovement;
  * This program is Checkmate Robotics' Autonomous Program Template.
  */
 
-@Autonomous(name="BRIDGE_BLUE", group="Sky")
-//@Disabled
-public class AutoFifth extends LinearOpMode {
+@Autonomous(name="BRIDGE_RED", group="Sky")
+@Disabled
+public class AutoFourth extends LinearOpMode {
 
     /*
      *  Declare OpMode Members: */
     //Ex: private DcMotor exampleMotor = null;
-    private DcMotor leftFront, leftBack, rightFront, rightBack, intakeLeft, intakeRight = null;
+    private DcMotor leftFront, leftBack, rightFront, rightBack, winchTop, winchBottom, intakeLeft, intakeRight = null;
     private Servo leftHook, rightHook, grab, turn;
 
     private ElapsedTime runtime = new ElapsedTime();
@@ -79,11 +80,11 @@ public class AutoFifth extends LinearOpMode {
 //        rightFront.setPower(0);
 //        rightBack.setPower(0);
 //        sleep(100);
-        //strafe right
-        leftFront.setPower(0.5);
-        leftBack.setPower(-0.5);
-        rightFront.setPower(-0.5);
-        rightBack.setPower(0.5);
+        //strafe left
+        leftFront.setPower(-0.5);
+        leftBack.setPower(0.5);
+        rightFront.setPower(0.5);
+        rightBack.setPower(-0.5);
         sleep(300);
         leftFront.setPower(0);
         leftBack.setPower(0);

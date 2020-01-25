@@ -44,15 +44,44 @@ public class IMUTest extends LinearOpMode {
         portal.createVuforia(VuforiaLocalizer.CameraDirection.BACK, hardwareMap, telemetry);
 
         waitForStart(); /** START THE PROGRAM */
-        robot.leftHook.setPosition(.27);
-        robot.rightHook.setPosition(.73);
-        robot.forward(.5, 300);
+
+
+        strafe(-.5);
+        sleep(500);
+        reverse(.35);
+        sleep(850);
+        stopAfter(0);
+        grabbersDown();
+
+
+
+
+        sleep(2500);
+
+//        stopAfter(500);
+//        robot.blockGrab.setPosition(0);
+//        setFourbarPos(1);
+
+        forward(.5);
+        sleep(400);
+        stopAfter(0);
+
         rotate(90);
-        robot.reverse(.6, 5);//push foundation into wall
-        robot.leftHook.setPosition(.27);
-        robot.rightHook.setPosition(.73);
-        robot.stopAfter(200);
-        robot.strafe(-.5, 200);
+        reverse(.3);//push foundation into wall
+        sleep(800);
+        robot.leftHook.setPosition(.9);
+        robot.rightHook.setPosition(.1);
+        sleep(1500);
+        stopAfter(0);
+
+
+
+//        strafe(-.35);
+//        sleep(300);
+//        stopAfter(0);
+        forward(.6);
+        sleep(750);
+        stopAfter(0);
 
 
         while (!isStopRequested()) {
@@ -99,5 +128,74 @@ public class IMUTest extends LinearOpMode {
         robot.leftFront.setPower(0);
         robot.rightBack.setPower(0);
         robot.rightFront.setPower(0);
+    }
+    public void setFourbarPos(double pos){
+        robot.fourbarRight.setPosition(pos);
+        robot.fourbarLeft.setPosition(1-pos);
+    }
+    public void grabbersDown(){
+        robot.leftHook.setPosition(.27);
+        robot.rightHook.setPosition(.73);
+    }
+    public void stopAfter(long millis){
+        sleep(millis);
+        robot.leftFront.setPower(0);
+        robot.leftBack.setPower(0);
+        robot.rightFront.setPower(0);
+        robot.rightBack.setPower(0);
+        robot.intakeLeft.setPower(0);
+        robot.intakeRight.setPower(0);
+    }
+    public void turnClockwise(double power){// , long millis
+        robot.leftFront.setPower(-power);
+        robot.leftBack.setPower(-power);
+        robot.rightFront.setPower(power);
+        robot.rightBack.setPower(power);
+        //stopAfter(millis);
+    }
+    public void turnAntiClockwise(double power, long millis){
+        robot.leftFront.setPower(power);
+        robot.leftBack.setPower(power);
+        robot.rightFront.setPower(-power);
+        robot.rightBack.setPower(-power);
+        stopAfter(millis);
+    }
+    public void forward(double power){ //, long millis
+        robot.leftFront.setPower(power);
+        robot.leftBack.setPower(power);
+        robot.rightFront.setPower(power);
+        robot.rightBack.setPower(power);
+        //stopAfter(millis);
+    }
+    public void reverse(double power){ //, long millis
+        robot.leftFront.setPower(-power);
+        robot.leftBack.setPower(-power);
+        robot.rightFront.setPower(-power);
+        robot.rightBack.setPower(-power);
+        //stopAfter(millis);
+    }
+    public void strafe(double power){//, long millis
+        robot.leftFront.setPower(-power);
+        robot.leftBack.setPower(power);
+        robot.rightFront.setPower(power);
+        robot.rightBack.setPower(-power);
+        //stopAfter(millis);
+    }
+    public void succ(ElapsedTime time){
+        double starttime = time.milliseconds();
+        robot.intakeRight.setPower(-.6);
+        robot.intakeLeft.setPower(.6);
+        robot.leftFront.setPower(.15);
+        robot.leftBack.setPower(.15);
+        robot.rightFront.setPower(.15);
+        robot.rightBack.setPower(.12);
+        // loop until we detect a block or x seconds have expired
+
+        while(robot.blockToggle.getValue() < 1) {
+
+        }
+
+        stopAfter(0);
+
     }
 }

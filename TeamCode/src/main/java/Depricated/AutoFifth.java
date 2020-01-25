@@ -1,7 +1,8 @@
 //Imports:
-package org.firstinspires.ftc.teamcode.Autonomous;
+package Depricated;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -11,12 +12,12 @@ import Depricated.AutoMovement;
 
 
 /**
- * This program is Checkmate Robotics' Beta Blue Side Autonomous for the 2019-2020 game Skystone.
+ * This program is Checkmate Robotics' Autonomous Program Template.
  */
 
-@Autonomous(name="FOUNDATION_BLUE", group="Sky")
-//@Disabled
-public class AutoThird extends LinearOpMode {
+@Autonomous(name="BRIDGE_BLUE", group="Sky")
+@Disabled
+public class AutoFifth extends LinearOpMode {
 
     /*
      *  Declare OpMode Members: */
@@ -30,8 +31,9 @@ public class AutoThird extends LinearOpMode {
 
     @Override
     public void runOpMode() {
-/**
- * Hardware Variables: */
+
+        /**
+         * Hardware Variables: */
         //Ex: exampleMotor  = hardwareMap.get(DcMotor.class, "motor");
         leftFront  = hardwareMap.get(DcMotor.class, "LF");
         leftBack = hardwareMap.get(DcMotor.class, "LB");
@@ -67,99 +69,29 @@ public class AutoThird extends LinearOpMode {
         Wait for driver to hit the start button on the controller:
          */
         waitForStart();
-        //strafe left
-        leftFront.setPower(0.25);
-        leftBack.setPower(-0.25);
-        rightFront.setPower(-0.25);
-        rightBack.setPower(0.25);
-        sleep(1690);
-        leftFront.setPower(0);
-        leftBack.setPower(0);
-        rightFront.setPower(0);
-        rightBack.setPower(0);
+//        // go forward
+//        leftFront.setPower(-0.20);
+//        leftBack.setPower(-0.20);
+//        rightFront.setPower(-0.20);
+//        rightBack.setPower(-0.20);
+//        sleep(1100);
+//        leftFront.setPower(0);
+//        leftBack.setPower(0);
+//        rightFront.setPower(0);
+//        rightBack.setPower(0);
+//        sleep(100);
+        //strafe right
+        leftFront.setPower(0.5);
+        leftBack.setPower(-0.5);
+        rightFront.setPower(-0.5);
+        rightBack.setPower(0.5);
         sleep(300);
-        // go forward
-        leftFront.setPower(-0.20);
-        leftBack.setPower(-0.20);
-        rightFront.setPower(-0.20);
-        rightBack.setPower(-0.20);
-        sleep(1500);
-        //Grab the foundation
-        leftHook.setPosition(.3);
-        rightHook.setPosition(.7);
-        leftFront.setPower(0);
-        leftBack.setPower(0);
-        rightFront.setPower(0);
-        rightBack.setPower(0);
-        sleep(500);
         leftFront.setPower(0);
         leftBack.setPower(0);
         rightFront.setPower(0);
         rightBack.setPower(0);
         sleep(100);
-        //back up to wall
-        leftFront.setPower(0.25);
-        leftBack.setPower(0.25);
-        rightFront.setPower(0.25);
-        rightBack.setPower(0.25);
-        sleep(2500);
-        leftFront.setPower(0);
-        leftBack.setPower(0);
-        rightFront.setPower(0);
-        rightBack.setPower(0);
-        sleep(100);
-        // let go of foundation
-        leftHook.setPosition(.9);
-        rightHook.setPosition(.1);
-        leftFront.setPower(0);
-        leftBack.setPower(0);
-        rightFront.setPower(0);
-        rightBack.setPower(0);
-        sleep(100);
-        //strafe left
-        leftFront.setPower(-0.7);
-        leftBack.setPower(0.7);
-        rightFront.setPower(0.7);
-        rightBack.setPower(-0.7);
-        sleep(850);
-        leftFront.setPower(0);
-        leftBack.setPower(0);
-        rightFront.setPower(0);
-        rightBack.setPower(0);
-        sleep(100);
-        //go forward
-        leftFront.setPower(-0.20);
-        leftBack.setPower(-0.20);
-        rightFront.setPower(-0.20);
-        rightBack.setPower(-0.20);
-        sleep(700);
-        leftFront.setPower(0);
-        leftBack.setPower(0);
-        rightFront.setPower(0);
-        rightBack.setPower(0);
-        sleep(100);
-        //strafe left (push foundation into depot)
-        leftFront.setPower(0.35);
-        leftBack.setPower(-0.35);
-        rightFront.setPower(-0.35);
-        rightBack.setPower(0.35);
-        sleep(1000);
-        leftFront.setPower(0);
-        leftBack.setPower(0);
-        rightFront.setPower(0);
-        rightBack.setPower(0);
-        sleep(100);
-        //strafe left under bridge
-        leftFront.setPower(-0.5);
-        leftBack.setPower(0.5);
-        rightFront.setPower(0.5);
-        rightBack.setPower(-0.5);
-        sleep(750);
-        leftFront.setPower(0);
-        leftBack.setPower(0);
-        rightFront.setPower(0);
-        rightBack.setPower(0);
-        sleep(100);
+
 
 
 
