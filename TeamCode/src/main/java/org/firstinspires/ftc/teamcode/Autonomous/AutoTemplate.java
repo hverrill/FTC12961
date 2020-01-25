@@ -11,7 +11,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  */
 
 @Autonomous(name="Auto 2018/10/2", group="Rover")
-@Disabled
+//@Disabled
 public class AutoTemplate extends LinearOpMode {
 
     /*

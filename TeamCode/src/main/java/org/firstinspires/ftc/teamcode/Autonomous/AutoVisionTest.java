@@ -1,6 +1,7 @@
 //Imports:
 package org.firstinspires.ftc.teamcode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.ColorSensor;
@@ -21,7 +22,7 @@ import org.firstinspires.ftc.teamcode.FPS.Vision;
  */
 
 @Autonomous(name="Vision test", group="Sky")
-//@Disabled
+@Disabled
 public class AutoVisionTest extends LinearOpMode {
 
     /*

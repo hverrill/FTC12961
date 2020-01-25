@@ -16,7 +16,7 @@ import Depricated.AutoMovement;
  */
 
 @Autonomous(name="BRIDGE_BLUE", group="Sky")
-@Disabled
+//@Disabled
 public class AutoFifth extends LinearOpMode {
 
     /*

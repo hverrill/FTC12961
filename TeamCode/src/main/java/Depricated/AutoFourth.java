@@ -16,7 +16,7 @@ import Depricated.AutoMovement;
  */
 
 @Autonomous(name="BRIDGE_RED", group="Sky")
-@Disabled
+//@Disabled
 public class AutoFourth extends LinearOpMode {
 
     /*

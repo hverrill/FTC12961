@@ -4,15 +4,11 @@ package org.firstinspires.ftc.teamcode.Autonomous;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.ColorSensor;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.teamcode.FPS.Drivetrain;
 import org.firstinspires.ftc.teamcode.FPS.Measurement;
-import org.firstinspires.ftc.teamcode.FPS.Movement;
 import org.firstinspires.ftc.teamcode.FPS.Vision;
 
 
@@ -20,9 +16,9 @@ import org.firstinspires.ftc.teamcode.FPS.Vision;
  * This program is Checkmate Robotics' Autonomous Program Template.
  */
 
-@Autonomous(name="IMU Test Opmode", group="Sky")
+@Autonomous(name="BLUE_FOUNDATION", group="Tourny")
 //@Disabled
-public class IMUTest extends LinearOpMode {
+public class BLUE_Foundation extends LinearOpMode {
 
     /*
      *  Declare OpMode Members: */
