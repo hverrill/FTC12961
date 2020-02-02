@@ -64,6 +64,7 @@ public class SkystoneMAIN extends LinearOpMode {
     double gearSpeed = .7, fourbarPos = .85, grabberPos;
     double lB, lF, rB, rF;
     int goal;
+    double RATIO = (4.8*Math.PI)/1650;
     boolean winchToggle, capToggle, capDeployed = false, foundationToggle, toggle = false, blockGrabToggle = false;
 
     //Odometry encoders = new Odometry();
@@ -106,8 +107,8 @@ public class SkystoneMAIN extends LinearOpMode {
 
             // Send calculated power to wheels
             if  (gamepad2.right_trigger != 0){
-                robot.intakeLeft.setPower(.59);
-                robot.intakeRight.setPower(-.59);
+                robot.intakeLeft.setPower(.55);
+                robot.intakeRight.setPower(-.55);
             } else if (gamepad2.left_trigger != 0){
                 robot.intakeLeft.setPower(-.18);
                 robot.intakeRight.setPower(.18);
@@ -187,6 +188,11 @@ public class SkystoneMAIN extends LinearOpMode {
             // Show the elapsed game time and wheel power.
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.addData("Touch", robot.blockToggle.isPressed());
+            telemetry.addData("X", robot.getX());
+            telemetry.addData("Y", robot.getY());
+            telemetry.addData("X CM", robot.getX()*RATIO);
+            telemetry.addData("Y CM", robot.getY()*RATIO);
+
             //telemetry.addData("X Pos: ", encoders.xDistance);
             //telemetry.addData("Y Pos: ", encoders.yDistance);
 //          telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftFront.getPower(), );

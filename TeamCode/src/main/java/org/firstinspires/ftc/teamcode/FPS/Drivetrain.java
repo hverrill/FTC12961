@@ -20,6 +20,8 @@ public class Drivetrain {
     public Servo leftHook, rightHook, fourbarLeft, fourbarRight, blockGrab, capstone;
     public TouchSensor blockToggle;
     public BNO055IMU revIMU;
+
+    //INTAKE LEFT AND WINCH LEFT ARE X1 AND Y RESPECTIVELY
     ElapsedTime timer = new ElapsedTime();
 //    IMUTest ree = new IMUTest();
     public void declare(){
@@ -58,6 +60,8 @@ public class Drivetrain {
         leftBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        intakeLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        winchLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
 
         //Winch
@@ -67,6 +71,7 @@ public class Drivetrain {
 
         intakeLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         intakeRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        winchLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
     public void calculate(double xVectorLeft, double yVectorLeft, double xVectorRight, double yVectorRight){
         robotSpeed = Math.sqrt(Math.pow(xVectorLeft, 2) + Math.pow(xVectorLeft, 2));
@@ -80,6 +85,12 @@ public class Drivetrain {
         leftback = (robotSpeed * Math.cos(finaltheta) - directionSpeed) + forwardSpeed;
         rightfront = (robotSpeed * Math.cos(finaltheta) + directionSpeed) + forwardSpeed;
         rightback = (robotSpeed * Math.sin(finaltheta)+ directionSpeed) + forwardSpeed;
+    }
+    public long getX(){
+        return intakeLeft.getCurrentPosition();
+    }
+    public long getY(){
+        return winchLeft.getCurrentPosition();
     }
 
 

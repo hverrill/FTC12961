@@ -20,7 +20,7 @@ import java.io.File;
  * The Global Positioning Algorithm will not function and will throw an error if this program is not run first
  */
 @TeleOp(name = "Odometry System Calibration", group = "Calibration")
-@Disabled
+//@Disabled
 public class OdometryCalibration extends LinearOpMode {
     //Drive motors
     DcMotor right_front, right_back, left_front, left_back;
