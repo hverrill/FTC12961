@@ -3,12 +3,15 @@ package org.firstinspires.ftc.teamcode.FPS;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 
+import java.util.ArrayList;
+
 public class Odometry {
     DcMotor xRight, xLeft, y;
     DcMotor lf, lb, rf, rb;
-    double ratio, h, theta;
+    double RATIO = 1, h, theta;
     int xGoal, yGoal;
     Drivetrain robot;
+    ArrayList<Integer> coords = new ArrayList<Integer>();
     public long xRightRaw, xLeftRaw, yRaw;
     public double xDistance, yDistance;
     /**
@@ -37,15 +40,10 @@ public class Odometry {
     public void update(){
         /**
          * GET RAW VALUES : */
-        xLeftRaw = xLeft.getCurrentPosition();
-        xRightRaw = xRight.getCurrentPosition();
-        yRaw = y.getCurrentPosition();
+        coords.clear();
+        coords.add((xLeft.getCurrentPosition() + xRight.getCurrentPosition()) / 2);
+        coords.add(y.getCurrentPosition());
 
-        /**
-         * GET DISTANCE VALUES : */
-        ratio = 1; //ticks per cm (Not really yet)
-        xDistance = ((xRightRaw+xLeftRaw)/2)*ratio;
-        yDistance = yRaw*ratio;
     }
     public double getX(){ return xDistance; }
     public double getY(){ return yDistance; }
