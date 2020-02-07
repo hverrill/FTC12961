@@ -1,6 +1,7 @@
 
 package Depricated;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -18,7 +19,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 Don't uncomment! This registers the OpMode:
 @Disabled
  */
-
+@Disabled
 
 public class TeleopRoverB extends OpMode {
 

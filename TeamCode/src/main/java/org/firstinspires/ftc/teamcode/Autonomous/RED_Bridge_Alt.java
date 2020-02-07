@@ -14,9 +14,9 @@ import org.firstinspires.ftc.teamcode.FPS.Measurement;
  * This program is Checkmate Robotics' Autonomous Program Template.
  */
 
-@Autonomous(name="BRIDGE_BLUE_ALT", group="Tourny")
+@Autonomous(name="BRIDGE_RED_ALT", group="Tourny")
 //@Disabled
-public class BLUE_Bridge_Alt extends LinearOpMode {
+public class RED_Bridge_Alt extends LinearOpMode {
 
     /*
      *  Declare OpMode Members: */
@@ -45,9 +45,9 @@ public class BLUE_Bridge_Alt extends LinearOpMode {
          */
         waitForStart();
         sleep(20000);
-        forward(.4);
+        forward(4);
         stopAfter(600);
-        strafe(-.5 );
+        strafe(.5 );
         stopAfter(350);
 
 

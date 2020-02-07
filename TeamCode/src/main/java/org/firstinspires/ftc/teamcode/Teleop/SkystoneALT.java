@@ -52,7 +52,7 @@ import org.firstinspires.ftc.teamcode.FPS.Drivetrain;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@TeleOp(name="SINGLECONTROLLER", group="MAIN")
+@TeleOp(name="SINGLECONTROLLER (Not up to date)", group="MAIN")
 public class SkystoneALT extends LinearOpMode {
 
     // Declare OpMode members.

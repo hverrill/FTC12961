@@ -14,9 +14,9 @@ import org.firstinspires.ftc.teamcode.FPS.Measurement;
  * This program is Checkmate Robotics' Autonomous Program Template.
  */
 
-@Autonomous(name="BRIDGE_BLUE_ALT", group="Tourny")
+@Autonomous(name="BRIDGE_RED", group="Tourny")
 //@Disabled
-public class BLUE_Bridge_Alt extends LinearOpMode {
+public class RED_Bridge extends LinearOpMode {
 
     /*
      *  Declare OpMode Members: */
@@ -44,11 +44,22 @@ public class BLUE_Bridge_Alt extends LinearOpMode {
         Wait for driver to hit the start button on the controller:
          */
         waitForStart();
+//        // go forward
+//        leftFront.setPower(-0.20);
+//        leftBack.setPower(-0.20);
+//        rightFront.setPower(-0.20);
+//        rightBack.setPower(-0.20);
+//        sleep(1100);
+//        leftFront.setPower(0);
+//        leftBack.setPower(0);
+//        rightFront.setPower(0);
+//        rightBack.setPower(0);
+//        sleep(100);
+
+        //strafe right
         sleep(20000);
-        forward(.4);
-        stopAfter(600);
-        strafe(-.5 );
-        stopAfter(350);
+        strafe(.5 );
+        stopAfter(300);
 
 
 

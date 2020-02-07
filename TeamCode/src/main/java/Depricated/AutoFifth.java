@@ -1,5 +1,5 @@
 //Imports:
-package org.firstinspires.ftc.teamcode.Autonomous;
+package Depricated;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
@@ -18,7 +18,7 @@ import Depricated.AutoMovement;
  */
 
 @Autonomous(name="BRIDGE_BLUE", group="Tourny")
-//@Disabled
+@Disabled
 public class AutoFifth extends LinearOpMode {
 
     /*

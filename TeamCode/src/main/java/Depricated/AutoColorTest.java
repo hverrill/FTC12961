@@ -2,6 +2,7 @@
 package Depricated;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -16,7 +17,7 @@ import Depricated.AutoMovement;
  */
 
 @Autonomous(name="Auto Color Sensor Test", group="Sky")
-//@Disabled
+@Disabled
 public class AutoColorTest extends LinearOpMode {
 
     /*

@@ -92,7 +92,12 @@ public class Drivetrain {
     public long getY(){
         return winchLeft.getCurrentPosition();
     }
-
+    public void set( double lf, double lb, double rf, double rb){
+        leftFront.setPower(lf);
+        leftBack.setPower(lb);
+        rightFront.setPower(rf);
+        rightBack.setPower(rb);
+    }
 
 
 

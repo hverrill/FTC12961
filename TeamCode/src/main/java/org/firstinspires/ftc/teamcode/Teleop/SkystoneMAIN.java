@@ -63,9 +63,9 @@ public class SkystoneMAIN extends LinearOpMode {
     // Declare OpMode members.
     double gearSpeed = .7, fourbarPos = .85, grabberPos;
     double lB, lF, rB, rF;
-    int goal;
+    int goal, liftGoal = 300;
     double RATIO = (4.8*Math.PI)/1650;
-    boolean winchToggle, capToggle, capDeployed = false, foundationToggle, toggle = false, blockGrabToggle = false;
+    boolean winchToggle, capToggle, capDeployed = false, foundationToggle, toggle = false, liftToggle, blockGrabToggle = false;
 
     //Odometry encoders = new Odometry();
 
@@ -83,8 +83,22 @@ public class SkystoneMAIN extends LinearOpMode {
             gearSpeed -= .1;
             toggle = true;
         }
-        gearSpeed = Range.clip(gearSpeed, .2, .9);
 
+        //LIFT TOGGLE POSITION
+//        if (!(gamepad2.dpad_down | gamepad2.dpad_up) && liftToggle) {
+//            toggle = false;
+//        }
+//        if (gamepad2.dpad_up && !liftToggle) {
+//            liftGoal += 1000;
+//            toggle = true;
+//        }
+//        if (gamepad2.dpad_down && !liftToggle) {
+//            liftGoal -= 1000;
+//            toggle = true;
+//        }
+
+        gearSpeed = Range.clip(gearSpeed, .2, .9);
+        liftGoal = Range.clip(liftGoal, 0, 900);
         lF = gearSpeed * robot.leftfront;
         lB = gearSpeed * robot.leftback;
         rF = gearSpeed * robot.rightfront;
@@ -122,32 +136,45 @@ public class SkystoneMAIN extends LinearOpMode {
                 robot.winchRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                 robot.winchLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-                robot.winchLeft.setPower(.55);
-                robot.winchRight.setPower(.55);
+                robot.winchLeft.setPower(.65);
+                robot.winchRight.setPower(.65);
                 goal = (int)(robot.winchRight.getCurrentPosition()+robot.winchLeft.getCurrentPosition())/2;
 
 
             } else if (gamepad2.dpad_down) {
                 robot.winchRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                 robot.winchLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                robot.winchLeft.setPower(-.2);
-                robot.winchRight.setPower(-.2);
+                robot.winchLeft.setPower(-.35);
+                robot.winchRight.setPower(-.35);
                 goal = (int)(robot.winchRight.getCurrentPosition()+robot.winchLeft.getCurrentPosition())/2;
 
 
             } else {
                 robot.winchRight.setTargetPosition(goal);
-                robot.winchLeft.setTargetPosition(goal);
+                //robot.winchLeft.setTargetPosition(goal);
                 robot.winchRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                robot.winchLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                //robot.winchLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 if(gamepad2.a){
-                    robot.winchLeft.setPower(.05);
-                    robot.winchRight.setPower(.05);
+
+                    robot.winchRight.setTargetPosition(liftGoal);
+                    //robot.winchLeft.setTargetPosition(liftGoal);
+                    robot.winchRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    robot.winchLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+
+                    robot.winchRight.setPower(.55);
+                    robot.winchLeft.setPower(robot.winchRight.getPower());
+
                 } else {
                     robot.winchLeft.setPower(0);
                     robot.winchRight.setPower(0);
                 }
             }
+            telemetry.addData("Right current", robot.winchRight.getCurrentPosition());
+            telemetry.addData("Left current", robot.winchLeft.getCurrentPosition());
+            telemetry.addData("Right goal", robot.winchRight.getTargetPosition());
+            telemetry.addData("Left goal", robot.winchLeft.getTargetPosition());
+
 
             //virtual fourbar code
             if(gamepad2.y){
@@ -180,11 +207,8 @@ public class SkystoneMAIN extends LinearOpMode {
                 robot.leftHook.setPosition(.9); //retracted
                 robot.rightHook.setPosition(.1);
             }
+            robot.set(Range.clip(lF, -1, 1), Range.clip(lB, -1, 1), Range.clip(rF, -1, 1), Range.clip(rB, -1, 1));
 
-            robot.leftFront.setPower(Range.clip(lF, -1, 1));
-            robot.leftBack.setPower(Range.clip(lB, -1, 1));
-            robot.rightFront.setPower(Range.clip(rF, -1, 1));
-            robot.rightBack.setPower(Range.clip(rB, -1, 1));
             // Show the elapsed game time and wheel power.
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.addData("Touch", robot.blockToggle.isPressed());
