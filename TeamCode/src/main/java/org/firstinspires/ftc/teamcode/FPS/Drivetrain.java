@@ -116,7 +116,11 @@ public class Drivetrain {
         rightFront.setTargetPosition(rfGoal);
         rightBack.setTargetPosition(rbGoal);
     }
-    public void positionCheck(){
+    public boolean positionCheck(){
+        rightFront.getCurrentPosition();
+        rightBack.getCurrentPosition();
+
+        return (((double)leftFront.getCurrentPosition())/lfGoal > .95) && (((double)leftBack.getCurrentPosition())/lbGoal > .95) && (((double)rightFront.getCurrentPosition())/rfGoal > .95) && (((double)rightBack.getCurrentPosition())/rbGoal > .95);
 
     }
 
@@ -124,7 +128,10 @@ public class Drivetrain {
         setGoalAll(dist);
         setPowerAll(.5);
         leftFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        //while
+        while(positionCheck()){
+            setPowerAll(.5);
+        }
+        setPowerAll(0);
     }
 
 
