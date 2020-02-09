@@ -22,7 +22,7 @@ public class Odometry {
         this.rf = robot.rightFront;
         this.rb = robot.rightBack;
         this.robot = robot;
-        y = lf;
+        y = lf; // CHANGE WITH ENCODER PORTS
         xRight = lb;
         xLeft = rf;
 
@@ -45,8 +45,8 @@ public class Odometry {
         coords.add(y.getCurrentPosition());
 
     }
-    public double getX(){ return xDistance; }
-    public double getY(){ return yDistance; }
+    public double getX(){ return coords.get(0); }
+    public double getY(){ return coords.get(1); }
 //    public void goTo(double x, double y){
 //        double l, r;
 //        update();

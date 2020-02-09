@@ -19,7 +19,9 @@ public class Drivetrain {
     public DcMotor leftFront, leftBack, rightFront, rightBack, winchLeft, winchRight, intakeLeft, intakeRight;
     public Servo leftHook, rightHook, fourbarLeft, fourbarRight, blockGrab, capstone;
     public TouchSensor blockToggle;
+    public int lfGoal, lbGoal, rfGoal, rbGoal;
     public BNO055IMU revIMU;
+    public Odometry odometry = new Odometry(this);
 
     //INTAKE LEFT AND WINCH LEFT ARE X1 AND Y RESPECTIVELY
     ElapsedTime timer = new ElapsedTime();
@@ -92,11 +94,37 @@ public class Drivetrain {
     public long getY(){
         return winchLeft.getCurrentPosition();
     }
-    public void set( double lf, double lb, double rf, double rb){
+    public void setPower( double lf, double lb, double rf, double rb){
         leftFront.setPower(lf);
         leftBack.setPower(lb);
         rightFront.setPower(rf);
         rightBack.setPower(rb);
+    }
+    public void setPowerAll( double p){
+        leftFront.setPower(p);
+        leftBack.setPower(p);
+        rightFront.setPower(p);
+        rightBack.setPower(p);
+    }
+    public void setGoalAll( int goal){
+        lfGoal = leftFront.getCurrentPosition()+goal;
+        lbGoal = leftBack.getCurrentPosition()+goal;
+        rfGoal = rightFront.getCurrentPosition()+goal;
+        rbGoal = rightBack.getCurrentPosition()+goal;
+        leftFront.setTargetPosition(lfGoal);
+        leftBack.setTargetPosition(lbGoal);
+        rightFront.setTargetPosition(rfGoal);
+        rightBack.setTargetPosition(rbGoal);
+    }
+    public void positionCheck(){
+
+    }
+
+    public void forward(int dist){
+        setGoalAll(dist);
+        setPowerAll(.5);
+        leftFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        //while
     }
 
 

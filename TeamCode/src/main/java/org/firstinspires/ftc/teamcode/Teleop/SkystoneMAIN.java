@@ -72,14 +72,14 @@ public class SkystoneMAIN extends LinearOpMode {
     public void processUpdate() {
         robot.calculate(gamepad1.left_stick_x, gamepad1.left_stick_y, gamepad1.right_stick_x, gamepad1.right_stick_y);
         // GEAR SPEED CALCULATIONS :
-        if (!(gamepad1.dpad_down | gamepad1.dpad_up) && toggle) {
+        if ((gamepad1.right_trigger !=0 | gamepad1.left_trigger !=0) && toggle) {
             toggle = false;
         }
-        if (gamepad1.dpad_up && !toggle) {
+        if (gamepad1.right_trigger !=0 && !toggle) {
             gearSpeed += .1;
             toggle = true;
         }
-        if (gamepad1.dpad_down && !toggle) {
+        if (gamepad1.left_trigger !=0 && !toggle) {
             gearSpeed -= .1;
             toggle = true;
         }
@@ -207,7 +207,7 @@ public class SkystoneMAIN extends LinearOpMode {
                 robot.leftHook.setPosition(.9); //retracted
                 robot.rightHook.setPosition(.1);
             }
-            robot.set(Range.clip(lF, -1, 1), Range.clip(lB, -1, 1), Range.clip(rF, -1, 1), Range.clip(rB, -1, 1));
+            robot.setPower(Range.clip(lF, -1, 1), Range.clip(lB, -1, 1), Range.clip(rF, -1, 1), Range.clip(rB, -1, 1));
 
             // Show the elapsed game time and wheel power.
             telemetry.addData("Status", "Run Time: " + runtime.toString());

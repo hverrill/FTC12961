@@ -72,17 +72,20 @@ public class SkystoneALT extends LinearOpMode {
         mecanum.calculate(gamepad1.left_stick_x, gamepad1.left_stick_y, gamepad1.right_stick_x, gamepad1.right_stick_y);
         //encoders.update(mecanum.finaltheta);
         // GEAR SPEED CALCULATIONS :
-        if (!(gamepad1.dpad_down | gamepad1.dpad_up) && toggle) {
+        if ((gamepad1.right_trigger !=0 | gamepad1.left_trigger !=0) && toggle) {
             toggle = false;
         }
-        if (gamepad1.dpad_up && !toggle) {
+        if (gamepad1.right_trigger !=0 && !toggle) {
             gearSpeed += .1;
             toggle = true;
         }
-        if (gamepad1.dpad_down && !toggle) {
+        if (gamepad1.left_trigger !=0 && !toggle) {
             gearSpeed -= .1;
             toggle = true;
         }
+
+
+
         gearSpeed = Range.clip(gearSpeed, .2, .9);
 
         lF = gearSpeed * mecanum.leftfront;
@@ -138,8 +141,8 @@ public class SkystoneALT extends LinearOpMode {
             processUpdate();
             // Send calculated power to wheels
             if  (gamepad1.right_trigger != 0){
-                intakeLeft.setPower(.59);
-                intakeRight.setPower(-.59);
+                intakeLeft.setPower(.75);
+                intakeRight.setPower(-.75);
             } else if (gamepad1.left_trigger != 0){
                 intakeLeft.setPower(-.18);
                 intakeRight.setPower(.18);
