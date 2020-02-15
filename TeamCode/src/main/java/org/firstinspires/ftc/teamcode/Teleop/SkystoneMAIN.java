@@ -84,21 +84,8 @@ public class SkystoneMAIN extends LinearOpMode {
             toggle = true;
         }
 
-        //LIFT TOGGLE POSITION
-//        if (!(gamepad2.dpad_down | gamepad2.dpad_up) && liftToggle) {
-//            toggle = false;
-//        }
-//        if (gamepad2.dpad_up && !liftToggle) {
-//            liftGoal += 1000;
-//            toggle = true;
-//        }
-//        if (gamepad2.dpad_down && !liftToggle) {
-//            liftGoal -= 1000;
-//            toggle = true;
-//        }
-
         gearSpeed = Range.clip(gearSpeed, .2, .9);
-        liftGoal = Range.clip(liftGoal, 0, 900);
+        liftGoal = Range.clip(liftGoal, -900, 0);
         lF = gearSpeed * robot.leftfront;
         lB = gearSpeed * robot.leftback;
         rF = gearSpeed * robot.rightfront;
@@ -151,19 +138,20 @@ public class SkystoneMAIN extends LinearOpMode {
 
             } else {
                 robot.winchRight.setTargetPosition(goal);
-                //robot.winchLeft.setTargetPosition(goal);
+                robot.winchLeft.setTargetPosition(goal);
                 robot.winchRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                //robot.winchLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                robot.winchLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 if(gamepad2.a){
 
-                    robot.winchRight.setTargetPosition(liftGoal);
-                    //robot.winchLeft.setTargetPosition(liftGoal);
+
                     robot.winchRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                    robot.winchLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                    robot.winchLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    robot.winchRight.setTargetPosition(0);
+                    robot.winchLeft.setTargetPosition(0);
 
 
-                    robot.winchRight.setPower(.55);
-                    robot.winchLeft.setPower(robot.winchRight.getPower());
+                    robot.winchRight.setPower(-.4);
+                    robot.winchLeft.setPower(-.4);
 
                 } else {
                     robot.winchLeft.setPower(0);
@@ -201,21 +189,20 @@ public class SkystoneMAIN extends LinearOpMode {
             }
             //Foundation Grabbers
             if (gamepad1.right_bumper) {
-                robot.leftHook.setPosition(.3);//deployed
-                robot.rightHook.setPosition(.7);
+                robot.leftHook.setPosition(.4);//deployed
+                robot.rightHook.setPosition(.6);
             } else if (gamepad1.left_bumper) {
-                robot.leftHook.setPosition(.9); //retracted
-                robot.rightHook.setPosition(.1);
+                robot.leftHook.setPosition(1); //retracted
+                robot.rightHook.setPosition(0);
             }
             robot.setPower(Range.clip(lF, -1, 1), Range.clip(lB, -1, 1), Range.clip(rF, -1, 1), Range.clip(rB, -1, 1));
 
             // Show the elapsed game time and wheel power.
-            telemetry.addData("Status", "Run Time: " + runtime.toString());
+            telemetry.addData("Status", "Ru n Time: " + runtime.toString());
             telemetry.addData("Touch", robot.blockToggle.isPressed());
-            telemetry.addData("X", robot.getX());
-            telemetry.addData("Y", robot.getY());
-            telemetry.addData("X CM", robot.getX()*RATIO);
-            telemetry.addData("Y CM", robot.getY()*RATIO);
+            telemetry.addData("X", robot.odometry.getX());
+            telemetry.addData("Y", robot.odometry.getY());
+
 
             //telemetry.addData("X Pos: ", encoders.xDistance);
             //telemetry.addData("Y Pos: ", encoders.yDistance);

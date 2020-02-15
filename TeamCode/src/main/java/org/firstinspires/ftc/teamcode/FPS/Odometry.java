@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import java.util.ArrayList;
 
 public class Odometry {
-    DcMotor xRight, xLeft, y;
+    private DcMotor xRight, xLeft, y;
     DcMotor lf, lb, rf, rb;
     double RATIO = 1, h, theta;
     int xGoal, yGoal;
@@ -17,21 +17,14 @@ public class Odometry {
     /**
      * GRAB ALL MOTORS AND SET MODES : */
     public Odometry(Drivetrain robot){
-        this.lf = robot.leftFront;
-        this.lb = robot.leftBack;
-        this.rf = robot.rightFront;
-        this.rb = robot.rightBack;
         this.robot = robot;
+        this.lf = this.robot.leftFront;
+        this.lb = this.robot.leftBack;
+        this.rf = this.robot.rightFront;
+        this.rb = this.robot.rightBack;
         y = lf; // CHANGE WITH ENCODER PORTS
-        xRight = lb;
-        xLeft = rf;
-
-        y.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        xLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        xRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        y.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        xLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        xRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        //xRight = rf;
+        xLeft = lb;
 
 
     }
@@ -41,36 +34,17 @@ public class Odometry {
         /**
          * GET RAW VALUES : */
         coords.clear();
-        coords.add((xLeft.getCurrentPosition() + xRight.getCurrentPosition()) / 2);
+        coords.add(xLeft.getCurrentPosition()); //(xLeft.getCurrentPosition()+ ) / 2
         coords.add(y.getCurrentPosition());
 
     }
-    public double getX(){ return coords.get(0); }
-    public double getY(){ return coords.get(1); }
-//    public void goTo(double x, double y){
-//        double l, r;
-//        update();
-//        h = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
-//        theta = -Math.atan2(-x, y) + (Math.PI/4);
-//
-//        l = Math.sin(theta)*.5;
-//        r = Math.cos(theta)*.5;
-//
-//
-//        while (getY()/(y*ratio) > .95 && getX()/(x*ratio) > .95){
-//            this.lf.setPower();
-//        }
-//
-//    }
-//    public boolean check(int x, int y){
-//        int lf, lb, rf, rb;
-//        lf = this.lf.getCurrentPosition();
-//        lb = this.rb.getCurrentPosition();
-//        rf = this.rf.getCurrentPosition();
-//        rb = this.rb.getCurrentPosition();
-//
-//        return lf
-//
-//    }
+    public double getX(){
+        update();
+        return coords.get(0);
+    }
+    public double getY(){
+        update();
+        return coords.get(1);
+    }
 
 }
