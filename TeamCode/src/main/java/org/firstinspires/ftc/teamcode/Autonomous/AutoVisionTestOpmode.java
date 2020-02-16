@@ -93,6 +93,7 @@ public class AutoVisionTestOpmode extends LinearOpMode {
         robot.rotate(55);
         succ(runtime);
         robot.rotate(-50);
+        sleep(100);
         robot.reverse(21000);
 
         telemetry.addData("Path", "Complete");

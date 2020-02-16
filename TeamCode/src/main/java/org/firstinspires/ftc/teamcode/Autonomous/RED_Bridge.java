@@ -58,8 +58,8 @@ public class RED_Bridge extends LinearOpMode {
 
         //strafe right
         sleep(20000);
-        strafe(.5 );
-        stopAfter(300);
+        robot.forward(1000);
+
 
 
 
