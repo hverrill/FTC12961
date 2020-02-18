@@ -11,7 +11,9 @@ public class Odometry {
     double RATIO = 1, h, theta;
     int xGoal, yGoal;
     Drivetrain robot;
-    ArrayList<Integer> coords = new ArrayList<Integer>();
+
+    public double currentX, currentY, oldX, oldY;
+
     public long xRightRaw, xLeftRaw, yRaw;
     public double xDistance, yDistance;
     /**
@@ -30,21 +32,43 @@ public class Odometry {
     }
     /**
      * UPDATE INTERNAL VALUES : */
-    public void update(){
+    private void update(){
         /**
          * GET RAW VALUES : */
-        coords.clear();
-        coords.add(xLeft.getCurrentPosition()); //(xLeft.getCurrentPosition()+ ) / 2
-        coords.add(y.getCurrentPosition());
+
+        currentX = xLeft.getCurrentPosition();
+        currentY = y.getCurrentPosition();
 
     }
     public double getX(){
         update();
-        return coords.get(0);
+        return currentX;
     }
     public double getY(){
         update();
-        return coords.get(1);
+        return currentY;
+    }
+    public boolean checkX(){
+        update();
+        boolean encodersOK = false;
+        if (currentX == oldX){
+            encodersOK = false;
+        } else {
+            encodersOK = true;
+        }
+        oldX = currentX;
+        return encodersOK;
+    }
+    public boolean checkY(){
+        update();
+        boolean encodersOK = false;
+        if (currentY == oldY){
+            encodersOK = false;
+        } else {
+            encodersOK = true;
+        }
+        oldY = currentY;
+        return encodersOK;
     }
 
 }

@@ -36,54 +36,71 @@ public class BLUE_Foundation extends LinearOpMode {
     public void runOpMode() {
         robot.map(hardwareMap);
         //robot = new Movement(this);
-        sensorSuite = new Measurement(revIMU, hardwareMap);
         portal.createVuforia(VuforiaLocalizer.CameraDirection.BACK, hardwareMap, telemetry);
 
         waitForStart(); /** START THE PROGRAM */
+        robot.leftHook.setPosition(.4);
+        robot.rightHook.setPosition(.6);
+
+        sleep(1200);
+        robot.reverse(5000); //actually forward
+        sleep(300);
+        robot.strafeRight(9200);
+        sleep(300);
+        robot.reverse(6000);
+        sleep(300);
+
+        robot.leftHook.setPosition(1);
+        robot.rightHook.setPosition(0);
+        sleep(1200);
+
+        robot.forward(6000);
+        sleep(1000);
+        robot.rotate(90);
+        sleep(300);
+        robot.reverse(4000);
+
+//        sleep(1000);
+//        robot.rotate(90);
 
 
-        strafe(-.5);
-        sleep(500);
-        reverse(.35);
-        sleep(850);
-        stopAfter(0);
-        grabbersDown();
-
-
-
-
-        sleep(2500);
-
-//        stopAfter(500);
-//        robot.blockGrab.setPosition(0);
-//        setFourbarPos(1);
-
-        forward(.5);
-        sleep(400);
-        stopAfter(0);
-
-        rotate(90);
-        reverse(.3);//push foundation into wall
-        sleep(400);
-        robot.leftHook.setPosition(.9);
-        robot.rightHook.setPosition(.1);
-        sleep(1500);
-        stopAfter(0);
-
-
-
-//        strafe(-.2);
-//        sleep(200);
+        //grabbersDown();
+//
+//
+//
+//
+//        sleep(2500);
+//
+////        stopAfter(500);
+////        robot.blockGrab.setPosition(0);
+////        setFourbarPos(1);
+//
+//        forward(.5);
+//        sleep(400);
 //        stopAfter(0);
-        forward(.6);
-        sleep(750);
-        stopAfter(0);
+//
+//        rotate(90);
+//        reverse(.3);//push foundation into wall
+//        sleep(400);
+//        robot.leftHook.setPosition(.9);
+//        robot.rightHook.setPosition(.1);
+//        sleep(1500);
+//        stopAfter(0);
+//
+//
+//
+////        strafe(-.2);
+////        sleep(200);
+////        stopAfter(0);
+//        forward(.6);
+//        sleep(750);
+//        stopAfter(0);
 
 
         while (!isStopRequested()) {
-            telemetry.addData("Angle 1 =", sensorSuite.getAngle().angle1);
-            telemetry.addData("Angle 2 =", sensorSuite.getAngle().angle2);
-            telemetry.addData("Angle 3 =", sensorSuite.getAngle().angle3);
+            telemetry.addData("Angle 1 =", robot.sensorSuite.getAngle().angle1);
+            telemetry.addData("Angle 2 =", robot.sensorSuite.getAngle().angle2);
+            telemetry.addData("Angle 3 =", robot.sensorSuite.getAngle().angle3);
             telemetry.update();
         }
 
@@ -130,53 +147,10 @@ public class BLUE_Foundation extends LinearOpMode {
         robot.fourbarLeft.setPosition(1-pos);
     }
     public void grabbersDown(){
-        robot.leftHook.setPosition(.27);
-        robot.rightHook.setPosition(.73);
+        robot.leftHook.setPosition(.4);
+        robot.rightHook.setPosition(.6);
     }
-    public void stopAfter(long millis){
-        sleep(millis);
-        robot.leftFront.setPower(0);
-        robot.leftBack.setPower(0);
-        robot.rightFront.setPower(0);
-        robot.rightBack.setPower(0);
-        robot.intakeLeft.setPower(0);
-        robot.intakeRight.setPower(0);
-    }
-    public void turnClockwise(double power){// , long millis
-        robot.leftFront.setPower(-power);
-        robot.leftBack.setPower(-power);
-        robot.rightFront.setPower(power);
-        robot.rightBack.setPower(power);
-        //stopAfter(millis);
-    }
-    public void turnAntiClockwise(double power, long millis){
-        robot.leftFront.setPower(power);
-        robot.leftBack.setPower(power);
-        robot.rightFront.setPower(-power);
-        robot.rightBack.setPower(-power);
-        stopAfter(millis);
-    }
-    public void forward(double power){ //, long millis
-        robot.leftFront.setPower(power);
-        robot.leftBack.setPower(power);
-        robot.rightFront.setPower(power);
-        robot.rightBack.setPower(power);
-        //stopAfter(millis);
-    }
-    public void reverse(double power){ //, long millis
-        robot.leftFront.setPower(-power);
-        robot.leftBack.setPower(-power);
-        robot.rightFront.setPower(-power);
-        robot.rightBack.setPower(-power);
-        //stopAfter(millis);
-    }
-    public void strafe(double power){//, long millis
-        robot.leftFront.setPower(-power);
-        robot.leftBack.setPower(power);
-        robot.rightFront.setPower(power);
-        robot.rightBack.setPower(-power);
-        //stopAfter(millis);
-    }
+
     public void succ(ElapsedTime time){
         double starttime = time.milliseconds();
         robot.intakeRight.setPower(-.6);
@@ -191,7 +165,7 @@ public class BLUE_Foundation extends LinearOpMode {
 
         }
 
-        stopAfter(0);
+        robot.setPowerAll(0);
 
     }
 }

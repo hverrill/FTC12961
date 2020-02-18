@@ -28,7 +28,7 @@ public class Drivetrain {
 
     //INTAKE LEFT AND WINCH LEFT ARE X1 AND Y RESPECTIVELY
     ElapsedTime timer = new ElapsedTime();
-//    IMUTest ree = new IMUTest();
+    //    IMUTest ree = new IMUTest();
     public void declare(){
 
     }
@@ -105,15 +105,23 @@ public class Drivetrain {
     }
     public void forward(int dist){
         double initial = odometry.getX();
-        while(odometry.getX()/(initial+dist)<.95){
-            setPowerAll(.1 + .4-(odometry.getX()/(initial+dist))*.4);
+        double percent = odometry.getX()/(initial+dist);
+        while(!(percent > .95 && percent < 1.05) && odometry.checkX()){
+            percent = odometry.getX()/(initial+dist);
+//            setPowerAll(.2 + .4-(percent*.4));
+            setPowerAll(.4);
         }
         setPowerAll(0);
+
+
     }
     public void reverse(int dist){
         double initial = odometry.getX();
-        while(odometry.getX()/(initial-dist)<.95){
-            setPowerAll(-(.1 + .4-(odometry.getX()/(initial-dist))*.4));
+        double percent = odometry.getX()/(initial-dist);
+        while(!(percent > .95 && percent < 1.05) && odometry.checkX()){
+            percent = odometry.getX()/(initial-dist);
+            setPowerAll(-.4);
+            //setPowerAll(-(.2 + .4-(odometry.getX()/(initial-dist))*.4));
         }
         setPowerAll(0);
     }
@@ -130,7 +138,7 @@ public class Drivetrain {
         double initial = odometry.getY();
         double pow;
         while(odometry.getY()/(initial+dist)<.95){
-            pow = .1 + .4-(odometry.getY()/(initial+dist))*.4;
+            pow = .25 + .5-(odometry.getY()/(initial+dist))*.5;
             setPower(pow, -pow, -pow, pow);
         }
         setPowerAll(0);
@@ -139,10 +147,15 @@ public class Drivetrain {
 
         boolean turning = true;
 
-        float targetAngle = sensorSuite.getAngle().angle1 + degrees;
+        float targetAngle;
         double ratio;
         double powerPolarity = degrees / Math.abs(degrees);
         double powerMultiplier;
+        if (powerPolarity == -1){
+            targetAngle = sensorSuite.getAngle().angle1 + (360+degrees);
+        } else {
+            targetAngle = sensorSuite.getAngle().angle1 + degrees;
+        }
 
         while (turning) { // && !isStopRequested()
 
@@ -150,15 +163,17 @@ public class Drivetrain {
 
             powerMultiplier = 1 - ratio;
 
-            if (Math.abs(powerMultiplier) < .4) {
-                powerMultiplier = .4;
+            if (Math.abs(powerMultiplier) < .3) {
+                powerMultiplier = .3;
             }
-            if (Math.abs(powerMultiplier) > .9) {
-                powerMultiplier = .9;
+            if (Math.abs(powerMultiplier) > .7) {
+                powerMultiplier = .7;
             }
-            setPower(-.4 * powerMultiplier * powerPolarity, -.4 * powerMultiplier * powerPolarity, .4 * powerMultiplier * powerPolarity, .4 * powerMultiplier * powerPolarity);
-
-            if (ratio > .99) turning = false;
+            if (ratio < .95){
+                setPower(-powerMultiplier * powerPolarity, -powerMultiplier * powerPolarity, powerMultiplier * powerPolarity, powerMultiplier * powerPolarity);
+            } else  {
+                turning = false;
+            }
 
         }
         setPowerAll(0);

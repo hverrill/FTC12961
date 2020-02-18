@@ -36,11 +36,10 @@ public class AutoVisionTestOpmode extends LinearOpMode {
     private VuforiaLocalizer vuforia = null;
     private double dist;
     public BNO055IMU revIMU;
-    int visionTick = 0;
     private ElapsedTime runtime = new ElapsedTime();
     Vision portal = new Vision();
     Drivetrain robot = new Drivetrain();
-    Measurement sensorSuite = null;
+
 
     double margin = .5;
 
@@ -53,7 +52,7 @@ public class AutoVisionTestOpmode extends LinearOpMode {
         //Ex: exampleMotor  = hardwareMap.get(DcMotor.class, "motor");
         robot.map(hardwareMap);
 
-        sensorSuite = new Measurement(revIMU, hardwareMap);
+
         portal.createVuforia(VuforiaLocalizer.CameraDirection.BACK, hardwareMap, telemetry);
 
 
@@ -73,17 +72,17 @@ public class AutoVisionTestOpmode extends LinearOpMode {
 
         while (!portal.isTargetVisible(portal.stone) && !isStopRequested()) { // Run the vuforia detection (change if you need to detect later)
             portal.update(portal.stone);
-            robot.setPowerAll(.1);
+            robot.setPowerAll(.12);
         }
         while ((Math.abs(portal.xTranslation) < margin) && !isStopRequested()) {
             portal.update(portal.stone);
             if (portal.xTranslation < -margin) {
-                robot.setPowerAll(.1);
+                robot.setPowerAll(.12);
             }
             if (portal.xTranslation > margin) {
-                robot.setPowerAll(-.1);
+                robot.setPowerAll(-.12);
             }
-            telemetry.addData("Angle =", sensorSuite.getAngle());
+            telemetry.addData("Angle =", robot.sensorSuite.getAngle());
         }
         stopAfter(0);
         coords.add(robot.odometry.getX());
@@ -92,9 +91,9 @@ public class AutoVisionTestOpmode extends LinearOpMode {
 //        robot.reverse(1000);
         robot.rotate(55);
         succ(runtime);
-        robot.rotate(-50);
-        sleep(100);
-        robot.reverse(21000);
+        robot.rotate(-55);
+
+//        robot.reverse(21000);
 
         telemetry.addData("Path", "Complete");
         telemetry.addData("dist", dist);
