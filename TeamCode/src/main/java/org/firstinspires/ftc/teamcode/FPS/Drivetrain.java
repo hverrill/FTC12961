@@ -147,40 +147,18 @@ public class Drivetrain {
 
         boolean turning = true;
 
-        float targetAngle;
-        double ratio;
+
         double powerPolarity = degrees / Math.abs(degrees);
         double powerMultiplier;
-        if (powerPolarity == -1){
-            targetAngle = sensorSuite.getAngle().angle1 + (360+degrees);
-        } else {
-            targetAngle = sensorSuite.getAngle().angle1 + degrees;
-        }
-        if(targetAngle > 180){
-            targetAngle = targetAngle - 180;
-        }
-        if(targetAngle < -180){
-            targetAngle = targetAngle + 180;
-        }
+        double targetAngle = sensorSuite.getAngle().angle1 + degrees;
 
         while (turning) { // && !isStopRequested()
 
-            ratio = (sensorSuite.getAngle().angle1 / targetAngle);
-
-            powerMultiplier = 1 - ratio;
-
-            if (Math.abs(powerMultiplier) < .3) {
-                powerMultiplier = .3;
-            }
-            if (Math.abs(powerMultiplier) > .7) {
-                powerMultiplier = .7;
-            }
-
-            setPower(-powerMultiplier * powerPolarity, -powerMultiplier * powerPolarity, powerMultiplier * powerPolarity, powerMultiplier * powerPolarity);
-
-            if( ratio > .90 && ratio < 1.10){
+            if( Math.abs(sensorSuite.getAngle().angle1) <= Math.abs(targetAngle+5)
+                    && Math.abs(sensorSuite.getAngle().angle1) >= Math.abs(targetAngle-5)){
                 turning = false;
             }
+            setPower(-.4 * powerPolarity, -.4 * powerPolarity, .4 * powerPolarity, .4 * powerPolarity);
 
 
             telemetry.addData("IMU", sensorSuite.getAngle().angle1);

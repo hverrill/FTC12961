@@ -2,19 +2,13 @@
 package org.firstinspires.ftc.teamcode.Autonomous;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
-import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.ColorSensor;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.teamcode.FPS.Drivetrain;
-import org.firstinspires.ftc.teamcode.FPS.Measurement;
 import org.firstinspires.ftc.teamcode.FPS.Vision;
 
 import java.util.ArrayList;
@@ -24,9 +18,9 @@ import java.util.ArrayList;
  * This program is Checkmate Robotics' Autonomous Program Template.
  */
 
-@Autonomous(name="Vision Test Opmode", group="Sky")
+@Autonomous(name="Combined Auto", group="Beta")
 //@Disabled
-public class AutoVisionTestOpmode extends LinearOpMode {
+public class CombinedAuto extends LinearOpMode {
 
     /*
      *  Declare OpMode Members: */
@@ -59,11 +53,13 @@ public class AutoVisionTestOpmode extends LinearOpMode {
         waitForStart(); /** START THE PROGRAM */
         runtime.reset();
         //START
-
+        robot.leftHook.setPosition(.4);
+        robot.rightHook.setPosition(.6);
         setFourbarPos(.8);
+        sleep(1200);
         robot.strafeLeft(5000);
         sleep(200);
-        robot.forward(1000);
+//        robot.forward(1000);
 
         portal.update(portal.stone);
 
@@ -72,15 +68,15 @@ public class AutoVisionTestOpmode extends LinearOpMode {
 
         while (!portal.isTargetVisible(portal.stone) && !isStopRequested()) { // Run the vuforia detection (change if you need to detect later)
             portal.update(portal.stone);
-            robot.setPowerAll(.12);
+            robot.setPowerAll(.1);
         }
         while ((Math.abs(portal.xTranslation) < margin) && !isStopRequested()) {
             portal.update(portal.stone);
             if (portal.xTranslation < -margin) {
-                robot.setPowerAll(.12);
+                robot.setPowerAll(.1);
             }
             if (portal.xTranslation > margin) {
-                robot.setPowerAll(-.12);
+                robot.setPowerAll(-.1);
             }
             telemetry.addData("Angle =", robot.sensorSuite.getAngle().angle1);
         }
@@ -93,6 +89,29 @@ public class AutoVisionTestOpmode extends LinearOpMode {
         succ(runtime);
         robot.rotate(-55, telemetry);
         robot.reverse(dist);
+
+        //end of old vision opmode
+
+//
+//        sleep(1200);
+//        robot.reverse(5000); //actually forward
+//        sleep(300);
+//        robot.strafeRight(9200);
+//        sleep(300);
+//        robot.reverse(6000);
+//        sleep(300);
+        robot.rotate(-90, telemetry);
+        robot.reverse(4000);
+//        robot.leftHook.setPosition(1);
+//        robot.rightHook.setPosition(0);
+//        sleep(1200);
+//
+//        robot.forward(5500);
+//        sleep(1000);
+//        robot.rotate(90, telemetry);
+//        sleep(300);
+//        robot.reverse(4000);
+
 
 
         sleep(9999999);
