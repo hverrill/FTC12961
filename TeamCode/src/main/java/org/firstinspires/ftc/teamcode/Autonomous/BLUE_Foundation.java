@@ -56,7 +56,7 @@ public class BLUE_Foundation extends LinearOpMode {
 
         robot.forward(6000);
         sleep(1000);
-        robot.rotate(90);
+        robot.rotate(90, telemetry);
         sleep(300);
         robot.reverse(4000);
 

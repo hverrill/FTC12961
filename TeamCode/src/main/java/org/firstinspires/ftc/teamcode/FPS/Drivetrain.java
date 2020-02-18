@@ -143,7 +143,7 @@ public class Drivetrain {
         }
         setPowerAll(0);
     }
-    public void rotate(float degrees) {
+    public void rotate(float degrees, Telemetry telemetry) {
 
         boolean turning = true;
 
@@ -155,6 +155,12 @@ public class Drivetrain {
             targetAngle = sensorSuite.getAngle().angle1 + (360+degrees);
         } else {
             targetAngle = sensorSuite.getAngle().angle1 + degrees;
+        }
+        if(targetAngle > 180){
+            targetAngle = targetAngle - 180;
+        }
+        if(targetAngle < -180){
+            targetAngle = targetAngle + 180;
         }
 
         while (turning) { // && !isStopRequested()
@@ -169,14 +175,21 @@ public class Drivetrain {
             if (Math.abs(powerMultiplier) > .7) {
                 powerMultiplier = .7;
             }
-            if (ratio < .95){
-                setPower(-powerMultiplier * powerPolarity, -powerMultiplier * powerPolarity, powerMultiplier * powerPolarity, powerMultiplier * powerPolarity);
-            } else  {
+
+            setPower(-powerMultiplier * powerPolarity, -powerMultiplier * powerPolarity, powerMultiplier * powerPolarity, powerMultiplier * powerPolarity);
+
+            if( ratio > .90 && ratio < 1.10){
                 turning = false;
             }
 
+
+            telemetry.addData("IMU", sensorSuite.getAngle().angle1);
+            telemetry.addData("target", targetAngle);
+            telemetry.update();
+
         }
         setPowerAll(0);
+
     }
 
 

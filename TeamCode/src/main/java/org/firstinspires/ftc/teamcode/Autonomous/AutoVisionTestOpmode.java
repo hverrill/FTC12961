@@ -84,22 +84,22 @@ public class AutoVisionTestOpmode extends LinearOpMode {
             }
             telemetry.addData("Angle =", robot.sensorSuite.getAngle());
         }
-        stopAfter(0);
+        robot.setPowerAll(0);
         coords.add(robot.odometry.getX());
         coords.add(robot.odometry.getY());
         dist = coords.get(2)-coords.get(0);
 //        robot.reverse(1000);
-        robot.rotate(55);
+        robot.rotate(55, telemetry);
         succ(runtime);
-        robot.rotate(-55);
+        robot.rotate(-55, telemetry);
 
 //        robot.reverse(21000);
 
-        telemetry.addData("Path", "Complete");
-        telemetry.addData("dist", dist);
-        telemetry.addData("X", coords.get(0));
-        telemetry.addData("Y", coords.get(1));
-        telemetry.update();
+//        telemetry.addData("Path", "Complete");
+//        telemetry.addData("dist", dist);
+//        telemetry.addData("X", coords.get(0));
+//        telemetry.addData("Y", coords.get(1));
+//        telemetry.update();
         sleep(9999999);
     }
 //gjyhgl
@@ -111,55 +111,6 @@ public class AutoVisionTestOpmode extends LinearOpMode {
         robot.fourbarLeft.setPosition(1 - pos);
     }
 
-    public void stopAfter(long millis) {
-        sleep(millis);
-        robot.leftFront.setPower(0);
-        robot.leftBack.setPower(0);
-        robot.rightFront.setPower(0);
-        robot.rightBack.setPower(0);
-        robot.intakeLeft.setPower(0);
-        robot.intakeRight.setPower(0);
-    }
-
-    public void turnClockwise(double power, long millis) {
-        robot.leftFront.setPower(-power);
-        robot.leftBack.setPower(-power);
-        robot.rightFront.setPower(power);
-        robot.rightBack.setPower(power);
-        stopAfter(millis);
-    }
-
-    public void turnAntiClockwise(double power, long millis) {
-        robot.leftFront.setPower(power);
-        robot.leftBack.setPower(power);
-        robot.rightFront.setPower(-power);
-        robot.rightBack.setPower(-power);
-        stopAfter(millis);
-    }
-
-    public void forward(double power, long millis) {
-        robot.leftFront.setPower(power);
-        robot.leftBack.setPower(power);
-        robot.rightFront.setPower(power);
-        robot.rightBack.setPower(power);
-        stopAfter(millis);
-    }
-
-    public void reverse(double power, long millis) {
-        robot.leftFront.setPower(-power);
-        robot.leftBack.setPower(-power);
-        robot.rightFront.setPower(-power);
-        robot.rightBack.setPower(-power);
-        stopAfter(millis);
-    }
-
-    public void strafe(double power, long millis) {
-        robot.leftFront.setPower(-power);
-        robot.leftBack.setPower(power);
-        robot.rightFront.setPower(power);
-        robot.rightBack.setPower(-power);
-        stopAfter(millis);
-    }
 
     public void succ(ElapsedTime time) {
         double starttime = runtime.milliseconds();
@@ -192,6 +143,8 @@ public class AutoVisionTestOpmode extends LinearOpMode {
         }
 
 
-        stopAfter(0);
+        robot.setPowerAll(0);
+        robot.intakeLeft.setPower(0);
+        robot.intakeRight.setPower(0);
     }
 }
