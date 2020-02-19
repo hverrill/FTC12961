@@ -1,0 +1,9 @@
+192.168.49.1
+yzA630aA
+
+plug in phone
+adb disconnect
+adb tcpip 5555
+adb connect 192.168.49.1
+
+
