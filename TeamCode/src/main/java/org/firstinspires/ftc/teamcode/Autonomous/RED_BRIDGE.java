@@ -14,15 +14,15 @@ import org.firstinspires.ftc.teamcode.FPS.Measurement;
  * This program is Checkmate Robotics' Autonomous Program Template.
  */
 
-@Autonomous(name="BRIDGE_RED_ALT", group="Tourny")
+@Autonomous(name="BRIDGE_Red", group="State")
 //@Disabled
-public class RED_Bridge_Alt extends LinearOpMode {
+public class RED_Bridge extends LinearOpMode {
 
     /*
      *  Declare OpMode Members: */
     public BNO055IMU revIMU;
     Drivetrain robot = new Drivetrain();
-    Measurement sensorSuite = null;
+
 
     private ElapsedTime runtime = new ElapsedTime();
 
@@ -34,7 +34,7 @@ public class RED_Bridge_Alt extends LinearOpMode {
         /**
          * Hardware Variables: */
         robot.map(hardwareMap);
-        sensorSuite = new Measurement(revIMU, hardwareMap);
+
 
         /**
          * Telemetry */
@@ -44,11 +44,23 @@ public class RED_Bridge_Alt extends LinearOpMode {
         Wait for driver to hit the start button on the controller:
          */
         waitForStart();
-        sleep(20000);
-        forward(4);
-        stopAfter(600);
-        strafe(.5 );
-        stopAfter(350);
+//        // go forward
+//        leftFront.setPower(-0.20);
+//        leftBack.setPower(-0.20);
+//        rightFront.setPower(-0.20);
+//        rightBack.setPower(-0.20);
+//        sleep(1100);
+//        leftFront.setPower(0);
+//        leftBack.setPower(0);
+//        rightFront.setPower(0);
+//        rightBack.setPower(0);
+//        sleep(100);
+
+        //strafe right
+        sleep(15000);
+        robot.forward(6000);
+        robot.strafeLeft(5000);
+
 
 
 
@@ -73,14 +85,14 @@ public class RED_Bridge_Alt extends LinearOpMode {
 
         boolean turning = true;
 
-        float targetAngle = sensorSuite.getAngle().angle1 + degrees;
+        float targetAngle = robot.sensorSuite.getAngle().angle1 + degrees;
         double ratio;
         double powerPolarity = degrees/Math.abs(degrees);
         double powerMultiplier;
 
         while(turning && !isStopRequested()){
 
-            ratio = sensorSuite.getAngle().angle1/targetAngle;
+            ratio = robot.sensorSuite.getAngle().angle1/targetAngle;
 
             powerMultiplier = 1-ratio;
 

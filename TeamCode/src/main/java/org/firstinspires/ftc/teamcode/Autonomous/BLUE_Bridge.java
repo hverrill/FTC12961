@@ -14,15 +14,15 @@ import org.firstinspires.ftc.teamcode.FPS.Measurement;
  * This program is Checkmate Robotics' Autonomous Program Template.
  */
 
-@Autonomous(name="BRIDGE_RED", group="Tourny")
+@Autonomous(name="BRIDGE_Blue", group="State")
 //@Disabled
-public class RED_Bridge extends LinearOpMode {
+public class BLUE_Bridge extends LinearOpMode {
 
     /*
      *  Declare OpMode Members: */
     public BNO055IMU revIMU;
     Drivetrain robot = new Drivetrain();
-    Measurement sensorSuite = null;
+
 
     private ElapsedTime runtime = new ElapsedTime();
 
@@ -34,7 +34,7 @@ public class RED_Bridge extends LinearOpMode {
         /**
          * Hardware Variables: */
         robot.map(hardwareMap);
-        sensorSuite = new Measurement(revIMU, hardwareMap);
+
 
         /**
          * Telemetry */
@@ -57,8 +57,9 @@ public class RED_Bridge extends LinearOpMode {
 //        sleep(100);
 
         //strafe right
-        sleep(20000);
-        robot.forward(2500);
+        sleep(15000);
+        robot.forward(6000);
+        robot.strafeRight(5000);
 
 
 
@@ -84,14 +85,14 @@ public class RED_Bridge extends LinearOpMode {
 
         boolean turning = true;
 
-        float targetAngle = sensorSuite.getAngle().angle1 + degrees;
+        float targetAngle = robot.sensorSuite.getAngle().angle1 + degrees;
         double ratio;
         double powerPolarity = degrees/Math.abs(degrees);
         double powerMultiplier;
 
         while(turning && !isStopRequested()){
 
-            ratio = sensorSuite.getAngle().angle1/targetAngle;
+            ratio = robot.sensorSuite.getAngle().angle1/targetAngle;
 
             powerMultiplier = 1-ratio;
 
