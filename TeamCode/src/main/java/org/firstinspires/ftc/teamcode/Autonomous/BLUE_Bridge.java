@@ -37,7 +37,7 @@ public class BLUE_Bridge extends LinearOpMode {
 
 
         /**
-         * Telemetry */
+         * Telemetry  */
         telemetry.addData("Status", "Ready to run");
         telemetry.update();
         /*
