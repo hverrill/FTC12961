@@ -27,6 +27,10 @@ public class Odometry {
         y = lf; // CHANGE WITH ENCODER PORTS
         //xRight = rf;
         xLeft = lb;
+        y.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        xLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        y.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        xLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
 
     }

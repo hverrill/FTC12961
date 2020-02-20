@@ -39,6 +39,10 @@ public class BLUE_Foundation extends LinearOpMode {
         portal.createVuforia(VuforiaLocalizer.CameraDirection.BACK, hardwareMap, telemetry);
 
         waitForStart(); /** START THE PROGRAM */
+        runtime.reset();
+//        robot.resetEncoders();
+
+
         robot.leftHook.setPosition(.4);
         robot.rightHook.setPosition(.6);
         sleep(1200);
@@ -46,17 +50,17 @@ public class BLUE_Foundation extends LinearOpMode {
         robot.reverse(5000);
         sleep(300);
 
-        robot.strafeRight(9200);
+        robot.strafeRight(9200, telemetry);
         sleep(300);
 
         robot.reverse(4500);
         sleep(300);
 
         robot.leftHook.setPosition(1);
-        robot.rightHook.setPosition(0);
+        robot.rightHook.setPosition(0); //grab
         sleep(1200);
 
-        robot.forward(5000);
+        robot.forward(3000);
         sleep(1000);
 
         robot.rotate(90, telemetry);
@@ -66,56 +70,22 @@ public class BLUE_Foundation extends LinearOpMode {
         sleep(1000);
 
         robot.leftHook.setPosition(.4);
-        robot.rightHook.setPosition(.6);
+        robot.rightHook.setPosition(.6); // let go
         sleep(1200);
 
-        sleep(300);
-        robot.forward(11000);
 
 
-//        sleep(1000);
-//        robot.rotate(90);
-
-
-        //grabbersDown();
+        robot.forward(11000, telemetry);
+        sleep(3000);
+//        robot.strafeLeft(1000, telemetry);
+//        sleep(3000);
 //
-//
-//
-//
-//        sleep(2500);
-//
-////        stopAfter(500);
-////        robot.blockGrab.setPosition(0);
-////        setFourbarPos(1);
-//
-//        forward(.5);
-//        sleep(400);
-//        stopAfter(0);
-//
-//        rotate(90);
-//        reverse(.3);//push foundation into wall
-//        sleep(400);
-//        robot.leftHook.setPosition(.9);
-//        robot.rightHook.setPosition(.1);
-//        sleep(1500);
-//        stopAfter(0);
-//
-//
-//
-////        strafe(-.2);
-////        sleep(200);
-////        stopAfter(0);
-//        forward(.6);
-//        sleep(750);
-//        stopAfter(0);
-
-
-        while (!isStopRequested()) {
-            telemetry.addData("Angle 1 =", robot.sensorSuite.getAngle().angle1);
-            telemetry.addData("Angle 2 =", robot.sensorSuite.getAngle().angle2);
-            telemetry.addData("Angle 3 =", robot.sensorSuite.getAngle().angle3);
-            telemetry.update();
-        }
+//        while (!isStopRequested()) {
+//            telemetry.addData("Angle 1 =", robot.sensorSuite.getAngle().angle1);
+//            telemetry.addData("Angle 2 =", robot.sensorSuite.getAngle().angle2);
+//            telemetry.addData("Angle 3 =", robot.sensorSuite.getAngle().angle3);
+//            telemetry.update();
+//        }
 
     }
 

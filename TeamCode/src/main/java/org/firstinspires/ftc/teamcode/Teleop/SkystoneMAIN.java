@@ -101,6 +101,7 @@ public class SkystoneMAIN extends LinearOpMode {
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
         runtime.reset();
+//        robot.resetEncoders();
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
