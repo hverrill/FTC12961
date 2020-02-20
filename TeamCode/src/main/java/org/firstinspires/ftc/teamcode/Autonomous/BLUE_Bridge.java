@@ -45,9 +45,8 @@ public class BLUE_Bridge extends LinearOpMode {
          */
         waitForStart();
 
-        //sleep(15000);
-        robot.forward(6100, telemetry);
-        sleep(300);
+        sleep(15000);
+        robot.forward(6000, telemetry);
         robot.strafeRight(5000);
 
         sleep(9999999);
