@@ -44,21 +44,10 @@ public class RED_Bridge extends LinearOpMode {
         Wait for driver to hit the start button on the controller:
          */
         waitForStart();
-//        // go forward
-//        leftFront.setPower(-0.20);
-//        leftBack.setPower(-0.20);
-//        rightFront.setPower(-0.20);
-//        rightBack.setPower(-0.20);
-//        sleep(1100);
-//        leftFront.setPower(0);
-//        leftBack.setPower(0);
-//        rightFront.setPower(0);
-//        rightBack.setPower(0);
-//        sleep(100);
 
-        //strafe right
-        sleep(15000);
-        robot.forward(6000);
+        //sleep(15000);
+        robot.forward(6100, telemetry);
+        sleep(300);
         robot.strafeLeft(5000);
 
 
@@ -68,9 +57,7 @@ public class RED_Bridge extends LinearOpMode {
 
 
         sleep(9999999);
-        //robot.turn(90, .5);
-//         telemetry.addData("2", "2");
-//         sleep(30000);
+
         /**
          * : */
 
