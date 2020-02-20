@@ -120,12 +120,42 @@ public class Drivetrain {
 
 
     }
+    public void forward(int dist, Telemetry telemetry){
+        double initial = odometry.getX();
+        double percent = odometry.getX()/(initial+dist);
+        while(!(percent > .95 && percent < 1.05) && odometry.checkX()){
+            percent = odometry.getX()/(initial+dist);
+//            setPowerAll(.2 + .4-(percent*.4));
+            setPowerAll(.4);
+            telemetry.addData("percent", percent);
+            telemetry.addData("initial", initial);
+            telemetry.addData("current", odometry.getX());
+            telemetry.update();
+        }
+        setPowerAll(0);
+
+
+    }
     public void reverse(int dist){
         double initial = odometry.getX();
         double percent = odometry.getX()/(initial-dist);
         while(!(percent > .95 && percent < 1.05) && odometry.checkX()){
             percent = odometry.getX()/(initial-dist);
             setPowerAll(-.4);
+            //setPowerAll(-(.2 + .4-(odometry.getX()/(initial-dist))*.4));
+        }
+        setPowerAll(0);
+    }
+    public void reverse(int dist, Telemetry telemetry){
+        double initial = odometry.getX();
+        double percent = odometry.getX()/(initial-dist);
+        while(!(percent > .95 && percent < 1.05) && odometry.checkX()){
+            percent = odometry.getX()/(initial-dist);
+            setPowerAll(-.4);
+            telemetry.addData("percent", percent);
+            telemetry.addData("initial", initial);
+            telemetry.addData("current", odometry.getX());
+            telemetry.update();
             //setPowerAll(-(.2 + .4-(odometry.getX()/(initial-dist))*.4));
         }
         setPowerAll(0);
