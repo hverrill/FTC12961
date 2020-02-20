@@ -16,7 +16,7 @@ import org.firstinspires.ftc.teamcode.FPS.Vision;
  * This program is Checkmate Robotics' Autonomous Program Template.
  */
 
-@Autonomous(name="BLUE_FOUNDATION", group="Tourny")
+@Autonomous(name="BLUE_Foundation", group="Tourny")
 //@Disabled
 public class BLUE_Foundation extends LinearOpMode {
 
@@ -41,24 +41,37 @@ public class BLUE_Foundation extends LinearOpMode {
         waitForStart(); /** START THE PROGRAM */
         robot.leftHook.setPosition(.4);
         robot.rightHook.setPosition(.6);
-
         sleep(1200);
-        robot.reverse(5000); //actually forward
+
+        robot.reverse(5000);
         sleep(300);
+
         robot.strafeRight(9200);
         sleep(300);
-        robot.reverse(6000);
+
+        robot.reverse(4500);
         sleep(300);
 
         robot.leftHook.setPosition(1);
         robot.rightHook.setPosition(0);
         sleep(1200);
 
-        robot.forward(6000);
+        robot.forward(5000);
         sleep(1000);
+
         robot.rotate(90, telemetry);
         sleep(300);
-        robot.reverse(4000);
+
+        robot.reverse(2000);
+        sleep(1000);
+
+        robot.leftHook.setPosition(.4);
+        robot.rightHook.setPosition(.6);
+        sleep(1200);
+
+        sleep(300);
+        robot.forward(11000);
+
 
 //        sleep(1000);
 //        robot.rotate(90);
