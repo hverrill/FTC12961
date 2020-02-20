@@ -41,12 +41,14 @@ public class BLUE_Foundation extends LinearOpMode {
         waitForStart(); /** START THE PROGRAM */
         robot.leftHook.setPosition(.4);
         robot.rightHook.setPosition(.6);
-
         sleep(1200);
+
         robot.reverse(5000);
         sleep(300);
+
         robot.strafeRight(9200);
         sleep(300);
+
         robot.reverse(4500);
         sleep(300);
 
@@ -54,16 +56,19 @@ public class BLUE_Foundation extends LinearOpMode {
         robot.rightHook.setPosition(0);
         sleep(1200);
 
-        robot.forward(6000);
+        robot.forward(5000);
         sleep(1000);
+
         robot.rotate(90, telemetry);
         sleep(300);
+
         robot.reverse(2000);
-        sleep(300);
+        sleep(1000);
+
         robot.leftHook.setPosition(.4);
         robot.rightHook.setPosition(.6);
         sleep(1200);
-        //robot.strafeLeft(1500); (if i uncomment this it not only doesnt strafe, it doesn't go forward either)
+
         sleep(300);
         robot.forward(11000);
 

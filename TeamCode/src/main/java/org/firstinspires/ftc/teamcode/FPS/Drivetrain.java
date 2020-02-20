@@ -124,7 +124,7 @@ public class Drivetrain {
         double initial = odometry.getX();
         double percent = odometry.getX()/(initial+dist);
         setPowerAll(.4);
-        while(!(percent > .98 && percent < 1.02) && odometry.checkX()){
+        while(!(percent > .98 && percent < 1.02) && odometry.checkX()){ // &&
             percent = odometry.getX()/(initial+dist);
 //            setPowerAll(.2 + .4-(percent*.4));
 
@@ -140,7 +140,7 @@ public class Drivetrain {
     public void reverse(int dist){
         double initial = odometry.getX();
         double percent = odometry.getX()/(initial-dist);
-        while(!(percent > .98 && percent < 1.02) && odometry.checkX()){
+        while(!(percent > .98 && percent < 1.02) && odometry.checkX()){ //
             percent = odometry.getX()/(initial-dist);
             setPowerAll(-.4);
             //setPowerAll(-(.2 + .4-(odometry.getX()/(initial-dist))*.4));
@@ -150,7 +150,7 @@ public class Drivetrain {
     public void reverse(int dist, Telemetry telemetry){
         double initial = odometry.getX();
         double percent = odometry.getX()/(initial-dist);
-        while(!(percent > .95 && percent < 1.05) && odometry.checkX()){
+        while(!(percent > .95 && percent < 1.05) && odometry.checkX()){ //)
             percent = odometry.getX()/(initial-dist);
             setPowerAll(-.4);
             telemetry.addData("percent", percent);
@@ -164,7 +164,7 @@ public class Drivetrain {
     public void strafeLeft(int dist){
         double initial = odometry.getY();
         double pow;
-        while(odometry.getY()/(initial-dist)<.99 && odometry.checkY()){
+        while(odometry.getY()/(initial-dist)<.99 && odometry.checkY()){ //
             pow = .25 + .5-(odometry.getY()/(initial-dist))*.5;
             setPower(-pow, pow, pow, -pow);
         }
@@ -173,7 +173,7 @@ public class Drivetrain {
     public void strafeRight(int dist){
         double initial = odometry.getY();
         double pow;
-        while(odometry.getY()/(initial+dist)<.95 && odometry.checkY()){
+        while(odometry.getY()/(initial+dist)<.95 && odometry.checkY()){ // &&
             pow = .25 + .5-(odometry.getY()/(initial+dist))*.5;
             setPower(pow, -pow, -pow, pow);
         }
