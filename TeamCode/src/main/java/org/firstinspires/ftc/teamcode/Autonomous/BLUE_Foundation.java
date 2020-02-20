@@ -43,7 +43,7 @@ public class BLUE_Foundation extends LinearOpMode {
         robot.rightHook.setPosition(.6);
 
         sleep(1200);
-        robot.reverse(5000);
+        robot.reverse(5000); //actually forward
         sleep(300);
         robot.strafeRight(9200);
         sleep(300);
