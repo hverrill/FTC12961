@@ -51,7 +51,7 @@ public class Odometry {
         oldX = currentX;
         return encodersOK;
     }
-    public boolean checkY(){
+    public boolean checkY(){ //HI
         currentY = y.getCurrentPosition();
         boolean encodersOK = currentY != oldY;
         oldY = currentY;
