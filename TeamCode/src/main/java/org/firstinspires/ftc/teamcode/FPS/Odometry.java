@@ -12,7 +12,7 @@ public class Odometry {
     int xGoal, yGoal;
     Drivetrain robot;
 
-    public double currentX, currentY, oldX, oldY;
+    public double currentX = -69, currentY = -69, oldX = -69, oldY = -69;
 
     public long xRightRaw, xLeftRaw, yRaw;
     public double xDistance, yDistance;
@@ -32,41 +32,24 @@ public class Odometry {
     }
     /**
      * UPDATE INTERNAL VALUES : */
-    private void update(){
-        /**
-         * GET RAW VALUES : */
 
-        currentX = xLeft.getCurrentPosition();
-        currentY = y.getCurrentPosition();
-
-    }
     public double getX(){
-        update();
+        currentX = xLeft.getCurrentPosition();
         return currentX;
     }
     public double getY(){
-        update();
+        currentY = y.getCurrentPosition();
         return currentY;
     }
     public boolean checkX(){
-        update();
-        boolean encodersOK = false;
-        if (currentX == oldX){
-            encodersOK = false;
-        } else {
-            encodersOK = true;
-        }
+        currentX = xLeft.getCurrentPosition();
+        boolean encodersOK = currentX != oldX;
         oldX = currentX;
         return encodersOK;
     }
     public boolean checkY(){
-        update();
-        boolean encodersOK = false;
-        if (currentY == oldY){
-            encodersOK = false;
-        } else {
-            encodersOK = true;
-        }
+        currentY = y.getCurrentPosition();
+        boolean encodersOK = currentY != oldY;
         oldY = currentY;
         return encodersOK;
     }

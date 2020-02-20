@@ -13,6 +13,7 @@ import org.firstinspires.ftc.teamcode.FPS.Inumeration.AngleResult;
 public class Measurement {
     public BNO055IMU revIMU;
     AngleResult results = new AngleResult();
+    public double currentAngle1 = -181, oldAngle1 = -181;
 
     public Measurement(BNO055IMU imu, HardwareMap hardwareMap){
         revIMU = imu;
@@ -25,13 +26,19 @@ public class Measurement {
         parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
         revIMU = hardwareMap.get(BNO055IMU.class, "imu");
         revIMU.initialize(parameters);
-        //startaccelrationintegrations???
     }
     public AngleResult getAngle(){
         revIMU.getPosition();
         results.angle1 = revIMU.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
         results.angle2 = revIMU.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).secondAngle;
         results.angle3 = revIMU.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).thirdAngle;
+        currentAngle1 = results.angle1;
         return results;
+    }
+    public boolean checkAngle1(){
+        currentAngle1 = results.angle1;
+        boolean imuOK = currentAngle1 != oldAngle1;
+        oldAngle1 = currentAngle1;
+        return imuOK;
     }
 }
