@@ -43,23 +43,13 @@ public class Odometry {
     }
     public boolean checkX(){
         currentX = xLeft.getCurrentPosition();
-        boolean encodersOK = false;
-        if (currentX == oldX){
-            encodersOK = false;
-        } else {
-            encodersOK = true;
-        }
+        boolean encodersOK = currentX != oldX;
         oldX = currentX;
         return encodersOK;
     }
     public boolean checkY(){
         currentY = y.getCurrentPosition();
-        boolean encodersOK = false;
-        if (currentY == oldY){
-            encodersOK = false;
-        } else {
-            encodersOK = true;
-        }
+        boolean encodersOK = currentY != oldY;
         oldY = currentY;
         return encodersOK;
     }
