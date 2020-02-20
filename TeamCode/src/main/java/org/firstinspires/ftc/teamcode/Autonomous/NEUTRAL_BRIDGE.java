@@ -44,8 +44,19 @@ public class NEUTRAL_BRIDGE extends LinearOpMode {
         Wait for driver to hit the start button on the controller:
          */
         waitForStart();
+//        // go forward
+//        leftFront.setPower(-0.20);
+//        leftBack.setPower(-0.20);
+//        rightFront.setPower(-0.20);
+//        rightBack.setPower(-0.20);
+//        sleep(1100);
+//        leftFront.setPower(0);
+//        leftBack.setPower(0);
+//        rightFront.setPower(0);
+//        rightBack.setPower(0);
+//        sleep(100);
 
-
+        //strafe right
         sleep(20000);
         robot.forward(2500);
 
@@ -56,7 +67,9 @@ public class NEUTRAL_BRIDGE extends LinearOpMode {
 
 
         sleep(9999999);
-
+        //robot.turn(90, .5);
+//         telemetry.addData("2", "2");
+//         sleep(30000);
         /**
          * : */
 

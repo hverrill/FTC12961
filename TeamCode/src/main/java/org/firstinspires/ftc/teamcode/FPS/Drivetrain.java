@@ -53,17 +53,6 @@ public class Drivetrain {
         revIMU = hardwareMap.get(BNO055IMU.class, "imu");
 
         //Drivetrain
-
-        leftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        leftBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rightFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rightBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-        leftFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        leftBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        rightFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        rightBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
         leftFront.setDirection(DcMotor.Direction.FORWARD);
         leftBack.setDirection(DcMotor.Direction.FORWARD);
         rightFront.setDirection(DcMotor.Direction.REVERSE);
@@ -73,15 +62,23 @@ public class Drivetrain {
         rightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        leftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        leftBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        leftFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        leftBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rightFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rightBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
 
         //Winch
-        winchRight.setDirection(DcMotorSimple.Direction.REVERSE);
-        winchLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        winchRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         winchRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         winchLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        winchLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        winchRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
+        winchRight.setDirection(DcMotorSimple.Direction.REVERSE);
         odometry = new Odometry(this);
         sensorSuite = new Measurement(revIMU, hardwareMap);
     }
@@ -98,23 +95,6 @@ public class Drivetrain {
         rightfront = (robotSpeed * Math.cos(finaltheta) + directionSpeed) + forwardSpeed;
         rightback = (robotSpeed * Math.sin(finaltheta)+ directionSpeed) + forwardSpeed;
     }
-//    public void resetEncoders(){
-//        leftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-//        leftBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-//        rightFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-//        rightBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-//
-//        leftFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-//        leftBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-//        rightFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-//        rightBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-//
-//
-//        leftFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//        leftBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//        rightFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//        rightBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//    }
 
     public void setPower( double lf, double lb, double rf, double rb){
         leftFront.setPower(lf);
@@ -131,19 +111,10 @@ public class Drivetrain {
     public void forward(int dist){
         double initial = odometry.getX();
         double percent = odometry.getX()/(initial+dist);
-        int counter = 4;
-        setPowerAll(.4);
-        while(!(percent > .95 && percent < 1.05)){
+        while(!(percent > .95 && percent < 1.05) && odometry.checkX()){
             percent = odometry.getX()/(initial+dist);
 //            setPowerAll(.2 + .4-(percent*.4));
-//            if(counter > 1){
-//                counter -= 1;
-//            } else if (odometry.checkX()) {
-//                setPowerAll(0);
-//                break;
-//            }
-
-
+            setPowerAll(.4);
         }
         setPowerAll(0);
 
@@ -152,17 +123,10 @@ public class Drivetrain {
     public void forward(int dist, Telemetry telemetry){
         double initial = odometry.getX();
         double percent = odometry.getX()/(initial+dist);
-        int counter = 4;
         setPowerAll(.4);
-        while(!(percent > .98 && percent < 1.02)){ // &&
+        while(!(percent > .98 && percent < 1.02) && odometry.checkX()){
             percent = odometry.getX()/(initial+dist);
 //            setPowerAll(.2 + .4-(percent*.4));
-//            if(counter > 1){
-//                counter -= 1;
-//            } else if (odometry.checkX()) {
-//                setPowerAll(0);
-//                break;
-//            }
 
             telemetry.addData("percent", percent);
             telemetry.addData("initial", initial);
@@ -176,16 +140,9 @@ public class Drivetrain {
     public void reverse(int dist){
         double initial = odometry.getX();
         double percent = odometry.getX()/(initial-dist);
-        int counter = 4;
-        setPowerAll(-.4);
-        while(!(percent > .98 && percent < 1.02)){ //
+        while(!(percent > .98 && percent < 1.02) && odometry.checkX()){
             percent = odometry.getX()/(initial-dist);
-//            if(counter > 1){
-//                counter -= 1;
-//            } else if (odometry.checkX()) {
-//                setPowerAll(0);
-//                break;
-//            }
+            setPowerAll(-.4);
             //setPowerAll(-(.2 + .4-(odometry.getX()/(initial-dist))*.4));
         }
         setPowerAll(0);
@@ -193,16 +150,9 @@ public class Drivetrain {
     public void reverse(int dist, Telemetry telemetry){
         double initial = odometry.getX();
         double percent = odometry.getX()/(initial-dist);
-        int counter = 4;
-        setPowerAll(-.4);
-        while(!(percent > .95 && percent < 1.05)){ //)
+        while(!(percent > .95 && percent < 1.05) && odometry.checkX()){
             percent = odometry.getX()/(initial-dist);
-//            if(counter > 1){
-//                counter -= 1;
-//            } else if (odometry.checkX()) {
-//                setPowerAll(0);
-//                break;
-//            }
+            setPowerAll(-.4);
             telemetry.addData("percent", percent);
             telemetry.addData("initial", initial);
             telemetry.addData("current", odometry.getX());
@@ -213,43 +163,19 @@ public class Drivetrain {
     }
     public void strafeLeft(int dist){
         double initial = odometry.getY();
-        double percent = odometry.getY()/(initial-dist);
-        while(!(percent > .98 && percent < 1.02)){ // &&  && odometry.checkY()
-            percent = odometry.getY()/(initial-dist);
-            setPower(-.35, .35, .35, -.35);
-        }
-        setPowerAll(0);
-    }
-    public void strafeLeft(int dist, Telemetry telemetry){
-        double initial = odometry.getY();
-        double percent = odometry.getY()/(initial-dist);
-        while(!(percent > .98 && percent < 1.02)){ // &&  && odometry.checkY()
-            percent = odometry.getY()/(initial-dist);
-            setPower(-.35, .35, .35, -.35);
-            telemetry.addData("y", odometry.getY());
-            telemetry.addData("percent", percent);
-            telemetry.update();
+        double pow;
+        while(odometry.getY()/(initial-dist)<.99 && odometry.checkY()){
+            pow = .25 + .5-(odometry.getY()/(initial-dist))*.5;
+            setPower(-pow, pow, pow, -pow);
         }
         setPowerAll(0);
     }
     public void strafeRight(int dist){
         double initial = odometry.getY();
-        double percent = Math.abs(odometry.getY()/(initial+dist));
-        while(!(percent > .98 && percent < 1.02)){ // &&  && odometry.checkY()
-            percent = Math.abs(odometry.getY()/(initial+dist));
-            setPower(.35, -.35, -.35, .35);
-        }
-        setPowerAll(0);
-    }
-    public void strafeRight(int dist, Telemetry telemetry){
-        double initial = odometry.getY();
-        double percent = percent = Math.abs(odometry.getY()/(initial+dist));
-        while(!(percent > .98 && percent < 1.02)){ // &&  && odometry.checkY()
-            percent = Math.abs(odometry.getY()/(initial+dist));
-            setPower(.35, -.35, -.35, .35);
-            telemetry.addData("y", odometry.getY());
-            telemetry.addData("percent", percent);
-            telemetry.update();
+        double pow;
+        while(odometry.getY()/(initial+dist)<.95 && odometry.checkY()){
+            pow = .25 + .5-(odometry.getY()/(initial+dist))*.5;
+            setPower(pow, -pow, -pow, pow);
         }
         setPowerAll(0);
     }
