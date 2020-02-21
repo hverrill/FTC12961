@@ -338,8 +338,8 @@ public class Drivetrain {
         // the else here is that direction remains false which is angle < target
 
         while (rotating) { // && !isStopRequested()
-            percent = sensorSuite.getAngle().angle1/targetAngle;
-            power =  (.3 + Range.clip(.3-(Math.abs(percent)*.3), 0, .3))*powerPolarity;
+            percent = Math.abs(sensorSuite.getAngle().angle1)/Math.abs(targetAngle);
+            power =  (.3 + Range.clip(.3-(percent*.3), 0, .3))*powerPolarity;
             setPower(-power, -power, power, power);
 
 
