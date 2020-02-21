@@ -60,7 +60,7 @@ public class RED_Foundation extends LinearOpMode {
         robot.rightHook.setPosition(.6); // let go
         sleep(1200);
 
-        robot.strafeRight(1300, telemetry);
+        robot.strafeRight(1300, telemetry); //
         sleep(300);
 
         robot.forward(13000, telemetry);
