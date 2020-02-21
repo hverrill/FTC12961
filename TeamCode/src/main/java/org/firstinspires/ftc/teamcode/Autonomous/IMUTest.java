@@ -48,6 +48,8 @@ public class IMUTest extends LinearOpMode {
         robot.rotate(90, telemetry);
         sleep(5000);
         robot.rotate(-90, telemetry);
+        sleep(5000);
+        robot.forward(7000);
         sleep(99999999);
 //        while (!isStopRequested()) {
 //            telemetry.addData("Angle 1 =", sensorSuite.getAngle().angle1);

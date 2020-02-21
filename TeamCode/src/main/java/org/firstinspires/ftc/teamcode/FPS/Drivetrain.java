@@ -112,25 +112,48 @@ public class Drivetrain {
     public void forward(int dist){
         double initial = odometry.getX();
         double percent = odometry.getX()/(initial+dist);
-        while(!(percent > .95 && percent < 1.05) && odometry.checkX()){
-            percent = odometry.getX()/(initial+dist);
-//            setPowerAll(.2 + .4-(percent*.4));
+        boolean direction = false;
+        boolean moving = true;
+        if (percent > 1) direction = true;
+        // else direction is default false
+        while(moving && odometry.checkX()){
+            percent = (odometry.getX())/(initial + dist);
             setPowerAll(.4);
+            if (!direction) {
+                if (percent >= 1) moving = false;
+            }
+            else {
+                if (percent <= 1) moving = false;
+            }
+//            setPowerAll(.2 + .4-(percent*.4));
         }
         setPowerAll(0);
 
 
     }
+
     public void forward(int dist, Telemetry telemetry){
         double initial = odometry.getX();
-        double percent = odometry.getX()/(initial+dist);
-        setPowerAll(.4);
-        while(!(percent > .98 && percent < 1.02) && odometry.checkX()){
-            percent = odometry.getX()/(initial+dist);
+        double percent = (odometry.getX())/(initial+dist);
+        boolean direction = false;
+        boolean moving = true;
+        if (percent > 1) direction = true;
+        // else direction is default false
+        while(moving && odometry.checkX()){
+            percent = (odometry.getX())/(initial+dist);
+            setPowerAll(.4);
+            if (!direction)
+            {
+                if (percent >= 1) moving = false;
+            }
+            else
+            {
+                if (percent <= 1) moving = false;
+            }
 //            setPowerAll(.2 + .4-(percent*.4));
-
             telemetry.addData("percent", percent);
             telemetry.addData("initial", initial);
+            telemetry.addData("goal", initial+dist);
             telemetry.addData("current", odometry.getX());
             telemetry.update();
         }
@@ -140,20 +163,46 @@ public class Drivetrain {
     }
     public void reverse(int dist){
         double initial = odometry.getX();
-        double percent = odometry.getX()/(initial-dist);
-        while(!(percent > .98 && percent < 1.02) && odometry.checkX()){
-            percent = odometry.getX()/(initial-dist);
+        double percent = (odometry.getX())/(initial-dist);
+        boolean direction = false;
+        boolean moving = true;
+        if (percent > 1) direction = true;
+        // else direction is default false
+        while(moving && odometry.checkX()){
+            percent = (odometry.getX())/(initial-dist);
             setPowerAll(-.4);
-            //setPowerAll(-(.2 + .4-(odometry.getX()/(initial-dist))*.4));
+            if (!direction)
+            {
+                if (percent >= 1) moving = false;
+            }
+            else
+            {
+                if (percent <= 1) moving = false;
+            }
+//            setPowerAll(.2 + .4-(percent*.4));
         }
         setPowerAll(0);
     }
     public void reverse(int dist, Telemetry telemetry){
+
         double initial = odometry.getX();
-        double percent = Math.abs(odometry.getX()/(initial-dist));
-        while(!(percent > .95 && percent < 1.05) && odometry.checkX()){
-            percent = Math.abs(odometry.getX()/(initial-dist));
+        double percent = (odometry.getX())/(initial-dist);
+        boolean direction = false;
+        boolean moving = true;
+        if (percent > 1) direction = true;
+        // else direction is default false
+        while(moving && odometry.checkX()){
+            percent = (odometry.getX())/(initial-dist);
             setPowerAll(-.4);
+            if (!direction)
+            {
+                if (percent >= 1) moving = false;
+            }
+            else
+            {
+                if (percent <= 1) moving = false;
+            }
+//            setPowerAll(.2 + .4-(percent*.4));
             telemetry.addData("percent", percent);
             telemetry.addData("initial", initial);
             telemetry.addData("current", odometry.getX());
@@ -162,46 +211,106 @@ public class Drivetrain {
         setPowerAll(0);
     }
     public void strafeLeft(int dist){
+
         double initial = odometry.getY();
-        double percent =  Math.abs(odometry.getY()/(initial-dist));
-        while(!(percent > .98 && percent < 1.02) && odometry.checkY()){
-            percent =  Math.abs(odometry.getY()/(initial-dist));
-            setPower(.5, -.5, -.5, .5);
+        double percent = Math.abs(odometry.getY())/Math.abs(initial-dist);
+        boolean direction = false;
+        boolean moving = true;
+        if (percent > 1) direction = true;
+        // else direction is default false
+        while(moving && odometry.checkY()){
+            percent = Math.abs(odometry.getY())/Math.abs(initial-dist);
+            setPower(-.5, .5, .5, -.5);
+            if (!direction)
+            {
+                if (percent >= 1) moving = false;
+            }
+            else
+            {
+                if (percent <= 1) moving = false;
+            }
+//            setPowerAll(.2 + .4-(percent*.4));
+//            telemetry.addData("percent", percent);
+//            telemetry.addData("initial", initial);
+//            telemetry.addData("current", odometry.getX());
+//            telemetry.update();
         }
         setPowerAll(0);
     }
     public void strafeRight(int dist){
         double initial = odometry.getY();
-        double percent = Math.abs(odometry.getY()/(initial+dist));
-        while(!(percent > .98 && percent < 1.02) && odometry.checkY()){
-            percent = Math.abs(odometry.getY()/(initial+dist));
+        double percent = Math.abs(odometry.getY())/Math.abs(initial-dist);
+        boolean direction = false;
+        boolean moving = true;
+        if (percent > 1) direction = true;
+        // else direction is default false
+        while(moving && odometry.checkY()){
+            percent = Math.abs(odometry.getY())/Math.abs(initial-dist);
             setPower(.5, -.5, -.5, .5);
-
+            if (!direction)
+            {
+                if (percent >= 1) moving = false;
+            }
+            else
+            {
+                if (percent <= 1) moving = false;
+            }
+//            setPowerAll(.2 + .4-(percent*.4));
+//            telemetry.addData("percent", percent);
+//            telemetry.addData("initial", initial);
+//            telemetry.addData("current", odometry.getX());
+//            telemetry.update();
         }
         setPowerAll(0);
     }
     public void strafeLeft(int dist, Telemetry telemetry){
         double initial = odometry.getY();
-        double percent =  Math.abs(odometry.getY()/(initial-dist));
-        while(!(percent > .98 && percent < 1.02) && odometry.checkY()){
-            percent =  Math.abs(odometry.getY()/(initial-dist));
-            setPower(.5, -.5, -.5, .5);
-            telemetry.addData("initial", initial);
+        double percent = Math.abs(odometry.getY())/Math.abs(initial+dist);
+        boolean direction = false;
+        boolean moving = true;
+        if (percent > 1) direction = true;
+        // else direction is default false
+        while(moving && odometry.checkY()){
+            percent = Math.abs(odometry.getY())/Math.abs(initial+dist);
+            setPower(-.5, .5, .5, -.5);
+            if (!direction)
+            {
+                if (percent >= 1) moving = false;
+            }
+            else
+            {
+                if (percent <= 1) moving = false;
+            }
+//            setPowerAll(.2 + .4-(percent*.4));
             telemetry.addData("percent", percent);
-            telemetry.addData("current", odometry.getY());
+            telemetry.addData("initial", initial);
+            telemetry.addData("current", odometry.getX());
             telemetry.update();
         }
         setPowerAll(0);
     }
     public void strafeRight(int dist, Telemetry telemetry){
         double initial = odometry.getY();
-        double percent =  Math.abs(odometry.getY()/(initial+dist));
-        while(!(percent > .98 && percent < 1.02) && odometry.checkY()){
-            percent =  Math.abs(odometry.getY()/(initial+dist));
+        double percent = Math.abs(odometry.getY())/Math.abs(initial-dist);
+        boolean direction = false;
+        boolean moving = true;
+        if (percent > 1) direction = true;
+        // else direction is default false
+        while(moving && odometry.checkY()){
+            percent = Math.abs(odometry.getY())/Math.abs(initial-dist);
             setPower(.5, -.5, -.5, .5);
-            telemetry.addData("initial", initial);
+            if (!direction)
+            {
+                if (percent >= 1) moving = false;
+            }
+            else
+            {
+                if (percent <= 1) moving = false;
+            }
+//            setPowerAll(.2 + .4-(percent*.4));
             telemetry.addData("percent", percent);
-            telemetry.addData("current", odometry.getY());
+            telemetry.addData("initial", initial);
+            telemetry.addData("current", odometry.getX());
             telemetry.update();
         }
         setPowerAll(0);
@@ -230,7 +339,7 @@ public class Drivetrain {
 
         while (rotating) { // && !isStopRequested()
             percent = Math.abs(sensorSuite.getAngle().angle1)/Math.abs(targetAngle);
-            power =  (.2 + Range.clip(.3-(percent*.3), 0, .3))*powerPolarity;
+            power =  (.3 + Range.clip(.3-(percent*.3), 0, .3))*powerPolarity;
             setPower(-power, -power, power, power);
 
 
@@ -248,6 +357,44 @@ public class Drivetrain {
             telemetry.addData("direction", direction);
             telemetry.addData("rotating", rotating);
             telemetry.update();
+
+        }
+        setPowerAll(0);
+
+    }
+    public void rotate(float degrees) {
+
+        double powerPolarity = degrees / Math.abs(degrees);
+        double power;
+        double percent;
+        double targetAngle = sensorSuite.getAngle().angle1 + degrees;
+        boolean rotating = true;
+
+
+        boolean direction = false;
+        if(Math.abs(sensorSuite.getAngle().angle1) > Math.abs(targetAngle)) direction = true;
+        // the else here is that direction remains false which is angle < target
+
+        while (rotating) { // && !isStopRequested()
+            percent = Math.abs(sensorSuite.getAngle().angle1)/Math.abs(targetAngle);
+            power =  (.3 + Range.clip(.3-(percent*.3), 0, .3))*powerPolarity;
+            setPower(-power, -power, power, power);
+
+
+            if (!direction) {
+                if( Math.abs(sensorSuite.getAngle().angle1+10) >= Math.abs(targetAngle)) rotating = false;
+            }
+            else {
+                if (Math.abs(sensorSuite.getAngle().angle1-10) <= Math.abs(targetAngle)) rotating = false;
+            }
+
+//            telemetry.addData("target", targetAngle);
+//            telemetry.addData("IMU", sensorSuite.getAngle().angle1);
+//            telemetry.addData("percent", percent);
+//            telemetry.addData("current", sensorSuite.getAngle().angle1);
+//            telemetry.addData("direction", direction);
+//            telemetry.addData("rotating", rotating);
+//            telemetry.update();
 
         }
         setPowerAll(0);
