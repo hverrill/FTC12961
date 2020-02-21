@@ -16,7 +16,7 @@ import org.firstinspires.ftc.teamcode.FPS.Measurement;
 
 @Autonomous(name="BRIDGE_Red", group="State")
 //@Disabled
-public class RED_Bridge extends LinearOpMode {
+public class RED_BRIDGE extends LinearOpMode {
 
     /*
      *  Declare OpMode Members: */

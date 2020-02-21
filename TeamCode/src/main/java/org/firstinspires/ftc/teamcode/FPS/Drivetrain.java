@@ -10,6 +10,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Autonomous.AutoVisionTestOpmode;
@@ -29,9 +30,7 @@ public class Drivetrain {
     //INTAKE LEFT AND WINCH LEFT ARE X1 AND Y RESPECTIVELY
     ElapsedTime timer = new ElapsedTime();
     //    IMUTest ree = new IMUTest();
-    public void declare(){
 
-    }
     public void map(HardwareMap map){
         hardwareMap = map;
 
@@ -62,10 +61,12 @@ public class Drivetrain {
         rightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
         leftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         leftBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
         leftFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         leftBack.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightFront.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -149,52 +150,103 @@ public class Drivetrain {
     }
     public void reverse(int dist, Telemetry telemetry){
         double initial = odometry.getX();
-        double percent = odometry.getX()/(initial-dist);
+        double percent = Math.abs(odometry.getX()/(initial-dist));
         while(!(percent > .95 && percent < 1.05) && odometry.checkX()){
-            percent = odometry.getX()/(initial-dist);
+            percent = Math.abs(odometry.getX()/(initial-dist));
             setPowerAll(-.4);
             telemetry.addData("percent", percent);
             telemetry.addData("initial", initial);
             telemetry.addData("current", odometry.getX());
             telemetry.update();
-            //setPowerAll(-(.2 + .4-(odometry.getX()/(initial-dist))*.4));
         }
         setPowerAll(0);
     }
     public void strafeLeft(int dist){
         double initial = odometry.getY();
-        double pow;
-        while(odometry.getY()/(initial-dist)<.99 && odometry.checkY()){
-            pow = .25 + .5-(odometry.getY()/(initial-dist))*.5;
-            setPower(-pow, pow, pow, -pow);
+        double percent =  Math.abs(odometry.getY()/(initial-dist));
+        while(!(percent > .98 && percent < 1.02) && odometry.checkY()){
+            percent =  Math.abs(odometry.getY()/(initial-dist));
+            setPower(.5, -.5, -.5, .5);
         }
         setPowerAll(0);
     }
     public void strafeRight(int dist){
         double initial = odometry.getY();
-        double pow;
-        while(odometry.getY()/(initial+dist)<.95 && odometry.checkY()){
-            pow = .25 + .5-(odometry.getY()/(initial+dist))*.5;
-            setPower(pow, -pow, -pow, pow);
+        double percent = Math.abs(odometry.getY()/(initial+dist));
+        while(!(percent > .98 && percent < 1.02) && odometry.checkY()){
+            percent = Math.abs(odometry.getY()/(initial+dist));
+            setPower(.5, -.5, -.5, .5);
+
         }
         setPowerAll(0);
     }
+    public void strafeLeft(int dist, Telemetry telemetry){
+        double initial = odometry.getY();
+        double percent =  Math.abs(odometry.getY()/(initial-dist));
+        while(!(percent > .98 && percent < 1.02) && odometry.checkY()){
+            percent =  Math.abs(odometry.getY()/(initial-dist));
+            setPower(.5, -.5, -.5, .5);
+            telemetry.addData("initial", initial);
+            telemetry.addData("percent", percent);
+            telemetry.addData("current", odometry.getY());
+            telemetry.update();
+        }
+        setPowerAll(0);
+    }
+    public void strafeRight(int dist, Telemetry telemetry){
+        double initial = odometry.getY();
+        double percent =  Math.abs(odometry.getY()/(initial+dist));
+        while(!(percent > .98 && percent < 1.02) && odometry.checkY()){
+            percent =  Math.abs(odometry.getY()/(initial+dist));
+            setPower(.5, -.5, -.5, .5);
+            telemetry.addData("initial", initial);
+            telemetry.addData("percent", percent);
+            telemetry.addData("current", odometry.getY());
+            telemetry.update();
+        }
+        setPowerAll(0);
+    }
+//    public void strafeRight(int dist){
+//        double initial = odometry.getY();
+//        double percent = odometry.getY()/(initial+dist);
+//        while(!(percent > .98 && percent < 1.02)){
+//            percent = odometry.getY()/(initial+dist);
+//            setPower(.4, -.4, -.4, .4);
+//        }
+//        setPowerAll(0);
+//    }
     public void rotate(float degrees, Telemetry telemetry) {
 
         double powerPolarity = degrees / Math.abs(degrees);
-        double powerMultiplier;
+        double power;
+        double percent;
         double targetAngle = sensorSuite.getAngle().angle1 + degrees;
-        setPower(-.4 * powerPolarity, -.4 * powerPolarity, .4 * powerPolarity, .4 * powerPolarity);
-        while (sensorSuite.checkAngle1()) { // && !isStopRequested()
-
-            if( Math.abs(sensorSuite.getAngle().angle1)
-                    <= Math.abs(targetAngle+5) &&
-                    Math.abs(sensorSuite.getAngle().angle1) //if angle1 is between +or- 5 degrees of our target angle
-                            >= Math.abs(targetAngle-5)) break;
+        boolean rotating = true;
 
 
-            telemetry.addData("IMU", sensorSuite.getAngle().angle1);
+        boolean direction = false;
+        if(Math.abs(sensorSuite.getAngle().angle1) > Math.abs(targetAngle)) direction = true;
+        // the else here is that direction remains false which is angle < target
+
+        while (rotating) { // && !isStopRequested()
+            percent = Math.abs(sensorSuite.getAngle().angle1)/Math.abs(targetAngle);
+            power =  (.2 + Range.clip(.3-(percent*.3), 0, .3))*powerPolarity;
+            setPower(-power, -power, power, power);
+
+
+            if (!direction) {
+                if( Math.abs(sensorSuite.getAngle().angle1+10) >= Math.abs(targetAngle)) rotating = false;
+            }
+            else {
+                if (Math.abs(sensorSuite.getAngle().angle1-10) <= Math.abs(targetAngle)) rotating = false;
+            }
+
             telemetry.addData("target", targetAngle);
+            telemetry.addData("IMU", sensorSuite.getAngle().angle1);
+            telemetry.addData("percent", percent);
+            telemetry.addData("current", sensorSuite.getAngle().angle1);
+            telemetry.addData("direction", direction);
+            telemetry.addData("rotating", rotating);
             telemetry.update();
 
         }

@@ -13,6 +13,7 @@ public class Odometry {
     Drivetrain robot;
 
     public double currentX = -69, currentY = -69, oldX = -69, oldY = -69;
+    public double failsX = 0, failsY = 0;
 
     public long xRightRaw, xLeftRaw, yRaw;
     public double xDistance, yDistance;
@@ -46,14 +47,20 @@ public class Odometry {
         return currentY;
     }
     public boolean checkX(){
-        currentX = xLeft.getCurrentPosition();
+        currentX = lb.getCurrentPosition();
         boolean encodersOK = currentX != oldX;
+        if(!encodersOK) failsX++;
+            else failsX = 0;
+        encodersOK = failsX < 10; // if fails are greater than 5, set encodersOk to false
         oldX = currentX;
         return encodersOK;
     }
     public boolean checkY(){ //HI
         currentY = y.getCurrentPosition();
         boolean encodersOK = currentY != oldY;
+        if(!encodersOK) failsY++;
+            else failsY = 0;
+        encodersOK = failsY < 10; // if fails are greater than 5, set encodersOk to false
         oldY = currentY;
         return encodersOK;
     }

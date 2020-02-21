@@ -27,12 +27,12 @@ public class IMUTest extends LinearOpMode {
     /*
      *  Declare OpMode Members: */
     Drivetrain robot = new Drivetrain();
-    private VuforiaLocalizer vuforia = null;
+//    private VuforiaLocalizer vuforia = null;
 
     public BNO055IMU revIMU;
     private ElapsedTime runtime = new ElapsedTime();
-    Vision portal = new Vision();
-    Measurement sensorSuite = null;
+//    Vision portal = new Vision();
+//    Measurement sensorSuite = null;
 
     double margin = .5;
 
@@ -40,19 +40,21 @@ public class IMUTest extends LinearOpMode {
     public void runOpMode() {
         robot.map(hardwareMap);
         //robot = new Movement(this);
-        sensorSuite = new Measurement(revIMU, hardwareMap);
-        portal.createVuforia(VuforiaLocalizer.CameraDirection.BACK, hardwareMap, telemetry);
+        //sensorSuite = new Measurement(revIMU, hardwareMap);
+//        portal.createVuforia(VuforiaLocalizer.CameraDirection.BACK, hardwareMap, telemetry);
 
         waitForStart(); /** START THE PROGRAM */
 
-        robot.forward(7000);
-
-        while (!isStopRequested()) {
-            telemetry.addData("Angle 1 =", sensorSuite.getAngle().angle1);
-            telemetry.addData("Angle 2 =", sensorSuite.getAngle().angle2);
-            telemetry.addData("Angle 3 =", sensorSuite.getAngle().angle3);
-            telemetry.update();
-        }
+        robot.rotate(90, telemetry);
+        sleep(5000);
+        robot.rotate(-90, telemetry);
+        sleep(99999999);
+//        while (!isStopRequested()) {
+//            telemetry.addData("Angle 1 =", sensorSuite.getAngle().angle1);
+//            telemetry.addData("Angle 2 =", sensorSuite.getAngle().angle2);
+//            telemetry.addData("Angle 3 =", sensorSuite.getAngle().angle3);
+//            telemetry.update();
+//        }
 
     }
 
@@ -61,14 +63,14 @@ public class IMUTest extends LinearOpMode {
 
         boolean turning = true;
 
-        float targetAngle = sensorSuite.getAngle().angle1 + degrees;
+        float targetAngle = robot.sensorSuite.getAngle().angle1 + degrees;
         double ratio;
         double powerPolarity = degrees/Math.abs(degrees);
         double powerMultiplier;
 
         while(turning && !isStopRequested()){
 
-            ratio = sensorSuite.getAngle().angle1/targetAngle;
+            ratio = robot.sensorSuite.getAngle().angle1/targetAngle;
 
             powerMultiplier = 1-ratio;
 

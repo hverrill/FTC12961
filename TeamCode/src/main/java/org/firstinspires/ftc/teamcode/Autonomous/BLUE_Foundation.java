@@ -23,20 +23,17 @@ public class BLUE_Foundation extends LinearOpMode {
     /*
      *  Declare OpMode Members: */
     Drivetrain robot = new Drivetrain();
-    private VuforiaLocalizer vuforia = null;
-
-    public BNO055IMU revIMU;
+    //private VuforiaLocalizer vuforia = null;
     private ElapsedTime runtime = new ElapsedTime();
-    Vision portal = new Vision();
-    Measurement sensorSuite = null;
+    //Vision portal = new Vision();
+
 
     double margin = .5;
 
     @Override
     public void runOpMode() {
         robot.map(hardwareMap);
-        //robot = new Movement(this);
-        portal.createVuforia(VuforiaLocalizer.CameraDirection.BACK, hardwareMap, telemetry);
+        //portal.createVuforia(VuforiaLocalizer.CameraDirection.BACK, hardwareMap, telemetry);
 
         waitForStart(); /** START THE PROGRAM */
         runtime.reset();
@@ -44,24 +41,24 @@ public class BLUE_Foundation extends LinearOpMode {
 
 
         robot.leftHook.setPosition(.4);
-        robot.rightHook.setPosition(.6);
+        robot.rightHook.setPosition(.6); // up
         sleep(1200);
 
-        robot.reverse(5000);
+        robot.reverse(5000, telemetry);
         sleep(300);
 
-        robot.strafeRight(9200, telemetry);
+        robot.strafeRight(9500, telemetry);//, telemetry
         sleep(300);
 
-        robot.reverse(4500);
+        robot.reverse(4700);
         sleep(300);
 
         robot.leftHook.setPosition(1);
         robot.rightHook.setPosition(0); //grab
         sleep(1200);
 
-        robot.forward(3000);
-        sleep(1000);
+        robot.forward(5100); // pull foundation
+        sleep(300);
 
         robot.rotate(90, telemetry);
         sleep(300);
@@ -76,10 +73,10 @@ public class BLUE_Foundation extends LinearOpMode {
 
 
         robot.forward(11000, telemetry);
-        sleep(3000);
-//        robot.strafeLeft(1000, telemetry);
+        sleep(300);
+        robot.strafeLeft(1000, telemetry);
 //        sleep(3000);
-//
+
 //        while (!isStopRequested()) {
 //            telemetry.addData("Angle 1 =", robot.sensorSuite.getAngle().angle1);
 //            telemetry.addData("Angle 2 =", robot.sensorSuite.getAngle().angle2);
@@ -94,14 +91,14 @@ public class BLUE_Foundation extends LinearOpMode {
 
         boolean turning = true;
 
-        float targetAngle = sensorSuite.getAngle().angle1 + degrees;
+        float targetAngle = robot.sensorSuite.getAngle().angle1 + degrees;
         double ratio;
         double powerPolarity = degrees/Math.abs(degrees);
         double powerMultiplier;
 
         while(turning && !isStopRequested()){
 
-            ratio = sensorSuite.getAngle().angle1/targetAngle;
+            ratio = robot.sensorSuite.getAngle().angle1/targetAngle;
 
             powerMultiplier = 1-ratio;
 
