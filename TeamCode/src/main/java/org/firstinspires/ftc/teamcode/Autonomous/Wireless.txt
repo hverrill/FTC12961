@@ -1,5 +1,5 @@
 192.168.49.1
-yzA630aA
+Fg1xOejR
 
 plug in phone
 adb disconnect
