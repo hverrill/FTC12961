@@ -58,7 +58,7 @@ public class BLUE_Foundation extends LinearOpMode {
         robot.rightHook.setPosition(.6); // let go
         sleep(1200);
 
-        robot.strafeLeft(1300, telemetry);
+        robot.strafeLeft(1300, telemetry); //THIS is where it isn't strafing
         sleep(300);
 
         robot.forward(13000, telemetry);

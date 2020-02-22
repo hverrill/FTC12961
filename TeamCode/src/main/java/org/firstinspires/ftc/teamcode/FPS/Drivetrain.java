@@ -265,13 +265,13 @@ public class Drivetrain {
     }
     public void strafeLeft(int dist, Telemetry telemetry){
         double initial = odometry.getY();
-        double percent = Math.abs(odometry.getY())/Math.abs(initial+dist);
+        double percent = (odometry.getY())/(initial+dist);
         boolean direction = false;
         boolean moving = true;
         if (percent > 1) direction = true;
         // else direction is default false
         while(moving && odometry.checkY()){
-            percent = Math.abs(odometry.getY())/Math.abs(initial+dist);
+            percent = (odometry.getY())/(initial+dist);
             setPower(-.5, .5, .5, -.5);
             if (!direction)
             {
@@ -284,7 +284,9 @@ public class Drivetrain {
 //            setPowerAll(.2 + .4-(percent*.4));
             telemetry.addData("percent", percent);
             telemetry.addData("initial", initial);
+            telemetry.addData("goal", initial+dist);
             telemetry.addData("current", odometry.getX());
+            telemetry.addData("direction", direction);
             telemetry.update();
         }
         setPowerAll(0);
