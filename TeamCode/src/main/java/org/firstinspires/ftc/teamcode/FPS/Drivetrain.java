@@ -239,13 +239,13 @@ public class Drivetrain {
     }
     public void strafeRight(int dist){
         double initial = odometry.getY();
-        double percent = Math.abs(odometry.getY())/Math.abs(initial-dist);
+        double percent = Math.abs(odometry.getY())/Math.abs(initial+dist);
         boolean direction = false;
         boolean moving = true;
         if (percent > 1) direction = true;
         // else direction is default false
         while(moving && odometry.checkY()){
-            percent = Math.abs(odometry.getY())/Math.abs(initial-dist);
+            percent = Math.abs(odometry.getY())/Math.abs(initial+dist);
             setPower(.5, -.5, -.5, .5);
             if (!direction)
             {
@@ -265,13 +265,13 @@ public class Drivetrain {
     }
     public void strafeLeft(int dist, Telemetry telemetry){
         double initial = odometry.getY();
-        double percent = Math.abs(odometry.getY())/Math.abs(initial+dist);
+        double percent = Math.abs(odometry.getY())/Math.abs(initial-dist);
         boolean direction = false;
         boolean moving = true;
         if (percent > 1) direction = true;
         // else direction is default false
         while(moving && odometry.checkY()){
-            percent = Math.abs(odometry.getY())/Math.abs(initial+dist);
+            percent = Math.abs(odometry.getY())/Math.abs(initial-dist);
             setPower(-.5, .5, .5, -.5);
             if (!direction)
             {
@@ -291,13 +291,13 @@ public class Drivetrain {
     }
     public void strafeRight(int dist, Telemetry telemetry){
         double initial = odometry.getY();
-        double percent = Math.abs(odometry.getY())/Math.abs(initial-dist);
+        double percent = Math.abs(odometry.getY())/Math.abs(initial+dist);
         boolean direction = false;
         boolean moving = true;
         if (percent > 1) direction = true;
         // else direction is default false
         while(moving && odometry.checkY()){
-            percent = Math.abs(odometry.getY())/Math.abs(initial-dist);
+            percent = Math.abs(odometry.getY())/Math.abs(initial+dist);
             setPower(.5, -.5, -.5, .5);
             if (!direction)
             {
