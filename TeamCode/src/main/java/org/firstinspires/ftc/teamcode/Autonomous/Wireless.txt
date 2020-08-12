@@ -2,8 +2,9 @@
 Fg1xOejR
 
 plug in phone
+
 adb disconnect
 adb tcpip 5555
-adb connect 192.168.49.1
+adb connect 192.168.49.1 (this computer's IP may change, type ipconfig into cmd to confirm the IP adress of this computer)
 
 

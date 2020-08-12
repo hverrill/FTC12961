@@ -1,4 +1,4 @@
-package Depricated.vision
+package Depricated.Skystone.vision
 
 import com.qualcomm.robotcore.hardware.HardwareMap
 import com.vuforia.CameraDevice

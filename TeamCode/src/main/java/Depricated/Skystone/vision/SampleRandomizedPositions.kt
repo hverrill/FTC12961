@@ -1,4 +1,4 @@
-package Depricated.vision
+package Depricated.Skystone.vision
 
 /**
  * Created by David Lukens on 10/31/2018.

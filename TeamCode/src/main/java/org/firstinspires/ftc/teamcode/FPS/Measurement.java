@@ -4,6 +4,8 @@ import org.firstinspires.ftc.teamcode.FPS.Inumeration.*;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.robot.Robot;
+
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
@@ -11,12 +13,16 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.teamcode.FPS.Inumeration.AngleResult;
 
 public class Measurement {
+    private Hardware robot = new Hardware();
     public BNO055IMU revIMU;
+    public HardwareMap hardwareMap;
     AngleResult results = new AngleResult();
     public double currentAngle1 = -181, oldAngle1 = -181;
 
-    public Measurement(BNO055IMU imu, HardwareMap hardwareMap){
-        revIMU = imu;
+    public Measurement(Hardware robot){
+        this.robot = robot;
+        hardwareMap = this.robot.hardwareMap;
+        revIMU = this.robot.revIMU;
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
         parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;

@@ -1,95 +1,74 @@
 ////Imports:
-//package Depricated;
+//package Depricated.Skystone;
 //
 //import com.qualcomm.hardware.bosch.BNO055IMU;
 //import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-//import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 //import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 //import com.qualcomm.robotcore.util.ElapsedTime;
 //
-//import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
+//import org.firstinspires.ftc.teamcode.FPS.Hardware;
 //import org.firstinspires.ftc.teamcode.FPS.Measurement;
-//import org.firstinspires.ftc.teamcode.FPS.Vision;
 //
 //
 ///**
 // * This program is Checkmate Robotics' Autonomous Program Template.
 // */
 //
-//@Autonomous(name="RED_FOUNDATION", group="Tourny")
-//@Disabled
-//public class RED_Foundation extends LinearOpMode {
+//@Autonomous(name="BRIDGE_EMERGENCY_Neutral", group="State")
+////@Disabled
+//public class ER_Bridge extends LinearOpMode {
 //
 //    /*
 //     *  Declare OpMode Members: */
-//    Drivetrain robot = new Drivetrain();
-//    private VuforiaLocalizer vuforia = null;
-//
 //    public BNO055IMU revIMU;
-//    private ElapsedTime runtime = new ElapsedTime();
-//    Vision portal = new Vision();
+//    Hardware robot = new Hardware();
 //    Measurement sensorSuite = null;
 //
-//    double margin = .5;
+//    private ElapsedTime runtime = new ElapsedTime();
+//
+//    //private AutoMovement robot = new AutoMovement();
 //
 //    @Override
 //    public void runOpMode() {
+//
+//        /**
+//         * Hardware Variables: */
 //        robot.map(hardwareMap);
-//        //robot = new Movement(this);
 //        sensorSuite = new Measurement(revIMU, hardwareMap);
-//        portal.createVuforia(VuforiaLocalizer.CameraDirection.BACK, hardwareMap, telemetry);
 //
-//        waitForStart(); /** START THE PROGRAM */
+//        /**
+//         * Telemetry */
+//        telemetry.addData("Status", "Ready to run");
+//        telemetry.update();
+//        /*
+//        Wait for driver to hit the start button on the controller:
+//         */
+//        waitForStart();
 //
 //
-//        strafe(.5);
+//        sleep(15000);
+//        robot.setPowerAll(.5);
 //        sleep(500);
-//        reverse(.35);
-//        sleep(850);
-//        stopAfter(0);
-//        grabbersDown();
+//        robot.setPowerAll(0);
 //
 //
 //
 //
-//        sleep(2500);
-//
-////        stopAfter(500);
-////        robot.blockGrab.setPosition(0);
-////        setFourbarPos(1);
-//
-//        forward(.5);
-//        sleep(400);
-//        stopAfter(0);
-//
-//        rotate(-90);
-//        reverse(.3);//push foundation into wall
-//        sleep(400);
-//        robot.leftHook.setPosition(.9);
-//        robot.rightHook.setPosition(.1);
-//        sleep(1500);
-//        stopAfter(0);
 //
 //
 //
-//        strafe(.2);
-//        sleep(150);
-//        stopAfter(0);
-//        forward(.6);
-//        sleep(750);
-//        stopAfter(0);
+//        sleep(9999999);
+//
+//        /**
+//         * : */
 //
 //
-//        while (!isStopRequested()) {
-//            telemetry.addData("Angle 1 =", sensorSuite.getAngle().angle1);
-//            telemetry.addData("Angle 2 =", sensorSuite.getAngle().angle2);
-//            telemetry.addData("Angle 3 =", sensorSuite.getAngle().angle3);
-//            telemetry.update();
-//        }
+//        /**
+//         * Stop OpMode */
 //
+//        telemetry.addData("Path", "Complete");
+//        telemetry.update();
 //    }
-//
-//
 //    public void rotate(float degrees){
 //
 //        boolean turning = true;

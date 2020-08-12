@@ -8,7 +8,7 @@
 //import com.qualcomm.robotcore.util.ElapsedTime;
 //
 //import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
-//import org.firstinspires.ftc.teamcode.FPS.Drivetrain;
+//import org.firstinspires.ftc.teamcode.FPS.Hardware;
 //import org.firstinspires.ftc.teamcode.FPS.Vision;
 //
 //import java.util.ArrayList;
@@ -32,7 +32,7 @@
 //    public BNO055IMU revIMU;
 //    private ElapsedTime runtime = new ElapsedTime();
 //
-//    Drivetrain robot = new Drivetrain();
+//    Hardware robot = new Hardware();
 //
 //    @Override
 //    public void runOpMode() {

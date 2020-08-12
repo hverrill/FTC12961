@@ -1,107 +1,98 @@
 ////Imports:
-//package Depricated;
+//package Depricated.Skystone;
 //
 //import com.qualcomm.hardware.bosch.BNO055IMU;
 //import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-//import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 //import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 //import com.qualcomm.robotcore.util.ElapsedTime;
 //
-//import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
+//import org.firstinspires.ftc.teamcode.FPS.Hardware;
 //import org.firstinspires.ftc.teamcode.FPS.Measurement;
-//import org.firstinspires.ftc.teamcode.FPS.Vision;
 //
 //
 ///**
 // * This program is Checkmate Robotics' Autonomous Program Template.
 // */
 //
-//@Autonomous(name="RED_FOUNDATION", group="Tourny")
-//@Disabled
-//public class RED_Foundation extends LinearOpMode {
+//@Autonomous(name="BRIDGE_Red", group="State")
+////@Disabled
+//public class RED_BRIDGE extends LinearOpMode {
 //
 //    /*
 //     *  Declare OpMode Members: */
-//    Drivetrain robot = new Drivetrain();
-//    private VuforiaLocalizer vuforia = null;
-//
 //    public BNO055IMU revIMU;
-//    private ElapsedTime runtime = new ElapsedTime();
-//    Vision portal = new Vision();
-//    Measurement sensorSuite = null;
+//    Hardware robot = new Hardware();
 //
-//    double margin = .5;
+//
+//    private ElapsedTime runtime = new ElapsedTime();
+//
+//    //private AutoMovement robot = new AutoMovement();
 //
 //    @Override
 //    public void runOpMode() {
+//
+//        /**
+//         * Hardware Variables: */
 //        robot.map(hardwareMap);
-//        //robot = new Movement(this);
-//        sensorSuite = new Measurement(revIMU, hardwareMap);
-//        portal.createVuforia(VuforiaLocalizer.CameraDirection.BACK, hardwareMap, telemetry);
-//
-//        waitForStart(); /** START THE PROGRAM */
 //
 //
-//        strafe(.5);
-//        sleep(500);
-//        reverse(.35);
-//        sleep(850);
-//        stopAfter(0);
-//        grabbersDown();
+//        /**
+//         * Telemetry */
+//        telemetry.addData("Status", "Ready to run");
+//        telemetry.update();
+//        /*
+//        Wait for driver to hit the start button on the controller:
+//         */
+//        waitForStart();
+////        // go forward
+////        leftFront.setPower(-0.20);
+////        leftBack.setPower(-0.20);
+////        rightFront.setPower(-0.20);
+////        rightBack.setPower(-0.20);
+////        sleep(1100);
+////        leftFront.setPower(0);
+////        leftBack.setPower(0);
+////        rightFront.setPower(0);
+////        rightBack.setPower(0);
+////        sleep(100);
 //
-//
-//
-//
-//        sleep(2500);
-//
-////        stopAfter(500);
-////        robot.blockGrab.setPosition(0);
-////        setFourbarPos(1);
-//
-//        forward(.5);
-//        sleep(400);
-//        stopAfter(0);
-//
-//        rotate(-90);
-//        reverse(.3);//push foundation into wall
-//        sleep(400);
-//        robot.leftHook.setPosition(.9);
-//        robot.rightHook.setPosition(.1);
-//        sleep(1500);
-//        stopAfter(0);
+//        //strafe right
+//        sleep(15000);
+//        robot.forward(6000);
+//        robot.strafeLeft(5000);
 //
 //
 //
-//        strafe(.2);
-//        sleep(150);
-//        stopAfter(0);
-//        forward(.6);
-//        sleep(750);
-//        stopAfter(0);
 //
 //
-//        while (!isStopRequested()) {
-//            telemetry.addData("Angle 1 =", sensorSuite.getAngle().angle1);
-//            telemetry.addData("Angle 2 =", sensorSuite.getAngle().angle2);
-//            telemetry.addData("Angle 3 =", sensorSuite.getAngle().angle3);
-//            telemetry.update();
-//        }
 //
+//
+//        sleep(9999999);
+//        //robot.turn(90, .5);
+////         telemetry.addData("2", "2");
+////         sleep(30000);
+//        /**
+//         * : */
+//
+//
+//        /**
+//         * Stop OpMode */
+//
+//        telemetry.addData("Path", "Complete");
+//        telemetry.update();
 //    }
-//
-//
 //    public void rotate(float degrees){
 //
 //        boolean turning = true;
 //
-//        float targetAngle = sensorSuite.getAngle().angle1 + degrees;
+//        float targetAngle = robot.sensorSuite.getAngle().angle1 + degrees;
 //        double ratio;
 //        double powerPolarity = degrees/Math.abs(degrees);
 //        double powerMultiplier;
 //
 //        while(turning && !isStopRequested()){
 //
-//            ratio = sensorSuite.getAngle().angle1/targetAngle;
+//            ratio = robot.sensorSuite.getAngle().angle1/targetAngle;
 //
 //            powerMultiplier = 1-ratio;
 //

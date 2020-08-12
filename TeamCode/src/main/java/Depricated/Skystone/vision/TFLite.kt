@@ -1,4 +1,4 @@
-package Depricated.vision
+package Depricated.Skystone.vision
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory
 import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector

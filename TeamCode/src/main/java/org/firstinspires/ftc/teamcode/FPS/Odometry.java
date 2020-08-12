@@ -10,16 +10,15 @@ public class Odometry {
     DcMotor lf, lb, rf, rb;
     double RATIO = 1, h, theta;
     int xGoal, yGoal;
-    Drivetrain robot;
+    private Hardware robot;
 
     public double currentX = -69, currentY = -69, oldX = -69, oldY = -69;
     public double failsX = 0, failsY = 0;
 
     public long xRightRaw, xLeftRaw, yRaw;
     public double xDistance, yDistance;
-    /**
-     * GRAB ALL MOTORS AND SET MODES : */
-    public Odometry(Drivetrain robot){
+
+    public Odometry(Hardware robot){
         this.robot = robot;
         this.lf = this.robot.leftFront;
         this.lb = this.robot.leftBack;
@@ -55,7 +54,7 @@ public class Odometry {
         oldX = currentX;
         return encodersOK;
     }
-    public boolean checkY(){ //HI
+    public boolean checkY(){
         currentY = y.getCurrentPosition();
         boolean encodersOK = currentY != oldY;
         if(!encodersOK) failsY++;

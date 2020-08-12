@@ -38,27 +38,20 @@ import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
-import org.firstinspires.ftc.teamcode.FPS.Drivetrain;
+import org.firstinspires.ftc.teamcode.FPS.Hardware;
 import org.firstinspires.ftc.teamcode.FPS.Odometry;
 
 
 /**
- * This file contains an minimal example of a Linear "OpMode". An OpMode is a 'program' that runs in either
- * the autonomous or the teleop period of an FTC match. The names of OpModes appear on the menu
- * of the FTC Driver Station. When an selection is made from the menu, the corresponding OpMode
- * class is instantiated on the Robot Controller and executed.
  *
- * This particular OpMode just executes a basic Tank Drive Teleop for a two wheeled robot
- * It includes all the skeletal structure that all linear OpModes contain.
- *
- * Use Android Studios to Copy this Class, and Paste it into your team's code folder with a new name.
- * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
 @TeleOp(name="DUALCONTROLLER", group="MAIN")
 public class SkystoneMAIN extends LinearOpMode {
+
+
     private ElapsedTime runtime = new ElapsedTime();
-    private Drivetrain robot = new Drivetrain();
+    private Hardware robot = new Hardware(); // Custom Class
 
     // Declare OpMode members.
     double gearSpeed = .7, fourbarPos = .85, grabberPos;
@@ -69,20 +62,20 @@ public class SkystoneMAIN extends LinearOpMode {
 
     //Odometry encoders = new Odometry();
 
-    public void processUpdate() {
-        robot.calculate(gamepad1.left_stick_x, gamepad1.left_stick_y, gamepad1.right_stick_x, gamepad1.right_stick_y);
+    public void runDrivetrain() { // Custom Method
+        robot.drivePowerCalculate(gamepad1.left_stick_x, gamepad1.left_stick_y, gamepad1.right_stick_x, gamepad1.right_stick_y);
         // GEAR SPEED CALCULATIONS :
-        if ((gamepad1.right_trigger !=0 | gamepad1.left_trigger !=0) && toggle) {
-            toggle = false;
-        }
-        if (gamepad1.right_trigger !=0 && !toggle) {
-            gearSpeed += .1;
-            toggle = true;
-        }
-        if (gamepad1.left_trigger !=0 && !toggle) {
-            gearSpeed -= .1;
-            toggle = true;
-        }
+//        if ((gamepad1.right_trigger !=0 | gamepad1.left_trigger !=0) && toggle) { // this code doesn't work apparently
+//            toggle = false;
+//        }
+//        if (gamepad1.right_trigger !=0 && !toggle) {
+//            gearSpeed += .1;
+//            toggle = true;
+//        }
+//        if (gamepad1.left_trigger !=0 && !toggle) {
+//            gearSpeed -= .1;
+//            toggle = true;
+//        }
 
         gearSpeed = Range.clip(gearSpeed, .2, .9);
         liftGoal = Range.clip(liftGoal, -900, 0);
@@ -96,6 +89,7 @@ public class SkystoneMAIN extends LinearOpMode {
     @Override
     public void runOpMode() {
         robot.map(hardwareMap);
+
         telemetry.addData("Status", "Initialized");
         telemetry.update();
         // Wait for the game to start (driver presses PLAY)
@@ -105,15 +99,23 @@ public class SkystoneMAIN extends LinearOpMode {
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
-            processUpdate();
+            runDrivetrain();
+            // tape measure parking code, x button extends the tape measure, y button retracts the tape measure
+            if (gamepad1.x){
+                robot.tapePark.setPower(-1);
+            } else if(gamepad1.y) {
+                robot.tapePark.setPower(1);
+            } else {
+                robot.tapePark.setPower(0);
+            }
 
             // Send calculated power to wheels
             if  (gamepad2.right_trigger != 0){
-                robot.intakeLeft.setPower(.55);
-                robot.intakeRight.setPower(-.55);
+                robot.intakeLeft.setPower(.65);
+                robot.intakeRight.setPower(-.65);
             } else if (gamepad2.left_trigger != 0){
-                robot.intakeLeft.setPower(-.18);
-                robot.intakeRight.setPower(.18);
+                robot.intakeLeft.setPower(-.3);
+                robot.intakeRight.setPower(.3);
             } else {
                 robot.intakeLeft.setPower(0);
                 robot.intakeRight.setPower(0);
@@ -189,7 +191,7 @@ public class SkystoneMAIN extends LinearOpMode {
                 robot.blockGrab.setPosition(0.05);
             }
             //Foundation Grabbers
-            if (gamepad1.right_bumper) {
+            if (gamepad1.right_bumper) { //maybe make a toggle method/class so you don't have to write a bunch of if statements all the time?
                 robot.leftHook.setPosition(.4);//deployed
                 robot.rightHook.setPosition(.6);
             } else if (gamepad1.left_bumper) {

@@ -1,4 +1,4 @@
-package Depricated.vision;
+package Depricated.Skystone.vision;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
