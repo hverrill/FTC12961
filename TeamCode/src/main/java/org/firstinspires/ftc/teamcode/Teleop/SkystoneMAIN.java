@@ -87,7 +87,7 @@ public class SkystoneMAIN extends LinearOpMode {
 
 
     @Override
-    public void runOpMode() { //bemis
+    public void runOpMode() {
         robot.map(hardwareMap);
 
         telemetry.addData("Status", "Initialized");

@@ -50,7 +50,7 @@ public class Odometry {
         boolean encodersOK = currentX != oldX;
         if(!encodersOK) failsX++;
             else failsX = 0;
-        encodersOK = failsX < 10; // if fails are greater than 5, set encodersOk to false
+        encodersOK = failsX < 10; // if fails are greater than 10, set encodersOk to false
         oldX = currentX;
         return encodersOK;
     }
@@ -59,7 +59,7 @@ public class Odometry {
         boolean encodersOK = currentY != oldY;
         if(!encodersOK) failsY++;
             else failsY = 0;
-        encodersOK = failsY < 10; // if fails are greater than 5, set encodersOk to false
+        encodersOK = failsY < 10; // if fails are greater than 10, set encodersOk to false
         oldY = currentY;
         return encodersOK;
     }
